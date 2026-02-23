@@ -59,6 +59,119 @@ describe("proposal-voting", () => {
     expect(result.result).toBeErr(Cl.uint(306)); // ERR-INSUFFICIENT-TOKENS
   });
 
+  it("should reject invalid proposal types", () => {
+    setupTokens();
+
+    const result = simnet.callPublicFn(
+      "proposal-voting",
+      "create-proposal",
+      [
+        Cl.stringUtf8("Bad type"),
+        Cl.stringUtf8("Invalid proposal type"),
+        Cl.stringAscii("invalid"),
+        Cl.uint(0),
+      ],
+      wallet1
+    );
+    expect(result.result).toBeErr(Cl.uint(308)); // ERR-INVALID-PROPOSAL
+  });
+
+  it("should reject general proposals with non-zero value", () => {
+    setupTokens();
+
+    const result = simnet.callPublicFn(
+      "proposal-voting",
+      "create-proposal",
+      [
+        Cl.stringUtf8("General should not set value"),
+        Cl.stringUtf8("General proposals must keep value at zero"),
+        Cl.stringAscii("general"),
+        Cl.uint(1),
+      ],
+      wallet1
+    );
+    expect(result.result).toBeErr(Cl.uint(308)); // ERR-INVALID-PROPOSAL
+  });
+
+  it("should reject reward-rate proposals with zero value", () => {
+    setupTokens();
+
+    const result = simnet.callPublicFn(
+      "proposal-voting",
+      "create-proposal",
+      [
+        Cl.stringUtf8("Reward rate zero"),
+        Cl.stringUtf8("Reward rate proposals must be greater than zero"),
+        Cl.stringAscii("reward-rate"),
+        Cl.uint(0),
+      ],
+      wallet1
+    );
+    expect(result.result).toBeErr(Cl.uint(308)); // ERR-INVALID-PROPOSAL
+  });
+
+  it("should block creating a second active proposal by the same proposer", () => {
+    setupTokens();
+
+    const first = simnet.callPublicFn(
+      "proposal-voting",
+      "create-proposal",
+      [
+        Cl.stringUtf8("First active proposal"),
+        Cl.stringUtf8("Still active"),
+        Cl.stringAscii("general"),
+        Cl.uint(0),
+      ],
+      wallet1
+    );
+    expect(first.result).toBeOk(Cl.uint(1));
+
+    const second = simnet.callPublicFn(
+      "proposal-voting",
+      "create-proposal",
+      [
+        Cl.stringUtf8("Second active proposal"),
+        Cl.stringUtf8("Should fail while first is active"),
+        Cl.stringAscii("general"),
+        Cl.uint(0),
+      ],
+      wallet1
+    );
+    expect(second.result).toBeErr(Cl.uint(309)); // ERR-VOTING-ACTIVE
+  });
+
+  it("should allow a new proposal after the previous one is no longer active", () => {
+    setupTokens();
+
+    const first = simnet.callPublicFn(
+      "proposal-voting",
+      "create-proposal",
+      [
+        Cl.stringUtf8("First proposal"),
+        Cl.stringUtf8("Will expire without execution"),
+        Cl.stringAscii("general"),
+        Cl.uint(0),
+      ],
+      wallet1
+    );
+    expect(first.result).toBeOk(Cl.uint(1));
+
+    simnet.mineEmptyBlocks(1009); // Move beyond VOTING-PERIOD
+
+    const second = simnet.callPublicFn(
+      "proposal-voting",
+      "create-proposal",
+      [
+        Cl.stringUtf8("Second proposal"),
+        Cl.stringUtf8("Allowed after first expires"),
+        Cl.stringAscii("general"),
+        Cl.uint(0),
+      ],
+      wallet1
+    );
+    expect(second.result).toBeOk(Cl.uint(2));
+  });
+
   it("should increment proposal count", () => {
     setupTokens();
 
@@ -211,5 +324,46 @@ describe("proposal-voting", () => {
       deployer
     );
     expect(record.result).not.toBeNone();
+  });
+
+  it("should clear active proposal after execution", () => {
+    setupTokens();
+
+    simnet.callPublicFn(
+      "proposal-voting",
+      "create-proposal",
+      [
+        Cl.stringUtf8("General execution"),
+        Cl.stringUtf8("Should clear active proposal pointer"),
+        Cl.stringAscii("general"),
+        Cl.uint(0),
+      ],
+      wallet1
+    );
+
+    simnet.callPublicFn(
+      "proposal-voting",
+      "vote",
+      [Cl.uint(1), Cl.bool(true)],
+      wallet1
+    );
+
+    simnet.mineEmptyBlocks(1009); // Move past voting window
+
+    const execute = simnet.callPublicFn(
+      "proposal-voting",
+      "execute-proposal",
+      [Cl.uint(1)],
+      wallet2
+    );
+    expect(execute.result).toBeOk(Cl.bool(true));
+
+    const active = simnet.callReadOnlyFn(
+      "proposal-voting",
+      "get-user-active-proposal",
+      [Cl.principal(wallet1)],
+      deployer
+    );
+    expect(active.result).toBeNone();
   });
 });

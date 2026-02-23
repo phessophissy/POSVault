@@ -72,6 +72,37 @@
   (is-eq tx-sender CONTRACT-OWNER)
 )
 
+(define-private (is-proposal-active-by-id (proposal-id uint))
+  (match (map-get? proposals proposal-id)
+    proposal
+      (and
+        (<= stacks-block-height (get end-block proposal))
+        (not (get executed proposal))
+      )
+    false
+  )
+)
+
+(define-private (has-active-proposal (proposer principal))
+  (match (map-get? active-proposals proposer)
+    proposal-id (is-proposal-active-by-id proposal-id)
+    false
+  )
+)
+
+(define-private (is-valid-proposal (proposal-type (string-ascii 20)) (value uint))
+  (if (is-eq proposal-type "general")
+    (is-eq value u0)
+    (if (is-eq proposal-type "pause")
+      (is-eq value u0)
+      (if (is-eq proposal-type "reward-rate")
+        (> value u0)
+        false
+      )
+    )
+  )
+)
+
 ;; ==========================================
 ;; Public Functions - Proposals
 ;; ==========================================
@@ -89,6 +120,8 @@
   )
     ;; Must hold minimum tokens to propose
     (asserts! (>= proposer-balance MIN-PROPOSAL-TOKENS) ERR-INSUFFICIENT-TOKENS)
+    (asserts! (is-valid-proposal proposal-type value) ERR-INVALID-PROPOSAL)
+    (asserts! (not (has-active-proposal tx-sender)) ERR-VOTING-ACTIVE)
     
     ;; Create proposal
     (map-set proposals new-id {
@@ -201,6 +234,16 @@
           passed: did-pass
         })
       )
+
+      ;; Clear proposer's active proposal marker if this is the tracked one
+      (match (map-get? active-proposals (get proposer proposal))
+        active-id
+          (if (is-eq active-id proposal-id)
+            (map-delete active-proposals (get proposer proposal))
+            true
+          )
+        true
+      )
       
       (var-set total-proposals-executed (+ (var-get total-proposals-executed) u1))
       
@@ -237,7 +280,14 @@
 )
 
 (define-read-only (get-user-active-proposal (user principal))
-  (map-get? active-proposals user)
+  (match (map-get? active-proposals user)
+    proposal-id
+      (if (is-proposal-active-by-id proposal-id)
+        (some proposal-id)
+        none
+      )
+    none
+  )
 )
 
 (define-read-only (get-voting-period)
