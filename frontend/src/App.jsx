@@ -581,8 +581,8 @@ export default function App() {
                                     Protocol Info
                                 </div>
                                 <div style={{ display: 'grid', gap: 16 }}>
-                                    <InfoRow label="Network" value="Stacks Testnet" />
-                                    <InfoRow label="Vault Contract" value="vault-core" mono />
+                                    <InfoRow label="Network" value="Stacks Mainnet" />
+                                    <InfoRow label="Vault Contract" value="vault-core-v2" mono />
                                     <InfoRow label="Token Contract" value="governance-token" mono />
                                     <InfoRow label="Voting Contract" value="proposal-voting" mono />
                                     <InfoRow label="Reward Cycle" value="~144 blocks (~1 day)" />

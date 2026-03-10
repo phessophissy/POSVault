@@ -22,16 +22,16 @@ import { STACKS_TESTNET, STACKS_MAINNET } from '@stacks/network';
 // Configuration
 // ==========================================
 
-// Use testnet by default - change to mainnet for production
-const IS_MAINNET = false;
+// Use mainnet by default for production deployment
+const IS_MAINNET = true;
 const NETWORK = IS_MAINNET ? STACKS_MAINNET : STACKS_TESTNET;
 
-// Contract deployer address — will be set upon deployment
-export const CONTRACT_DEPLOYER = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
+// Contract deployer address
+export const CONTRACT_DEPLOYER = 'SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09';
 
 // Contract names
 export const CONTRACTS = {
-    VAULT_CORE: 'vault-core',
+    VAULT_CORE: 'vault-core-v2',
     GOVERNANCE_TOKEN: 'governance-token',
     PROPOSAL_VOTING: 'proposal-voting',
 };

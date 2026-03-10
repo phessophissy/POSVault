@@ -58,6 +58,12 @@ coverage/
 *.info
 
 # ==========================================
+# Local operational tooling
+# ==========================================
+scripts/interact.js
+scripts/README.md
+
+# ==========================================
 # Lock files (keep package.json only)
 # ==========================================
 package-lock.json

@@ -1,4 +1,4 @@
-;; POSVault Core - STX Treasury Vault
+;; POSVault Core V2 - STX Treasury Vault
 ;; Deposit STX, earn POS-GOV governance tokens as yield
 ;; Supports deposits with configurable yield rates
 
@@ -65,6 +65,10 @@
   (or (is-owner) (default-to false (map-get? authorized-admins contract-caller)))
 )
 
+(define-private (contract-principal)
+  (unwrap-panic (as-contract? () tx-sender))
+)
+
 (define-private (calculate-pending-rewards (depositor principal))
   (match (map-get? deposits depositor)
     deposit-data
@@ -91,7 +95,7 @@
     (asserts! (is-none (map-get? deposits tx-sender)) ERR-ALREADY-DEPOSITED)
     
     ;; Transfer STX from user to contract
-    (try! (stx-transfer? amount tx-sender (as-contract tx-sender)))
+    (try! (stx-transfer? amount tx-sender (contract-principal)))
     
     ;; Record deposit
     (map-set deposits tx-sender {
@@ -135,7 +139,10 @@
     (asserts! (not (var-get contract-paused)) ERR-VAULT-PAUSED)
     
     ;; Transfer STX back to user
-    (try! (as-contract (stx-transfer? amount tx-sender withdrawer)))
+    (try! (as-contract? ((with-stx amount))
+      (try! (stx-transfer? amount tx-sender withdrawer))
+      true
+    ))
     
     ;; Mint reward tokens if any
     (if (> pending-rewards u0)
@@ -256,7 +263,10 @@
   )
     (asserts! (is-owner) ERR-NOT-AUTHORIZED)
     (asserts! (> balance u0) ERR-INSUFFICIENT-BALANCE)
-    (try! (as-contract (stx-transfer? balance tx-sender CONTRACT-OWNER)))
+    (try! (as-contract? ((with-stx balance))
+      (try! (stx-transfer? balance tx-sender CONTRACT-OWNER))
+      true
+    ))
     (var-set total-stx-locked u0)
     (print { event: "emergency-withdraw", amount: balance })
     (ok balance)

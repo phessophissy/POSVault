@@ -4,7 +4,7 @@ network: simnet
 genesis:
   wallets:
   - name: deployer
-    address: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+    address: SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09
     balance: '100000000000000'
     sbtc-balance: '1000000000'
   - name: faucet
@@ -64,17 +64,17 @@ plan:
     transactions:
     - transaction-type: emulated-contract-publish
       contract-name: governance-token
-      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      emulated-sender: SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09
       path: contracts/governance-token.clar
       clarity-version: 3
     - transaction-type: emulated-contract-publish
-      contract-name: vault-core
-      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-      path: contracts/vault-core.clar
+      contract-name: vault-core-v2
+      emulated-sender: SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09
+      path: contracts/vault-core-v2.clar
       clarity-version: 3
     - transaction-type: emulated-contract-publish
       contract-name: proposal-voting
-      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      emulated-sender: SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09
       path: contracts/proposal-voting.clar
       clarity-version: 3
     epoch: '3.3'

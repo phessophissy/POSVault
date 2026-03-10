@@ -17,7 +17,7 @@ POSVault consists of **3 smart contracts** and a **React frontend**:
 POSVault/
 ├── contracts/
 │   ├── governance-token.clar    # SIP-010 POS-GOV fungible token
-│   ├── vault-core.clar          # STX treasury vault with yield
+│   ├── vault-core-v2.clar       # STX treasury vault with yield
 │   └── proposal-voting.clar     # DAO governance & voting
 ├── frontend/
 │   └── src/
@@ -27,7 +27,7 @@ POSVault/
 │       └── main.jsx             # Entry point
 ├── tests/
 │   ├── governance-token.test.ts # Token tests (11 tests)
-│   ├── vault-core.test.ts       # Vault tests (13 tests)
+│   ├── vault-core-v2.test.ts    # Vault tests (13 tests)
 │   └── proposal-voting.test.ts  # Governance tests (9 tests)
 └── Clarinet.toml                # Project configuration
 ```
@@ -54,7 +54,7 @@ The governance token implementing the SIP-010 fungible token standard.
 - `add-minter` / `remove-minter` — Manage authorized minters
 - `toggle-minting` — Enable/disable minting
 
-### 2. `vault-core.clar` — STX Treasury Vault
+### 2. `vault-core-v2.clar` — STX Treasury Vault
 
 The core vault that accepts STX deposits and distributes POS-GOV yield rewards.
 
@@ -152,7 +152,7 @@ npm run build
 | Contract | Tests | Coverage |
 |----------|-------|----------|
 | governance-token | 11 | Token metadata, minting, transfers, burning, admin |
-| vault-core | 13 | Deposits, withdrawals, stats, rewards, admin, pause |
+| vault-core-v2 | 13 | Deposits, withdrawals, stats, rewards, admin, pause |
 | proposal-voting | 9 | Proposals, voting, double-vote prevention, queries |
 
 ```bash
@@ -179,15 +179,15 @@ npm test
 ## 🔧 Configuration
 
 ### Network
-Edit `frontend/src/stacks.js`:
+The frontend is configured for mainnet in `frontend/src/stacks.js`:
 ```javascript
-const IS_MAINNET = false; // Change to true for mainnet
+const IS_MAINNET = true;
 ```
 
 ### Contract Deployer
-Update the deployer address after deployment:
+The deployer address is set to:
 ```javascript
-export const CONTRACT_DEPLOYER = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
+export const CONTRACT_DEPLOYER = 'SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09';
 ```
 
 ---

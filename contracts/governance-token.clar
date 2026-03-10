@@ -30,7 +30,7 @@
 ;; Data Maps
 ;; ==========================================
 
-;; Authorized minters (vault-core can mint rewards)
+;; Authorized minters (vault-core-v2 can mint rewards)
 (define-map authorized-minters principal bool)
 
 ;; ==========================================
@@ -120,7 +120,7 @@
 ;; Admin Functions
 ;; ==========================================
 
-;; Add authorized minter (e.g., vault-core contract)
+;; Add authorized minter (e.g., vault-core-v2 contract)
 (define-public (add-minter (minter principal))
   (begin
     (asserts! (is-owner) ERR-NOT-AUTHORIZED)

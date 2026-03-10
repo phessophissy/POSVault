@@ -10,8 +10,8 @@ path = 'contracts/governance-token.clar'
 clarity_version = 3
 epoch = 'latest'
 
-[contracts.vault-core]
-path = 'contracts/vault-core.clar'
+[contracts.vault-core-v2]
+path = 'contracts/vault-core-v2.clar'
 clarity_version = 3
 epoch = 'latest'
 

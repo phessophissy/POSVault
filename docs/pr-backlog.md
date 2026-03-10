@@ -10,7 +10,7 @@ Note: test execution was blocked in this environment by repeated `npm` registry 
 |---|---|---|---|---|
 | PV-001 | P0 | Governance vote snapshot / anti-double-count model | Current voting power is read at vote time, allowing token movement between wallets to amplify effective influence. | `contracts/proposal-voting.clar`, `tests/proposal-voting.test.ts`, `README.md` |
 | PV-002 | P0 | Enforce proposal type/value validation and active-proposal lifecycle | `proposal-type` is not validated and `active-proposals` is written but never enforced/cleared. | `contracts/proposal-voting.clar`, `tests/proposal-voting.test.ts` |
-| PV-003 | P0 | Add reward-rate bounds and overflow-safe reward math | Reward math can become unsafe at extreme values; reward rate currently has no cap. | `contracts/vault-core.clar`, `tests/vault-core.test.ts` |
+| PV-003 | P0 | Add reward-rate bounds and overflow-safe reward math | Reward math can become unsafe at extreme values; reward rate currently has no cap. | `contracts/vault-core-v2.clar`, `tests/vault-core-v2.test.ts` |
 | PV-004 | P0 | Add explicit post-deploy wiring for contract permissions | Reward minting and DAO execution depend on inter-contract authorization not encoded in deployment flow. | `deployments/default.simnet-plan.yaml`, `README.md`, optional setup script/docs |
 | PV-005 | P0 | Expand critical-path contract tests | Existing tests miss several high-risk scenarios (governance execution rules, reward timing, admin misuse). | `tests/*.test.ts` |
 | PV-006 | P1 | Externalize network/deployer config to environment | Frontend hardcodes network mode and deployer address, making staging/mainnet promotion error-prone. | `frontend/src/stacks.js`, `frontend/README` or top-level docs |
@@ -50,8 +50,8 @@ Note: test execution was blocked in this environment by repeated `npm` registry 
 
 ### PV-003 (P0): Reward safety bounds and math hardening
 - Problem evidence:
-  - Reward rate has no upper bound (`contracts/vault-core.clar:233`).
-  - Reward math multiplies amount * rate * cycles without guard rails (`contracts/vault-core.clar:74`).
+  - Reward rate has no upper bound (`contracts/vault-core-v2.clar:240`).
+  - Reward math multiplies amount * rate * cycles without guard rails (`contracts/vault-core-v2.clar:72`).
 - Expected deliverables:
   - Add capped reward-rate constant and validation.
   - Refactor reward calculation to reduce overflow risk and define edge behavior.
@@ -65,8 +65,8 @@ Note: test execution was blocked in this environment by repeated `npm` registry 
   - Deployment plan only publishes contracts and does not assign required minter/admin permissions (`deployments/default.simnet-plan.yaml`).
 - Expected deliverables:
   - Documented/setup step (or deployment transaction batch) to call:
-    - `governance-token.add-minter(<vault-core-principal>)`
-    - `vault-core.add-admin(<proposal-voting-principal>)`
+    - `governance-token.add-minter(<vault-core-v2-principal>)`
+    - `vault-core-v2.add-admin(<proposal-voting-principal>)`
   - Validation checklist in README.
 - Acceptance criteria:
   - End-to-end governance and reward flows work in a fresh simnet without manual hidden steps.

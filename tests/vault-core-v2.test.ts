@@ -6,14 +6,14 @@ const deployer = accounts.get("deployer")!;
 const wallet1 = accounts.get("wallet_1")!;
 const wallet2 = accounts.get("wallet_2")!;
 
-describe("vault-core", () => {
+describe("vault-core-v2", () => {
   // ==========================================
   // Deposits
   // ==========================================
 
   it("should allow deposits", () => {
     const result = simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "deposit",
       [Cl.uint(10000000)], // 10 STX
       wallet1
@@ -23,14 +23,14 @@ describe("vault-core", () => {
 
   it("should record deposit data correctly", () => {
     simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "deposit",
       [Cl.uint(5000000)], // 5 STX
       wallet1
     );
 
     const deposit = simnet.callReadOnlyFn(
-      "vault-core",
+      "vault-core-v2",
       "get-deposit",
       [Cl.principal(wallet1)],
       deployer
@@ -42,14 +42,14 @@ describe("vault-core", () => {
 
   it("should reject duplicate deposits", () => {
     simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "deposit",
       [Cl.uint(5000000)],
       wallet1
     );
 
     const result = simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "deposit",
       [Cl.uint(3000000)],
       wallet1
@@ -59,7 +59,7 @@ describe("vault-core", () => {
 
   it("should reject zero deposits", () => {
     const result = simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "deposit",
       [Cl.uint(0)],
       wallet1
@@ -73,14 +73,14 @@ describe("vault-core", () => {
 
   it("should allow withdrawals", () => {
     simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "deposit",
       [Cl.uint(10000000)],
       wallet1
     );
 
     const result = simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "withdraw",
       [],
       wallet1
@@ -95,7 +95,7 @@ describe("vault-core", () => {
 
   it("should reject withdrawal with no deposit", () => {
     const result = simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "withdraw",
       [],
       wallet2
@@ -109,20 +109,20 @@ describe("vault-core", () => {
 
   it("should track total deposits", () => {
     simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "deposit",
       [Cl.uint(10000000)],
       wallet1
     );
     simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "deposit",
       [Cl.uint(20000000)],
       wallet2
     );
 
     const info = simnet.callReadOnlyFn(
-      "vault-core",
+      "vault-core-v2",
       "get-vault-info",
       [],
       deployer
@@ -145,14 +145,14 @@ describe("vault-core", () => {
 
   it("should update user stats on deposit", () => {
     simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "deposit",
       [Cl.uint(8000000)],
       wallet1
     );
 
     const stats = simnet.callReadOnlyFn(
-      "vault-core",
+      "vault-core-v2",
       "get-user-stats",
       [Cl.principal(wallet1)],
       deployer
@@ -172,7 +172,7 @@ describe("vault-core", () => {
 
   it("should allow owner to set reward rate", () => {
     const result = simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "set-reward-rate",
       [Cl.uint(200)],
       deployer
@@ -182,7 +182,7 @@ describe("vault-core", () => {
 
   it("should prevent non-owner from setting reward rate", () => {
     const result = simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "set-reward-rate",
       [Cl.uint(200)],
       wallet1
@@ -192,7 +192,7 @@ describe("vault-core", () => {
 
   it("should allow owner to toggle pause", () => {
     const result = simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "toggle-pause",
       [],
       deployer
@@ -201,10 +201,10 @@ describe("vault-core", () => {
   });
 
   it("should reject deposits when paused", () => {
-    simnet.callPublicFn("vault-core", "toggle-pause", [], deployer);
+    simnet.callPublicFn("vault-core-v2", "toggle-pause", [], deployer);
 
     const result = simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "deposit",
       [Cl.uint(5000000)],
       wallet1
@@ -215,14 +215,14 @@ describe("vault-core", () => {
   it("should allow authorized admin to set reward rate", () => {
     // Add wallet1 as admin
     simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "add-admin",
       [Cl.principal(wallet1)],
       deployer
     );
 
     const result = simnet.callPublicFn(
-      "vault-core",
+      "vault-core-v2",
       "set-reward-rate",
       [Cl.uint(300)],
       wallet1

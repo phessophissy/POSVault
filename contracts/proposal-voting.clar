@@ -216,9 +216,9 @@
         (begin
           ;; Handle specific proposal types
           (if (is-eq (get proposal-type proposal) "reward-rate")
-            (try! (contract-call? .vault-core set-reward-rate (get value proposal)))
+            (try! (contract-call? .vault-core-v2 set-reward-rate (get value proposal)))
             (if (is-eq (get proposal-type proposal) "pause")
-              (try! (contract-call? .vault-core toggle-pause))
+              (try! (contract-call? .vault-core-v2 toggle-pause))
               true  ;; General proposals just get recorded
             )
           )
