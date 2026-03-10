@@ -40,6 +40,8 @@ settings/Testnet.toml
 # ==========================================
 .vscode/
 .idea/
+.vercel/
+frontend/.vercel/
 *.swp
 *.swo
 *~
