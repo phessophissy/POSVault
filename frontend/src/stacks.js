@@ -4,7 +4,7 @@
  * Uses @stacks/transactions for contract calls
  */
 
-import { showConnect, openContractCall } from '@stacks/connect';
+import { authenticate, openContractCall } from '@stacks/connect';
 import {
     uintCV,
     principalCV,
@@ -46,12 +46,7 @@ export const CONTRACTS = {
  * @param {Function} onCancel - Callback if user cancels
  */
 export function connectWallet(onFinish, onCancel) {
-    showConnect({
-        appDetails: {
-            name: 'POSVault',
-            icon: window.location.origin + '/favicon.svg',
-        },
-        redirectTo: '/',
+    authenticate({
         onFinish: (payload) => {
             const { userSession } = payload;
             const userData = userSession.loadUserData();
@@ -68,7 +63,6 @@ export function connectWallet(onFinish, onCancel) {
         onCancel: () => {
             if (onCancel) onCancel();
         },
-        userSession: undefined,
     });
 }
 
@@ -220,10 +214,6 @@ export function executeContractCall({
         postConditions,
         postConditionMode: PostConditionMode.Deny,
         network: NETWORK,
-        appDetails: {
-            name: 'POSVault',
-            icon: window.location.origin + '/favicon.svg',
-        },
         onFinish: (data) => {
             console.log('Transaction submitted:', data);
             if (onFinish) onFinish(data);
