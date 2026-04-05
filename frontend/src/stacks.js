@@ -31,7 +31,7 @@ export const CONTRACT_DEPLOYER = 'SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09';
 
 // Contract names
 export const CONTRACTS = {
-    VAULT_CORE: 'vault-core-v2',
+    VAULT_CORE: 'vault-core-v3',
     GOVERNANCE_TOKEN: 'governance-token',
     PROPOSAL_VOTING: 'proposal-voting',
 };
