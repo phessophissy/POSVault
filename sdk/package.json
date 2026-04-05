@@ -1,5 +1,5 @@
 {
-  "name": "@posvault/sdk",
+  "name": "posvault-sdk",
   "version": "1.0.0",
   "description": "JavaScript/TypeScript SDK for POSVault — Treasury Vault & DAO on Stacks (Bitcoin L2)",
   "type": "module",
