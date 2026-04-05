@@ -82,4 +82,9 @@ plan:
       emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
       path: contracts/vault-core-v3.clar
       clarity-version: 4
+    - transaction-type: emulated-contract-publish
+      contract-name: vault-core-v4
+      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      path: contracts/vault-core-v4.clar
+      clarity-version: 4
     epoch: '3.3'
