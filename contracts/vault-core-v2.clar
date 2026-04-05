@@ -66,7 +66,7 @@
 )
 
 (define-private (contract-principal)
-  (unwrap-panic (as-contract? () tx-sender))
+  (as-contract tx-sender)
 )
 
 (define-private (calculate-pending-rewards (depositor principal))
@@ -139,10 +139,7 @@
     (asserts! (not (var-get contract-paused)) ERR-VAULT-PAUSED)
     
     ;; Transfer STX back to user
-    (try! (as-contract? ((with-stx amount))
-      (try! (stx-transfer? amount tx-sender withdrawer))
-      true
-    ))
+    (try! (as-contract (stx-transfer? amount tx-sender withdrawer)))
     
     ;; Mint reward tokens if any
     (if (> pending-rewards u0)
@@ -263,10 +260,7 @@
   )
     (asserts! (is-owner) ERR-NOT-AUTHORIZED)
     (asserts! (> balance u0) ERR-INSUFFICIENT-BALANCE)
-    (try! (as-contract? ((with-stx balance))
-      (try! (stx-transfer? balance tx-sender CONTRACT-OWNER))
-      true
-    ))
+    (try! (as-contract (stx-transfer? balance tx-sender CONTRACT-OWNER)))
     (var-set total-stx-locked u0)
     (print { event: "emergency-withdraw", amount: balance })
     (ok balance)
