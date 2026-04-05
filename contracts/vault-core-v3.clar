@@ -1,8 +1,9 @@
 ;; POSVault Core V3 - STX Treasury Vault
 ;; Deposit STX, earn POS-GOV governance tokens as yield
 ;; Supports deposits with configurable yield rates
-;; V3 fix: mint reward tokens as-contract so the vault principal
+;; V3 fix: mint reward tokens as-contract? so the vault principal
 ;; is the tx-sender in governance-token (authorized minter)
+;; Uses Clarity 4 as-contract? with allowance-based security
 
 ;; ==========================================
 ;; Constants
@@ -68,7 +69,7 @@
 )
 
 (define-private (contract-principal)
-  (as-contract tx-sender)
+  (unwrap-panic (as-contract? () tx-sender))
 )
 
 (define-private (calculate-pending-rewards (depositor principal))
@@ -140,12 +141,16 @@
   )
     (asserts! (not (var-get contract-paused)) ERR-VAULT-PAUSED)
     
-    ;; Transfer STX back to user
-    (try! (as-contract (stx-transfer? amount tx-sender withdrawer)))
+    ;; Transfer STX back to user (with-stx allowance for outflow)
+    (try! (as-contract? ((with-stx amount))
+      (try! (stx-transfer? amount tx-sender withdrawer))
+    ))
     
-    ;; Mint reward tokens if any (as-contract so vault is the authorized tx-sender)
+    ;; Mint reward tokens if any (as-contract? so vault is the authorized tx-sender)
     (if (> pending-rewards u0)
-      (try! (as-contract (contract-call? .governance-token mint pending-rewards withdrawer)))
+      (try! (as-contract? ()
+        (try! (contract-call? .governance-token mint pending-rewards withdrawer))
+      ))
       true
     )
     
@@ -185,8 +190,10 @@
     (asserts! (not (var-get contract-paused)) ERR-VAULT-PAUSED)
     (asserts! (> pending-rewards u0) ERR-INVALID-AMOUNT)
     
-    ;; Mint reward tokens (as-contract so vault is the authorized tx-sender)
-    (try! (as-contract (contract-call? .governance-token mint pending-rewards claimer)))
+    ;; Mint reward tokens (as-contract? so vault is the authorized tx-sender)
+    (try! (as-contract? ()
+      (try! (contract-call? .governance-token mint pending-rewards claimer))
+    ))
     
     ;; Update deposit record
     (map-set deposits claimer
@@ -263,7 +270,9 @@
   )
     (asserts! (is-owner) ERR-NOT-AUTHORIZED)
     (asserts! (> balance u0) ERR-INSUFFICIENT-BALANCE)
-    (try! (as-contract (stx-transfer? balance tx-sender CONTRACT-OWNER)))
+    (try! (as-contract? ((with-stx balance))
+      (try! (stx-transfer? balance tx-sender CONTRACT-OWNER))
+    ))
     (var-set total-stx-locked u0)
     (print { event: "emergency-withdraw", amount: balance })
     (ok balance)

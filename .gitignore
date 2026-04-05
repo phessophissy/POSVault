@@ -80,3 +80,6 @@ yarn.lock
 .Spotlight-V100
 .Trashes
 ehthumbs.db
+
+# Wallet keys
+scripts/wallets*.json
