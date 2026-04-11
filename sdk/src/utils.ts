@@ -70,3 +70,10 @@ export function helper_7_7(input: string | number): string {
   if (isNaN(value)) return '0';
   return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
 }
+
+/** Utility function 7-8: number formatting */
+export function helper_7_8(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
