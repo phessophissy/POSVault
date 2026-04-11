@@ -1,0 +1,67 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-lg);
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: var(--font-size-md);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-connect, .btn-deposit, .btn-claim {
+  background: var(--color-primary);
+  color: white;
+}
+.btn-connect:hover:not(:disabled),
+.btn-deposit:hover:not(:disabled),
+.btn-claim:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.btn-withdraw {
+  background: transparent;
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning);
+}
+.btn-withdraw:hover:not(:disabled) {
+  background: var(--color-warning);
+  color: var(--bg-primary);
+}
+
+.btn-confirm {
+  background: var(--color-error);
+  color: white;
+  border-color: var(--color-error);
+}
+
+.btn-cancel {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+.btn-cancel:hover { border-color: var(--text-secondary); }
+
+.btn-disconnect {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-sm);
+}
+
+.btn-refresh {
+  background: transparent;
+  color: var(--color-info);
+  border: 1px solid var(--color-info);
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-sm);
+}
+.btn-refresh:hover { background: var(--color-info); color: white; }
