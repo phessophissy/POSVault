@@ -76,3 +76,37 @@ export type { BrowserOptions, ContractCallCallbacks } from './browser.js';
 
 // Utilities
 export { stxToMicro, microToStx, formatAddress, formatNumber, explorerUrl } from './utils.js';
+
+// Error classes
+export {
+  POSVaultError,
+  ContractCallError,
+  NetworkError,
+  ConfigurationError,
+  InsufficientBalanceError,
+  ERROR_CODES,
+  getErrorMessage,
+} from './errors.js';
+
+// Validation
+export { validateAddress, validateAmount, validateProposalId, validateNetwork, validateConfig } from './validation.js';
+
+// Configuration
+export { resolveConfig, getContractIdentifier, getVaultCoreId, getTokenId, getVotingId } from './config.js';
+
+// Calculations
+export { estimateRewards, calculateAPY, blocksUntilNextCycle, toTokenAmount, toMicroAmount } from './calculations.js';
+
+// Events
+export type { TransactionEvent, TransactionEventType, DepositEvent, WithdrawEvent, VoteEvent } from './events.js';
+export { createTransactionEvent, isDepositEvent, isWithdrawEvent, isVoteEvent } from './events.js';
+
+// Retry
+export type { RetryOptions } from './retry.js';
+export { withRetry } from './retry.js';
+
+// Parsers
+export { parseVaultInfo, parseDeposit, parseUserStats, parseProposal, parseProposalResult, parseVoteRecord } from './parsers.js';
+
+// Version
+export { SDK_VERSION, SDK_NAME } from './version.js';
