@@ -170,3 +170,29 @@ describe("vault-core-v4 admin controls", () => {
     simnet.callPublicFn("vault-core-v4", "toggle-pause", [], deployer);
   });
 });
+
+describe("vault-core-v4 user stats", () => {
+  it("tracks deposit count correctly", () => {
+    simnet.callPublicFn("vault-core-v4", "deposit", [Cl.uint(1000000)], wallet1);
+    const stats = simnet.callReadOnlyFn(
+      "vault-core-v4",
+      "get-user-stats",
+      [Cl.principal(wallet1)],
+      wallet1
+    );
+    const data = stats.result.expectTuple();
+    expect(Number(data["deposit-count"])).toBeGreaterThanOrEqual(1);
+  });
+
+  it("tracks total deposited amount", () => {
+    simnet.callPublicFn("vault-core-v4", "deposit", [Cl.uint(2000000)], wallet2);
+    const stats = simnet.callReadOnlyFn(
+      "vault-core-v4",
+      "get-user-stats",
+      [Cl.principal(wallet2)],
+      wallet2
+    );
+    const data = stats.result.expectTuple();
+    expect(Number(data["total-deposited"])).toEqual(2000000);
+  });
+});
