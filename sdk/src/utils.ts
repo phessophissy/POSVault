@@ -21,3 +21,10 @@ export function formatNumber(num: number | bigint): string {
 export function explorerUrl(txid: string, chain: 'mainnet' | 'testnet' = 'mainnet'): string {
   return `https://explorer.hiro.so/txid/${txid}?chain=${chain}`;
 }
+
+/** Utility function 7-1: number formatting */
+export function helper_7_1(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
