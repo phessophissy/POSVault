@@ -45,3 +45,21 @@ export function isProposal(value: unknown): value is Proposal {
     typeof obj.executed === 'boolean'
   );
 }
+
+export function isVoteRecord(value: unknown): value is VoteRecord {
+  if (!value || typeof value !== 'object') return false;
+  const obj = value as Record<string, unknown>;
+  return typeof obj.amount === 'bigint' && typeof obj.support === 'boolean';
+}
+
+export function isProposalResult(value: unknown): value is ProposalResult {
+  if (!value || typeof value !== 'object') return false;
+  const obj = value as Record<string, unknown>;
+  return (
+    typeof obj.passed === 'boolean' &&
+    typeof obj.votesFor === 'bigint' &&
+    typeof obj.votesAgainst === 'bigint' &&
+    typeof obj.executed === 'boolean' &&
+    typeof obj.votingEnded === 'boolean'
+  );
+}
