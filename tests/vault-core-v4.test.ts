@@ -64,3 +64,17 @@ describe("vault-core-v4 deposits", () => {
     result.result.expectErr().expectUint(205);
   });
 });
+
+describe("vault-core-v4 withdrawals", () => {
+  it("allows withdrawal after deposit", () => {
+    simnet.callPublicFn("vault-core-v4", "deposit", [Cl.uint(1000000)], wallet2);
+    simnet.mineEmptyBlocks(150);
+    const result = simnet.callPublicFn("vault-core-v4", "withdraw", [], wallet2);
+    result.result.expectOk();
+  });
+
+  it("rejects withdrawal without deposit", () => {
+    const result = simnet.callPublicFn("vault-core-v4", "withdraw", [], wallet2);
+    result.result.expectErr().expectUint(206);
+  });
+});
