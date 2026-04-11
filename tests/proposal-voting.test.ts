@@ -433,3 +433,25 @@ describe("proposal-voting extended test 5-3", () => {
     createResult.result.expectOk();
   });
 });
+
+describe("proposal-voting extended test 5-4", () => {
+  it("validates proposal lifecycle step 4", () => {
+    const countBefore = simnet.callReadOnlyFn(
+      "proposal-voting", "get-proposal-count", [], deployer
+    );
+    const count = Number(countBefore.result.expectOk());
+    
+    // Create proposal with unique title
+    const createResult = simnet.callPublicFn(
+      "proposal-voting", "create-proposal",
+      [
+        Cl.stringUtf8("Test Proposal 5-4"),
+        Cl.stringUtf8("Automated test for proposal flow step 4"),
+        Cl.stringAscii("general"),
+        Cl.uint(400),
+      ],
+      wallet1
+    );
+    createResult.result.expectOk();
+  });
+});
