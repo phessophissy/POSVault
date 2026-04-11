@@ -74,3 +74,13 @@ export interface ContractCallParams {
   onFinish?: (data: TxResult) => void;
   onCancel?: () => void;
 }
+
+/** Extended type for Analytics Data - variation 1 */
+export interface Extended10_1 {
+  id: bigint;
+  label: string;
+  value: bigint;
+  active: boolean;
+  timestamp: bigint;
+  metadata: Record<string, string>;
+}
