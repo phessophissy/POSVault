@@ -288,3 +288,20 @@ describe("governance-token additional test 4-6", () => {
     result.result.expectOk().expectBool(true);
   });
 });
+
+describe("governance-token additional test 4-7", () => {
+  it("validates token transfer between principals (case 7)", () => {
+    // Mint tokens to wallet_1 first
+    const mintResult = simnet.callPublicFn(
+      "governance-token", "mint", [Cl.uint(700000), Cl.principal(wallet1)], deployer
+    );
+    mintResult.result.expectOk();
+    
+    const result = simnet.callPublicFn(
+      "governance-token", "transfer",
+      [Cl.uint(70000), Cl.principal(wallet1), Cl.principal(wallet2), Cl.none()],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+});
