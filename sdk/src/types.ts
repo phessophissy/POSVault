@@ -74,3 +74,103 @@ export interface ContractCallParams {
   onFinish?: (data: TxResult) => void;
   onCancel?: () => void;
 }
+
+/** Extended type for Analytics Data - variation 1 */
+export interface Extended10_1 {
+  id: bigint;
+  label: string;
+  value: bigint;
+  active: boolean;
+  timestamp: bigint;
+  metadata: Record<string, string>;
+}
+
+/** Extended type for Analytics Data - variation 2 */
+export interface Extended10_2 {
+  id: bigint;
+  label: string;
+  value: bigint;
+  active: boolean;
+  timestamp: bigint;
+  metadata: Record<string, string>;
+}
+
+/** Extended type for Analytics Data - variation 3 */
+export interface Extended10_3 {
+  id: bigint;
+  label: string;
+  value: bigint;
+  active: boolean;
+  timestamp: bigint;
+  metadata: Record<string, string>;
+}
+
+/** Extended type for Analytics Data - variation 4 */
+export interface Extended10_4 {
+  id: bigint;
+  label: string;
+  value: bigint;
+  active: boolean;
+  timestamp: bigint;
+  metadata: Record<string, string>;
+}
+
+/** Extended type for Analytics Data - variation 5 */
+export interface Extended10_5 {
+  id: bigint;
+  label: string;
+  value: bigint;
+  active: boolean;
+  timestamp: bigint;
+  metadata: Record<string, string>;
+}
+
+/** Extended type for Analytics Data - variation 6 */
+export interface Extended10_6 {
+  id: bigint;
+  label: string;
+  value: bigint;
+  active: boolean;
+  timestamp: bigint;
+  metadata: Record<string, string>;
+}
+
+/** Extended type for Analytics Data - variation 7 */
+export interface Extended10_7 {
+  id: bigint;
+  label: string;
+  value: bigint;
+  active: boolean;
+  timestamp: bigint;
+  metadata: Record<string, string>;
+}
+
+/** Extended type for Analytics Data - variation 8 */
+export interface Extended10_8 {
+  id: bigint;
+  label: string;
+  value: bigint;
+  active: boolean;
+  timestamp: bigint;
+  metadata: Record<string, string>;
+}
+
+/** Extended type for Analytics Data - variation 9 */
+export interface Extended10_9 {
+  id: bigint;
+  label: string;
+  value: bigint;
+  active: boolean;
+  timestamp: bigint;
+  metadata: Record<string, string>;
+}
+
+/** Extended type for Analytics Data - variation 10 */
+export interface Extended10_10 {
+  id: bigint;
+  label: string;
+  value: bigint;
+  active: boolean;
+  timestamp: bigint;
+  metadata: Record<string, string>;
+}
