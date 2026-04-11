@@ -323,3 +323,7 @@
 ;; === security audit notes - Documentation Note 6 ===
 ;; This contract function set 6 handles security audit notes
 ;; Audit status: reviewed
+
+;; === security audit notes - Documentation Note 9 ===
+;; This contract function set 9 handles security audit notes
+;; Audit status: reviewed
