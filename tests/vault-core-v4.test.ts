@@ -196,3 +196,27 @@ describe("vault-core-v4 user stats", () => {
     expect(Number(data["total-deposited"])).toEqual(2000000);
   });
 });
+
+describe("vault-core-v4 get-deposit", () => {
+  it("returns none for non-depositor", () => {
+    const result = simnet.callReadOnlyFn(
+      "vault-core-v4",
+      "get-deposit",
+      [Cl.principal(wallet2)],
+      wallet2
+    );
+    result.result.expectNone();
+  });
+
+  it("returns deposit details for depositor", () => {
+    simnet.callPublicFn("vault-core-v4", "deposit", [Cl.uint(3000000)], wallet1);
+    const result = simnet.callReadOnlyFn(
+      "vault-core-v4",
+      "get-deposit",
+      [Cl.principal(wallet1)],
+      wallet1
+    );
+    const deposit = result.result.expectSome().expectTuple();
+    expect(Number(deposit["amount"])).toEqual(3000000);
+  });
+});
