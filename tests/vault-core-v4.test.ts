@@ -220,3 +220,29 @@ describe("vault-core-v4 get-deposit", () => {
     expect(Number(deposit["amount"])).toEqual(3000000);
   });
 });
+
+describe("vault-core-v4 vault info updates", () => {
+  it("increments total-depositors on deposit", () => {
+    const before = simnet.callReadOnlyFn("vault-core-v4", "get-vault-info", [], deployer);
+    const countBefore = Number(before.result.expectTuple()["total-depositors"]);
+
+    simnet.callPublicFn("vault-core-v4", "deposit", [Cl.uint(500000)], wallet1);
+
+    const after = simnet.callReadOnlyFn("vault-core-v4", "get-vault-info", [], deployer);
+    const countAfter = Number(after.result.expectTuple()["total-depositors"]);
+
+    expect(countAfter).toEqual(countBefore + 1);
+  });
+
+  it("updates total-stx-locked on deposit", () => {
+    const before = simnet.callReadOnlyFn("vault-core-v4", "get-vault-info", [], deployer);
+    const lockedBefore = Number(before.result.expectTuple()["total-stx-locked"]);
+
+    simnet.callPublicFn("vault-core-v4", "deposit", [Cl.uint(1000000)], wallet2);
+
+    const after = simnet.callReadOnlyFn("vault-core-v4", "get-vault-info", [], deployer);
+    const lockedAfter = Number(after.result.expectTuple()["total-stx-locked"]);
+
+    expect(lockedAfter).toEqual(lockedBefore + 1000000);
+  });
+});
