@@ -1,54 +1,28 @@
-/**
- * Configuration management for the POSVault SDK.
- */
-
-import { DEPLOYER, CONTRACT_NAMES } from './constants.js';
 import type { POSVaultConfig, ContractNames } from './types.js';
+import { DEPLOYER, CONTRACT_NAMES } from './constants.js';
 
-interface ResolvedConfig {
+export interface ResolvedConfig {
   deployer: string;
   network: 'mainnet' | 'testnet';
   contractNames: ContractNames;
   apiBaseUrl: string;
 }
 
-const API_URLS = {
-  mainnet: 'https://api.hiro.so',
-  testnet: 'https://api.testnet.hiro.so',
-} as const;
-
 export function resolveConfig(config?: POSVaultConfig): ResolvedConfig {
-  const network = config?.network || 'mainnet';
-  return {
-    deployer: config?.deployer || DEPLOYER,
-    network,
-    contractNames: {
-      ...CONTRACT_NAMES,
-      ...config?.contractNames,
-    },
-    apiBaseUrl: API_URLS[network],
+  const network = config?.network ?? 'mainnet';
+  const deployer = config?.deployer ?? DEPLOYER;
+  const contractNames: ContractNames = {
+    vaultCore: config?.contractNames?.vaultCore ?? CONTRACT_NAMES.vaultCore,
+    governanceToken: config?.contractNames?.governanceToken ?? CONTRACT_NAMES.governanceToken,
+    proposalVoting: config?.contractNames?.proposalVoting ?? CONTRACT_NAMES.proposalVoting,
   };
+  const apiBaseUrl = network === 'mainnet'
+    ? 'https://api.hiro.so'
+    : 'https://api.testnet.hiro.so';
+
+  return { deployer, network, contractNames, apiBaseUrl };
 }
 
-export function getContractIdentifier(
-  contractName: string,
-  config?: POSVaultConfig
-): string {
-  const resolved = resolveConfig(config);
-  return `${resolved.deployer}.${contractName}`;
-}
-
-export function getVaultCoreId(config?: POSVaultConfig): string {
-  const resolved = resolveConfig(config);
-  return `${resolved.deployer}.${resolved.contractNames.vaultCore}`;
-}
-
-export function getTokenId(config?: POSVaultConfig): string {
-  const resolved = resolveConfig(config);
-  return `${resolved.deployer}.${resolved.contractNames.governanceToken}`;
-}
-
-export function getVotingId(config?: POSVaultConfig): string {
-  const resolved = resolveConfig(config);
-  return `${resolved.deployer}.${resolved.contractNames.proposalVoting}`;
+export function getContractId(config: ResolvedConfig, contractKey: keyof ContractNames): string {
+  return `${config.deployer}.${config.contractNames[contractKey]}`;
 }
