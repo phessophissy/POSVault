@@ -22,3 +22,26 @@ export function isVaultInfo(value: unknown): value is VaultInfo {
     typeof obj.currentBlock === 'bigint'
   );
 }
+
+export function isUserStats(value: unknown): value is UserStats {
+  if (!value || typeof value !== 'object') return false;
+  const obj = value as Record<string, unknown>;
+  return (
+    typeof obj.totalDeposited === 'bigint' &&
+    typeof obj.totalWithdrawn === 'bigint' &&
+    typeof obj.totalRewards === 'bigint' &&
+    typeof obj.depositCount === 'bigint'
+  );
+}
+
+export function isProposal(value: unknown): value is Proposal {
+  if (!value || typeof value !== 'object') return false;
+  const obj = value as Record<string, unknown>;
+  return (
+    typeof obj.proposer === 'string' &&
+    typeof obj.title === 'string' &&
+    typeof obj.votesFor === 'bigint' &&
+    typeof obj.votesAgainst === 'bigint' &&
+    typeof obj.executed === 'boolean'
+  );
+}
