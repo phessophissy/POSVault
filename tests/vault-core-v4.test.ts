@@ -31,3 +31,36 @@ describe("vault-core-v4", () => {
     });
   });
 });
+
+describe("vault-core-v4 deposits", () => {
+  it("allows a deposit of valid amount", () => {
+    const result = simnet.callPublicFn(
+      "vault-core-v4",
+      "deposit",
+      [Cl.uint(1000000)],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+
+  it("rejects zero deposit", () => {
+    const result = simnet.callPublicFn(
+      "vault-core-v4",
+      "deposit",
+      [Cl.uint(0)],
+      wallet1
+    );
+    result.result.expectErr().expectUint(203);
+  });
+
+  it("rejects duplicate deposit from same wallet", () => {
+    simnet.callPublicFn("vault-core-v4", "deposit", [Cl.uint(500000)], wallet1);
+    const result = simnet.callPublicFn(
+      "vault-core-v4",
+      "deposit",
+      [Cl.uint(500000)],
+      wallet1
+    );
+    result.result.expectErr().expectUint(205);
+  });
+});
