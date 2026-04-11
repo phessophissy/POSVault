@@ -104,3 +104,13 @@ export interface Extended10_3 {
   timestamp: bigint;
   metadata: Record<string, string>;
 }
+
+/** Extended type for Analytics Data - variation 4 */
+export interface Extended10_4 {
+  id: bigint;
+  label: string;
+  value: bigint;
+  active: boolean;
+  timestamp: bigint;
+  metadata: Record<string, string>;
+}
