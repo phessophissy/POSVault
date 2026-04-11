@@ -246,3 +246,29 @@ describe("vault-core-v4 vault info updates", () => {
     expect(lockedAfter).toEqual(lockedBefore + 1000000);
   });
 });
+
+describe("vault-core-v4 edge cases", () => {
+  it("handles maximum deposit amount", () => {
+    const result = simnet.callPublicFn(
+      "vault-core-v4",
+      "deposit",
+      [Cl.uint(100000000000)],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+
+  it("handles reward rate of zero", () => {
+    simnet.callPublicFn("vault-core-v4", "set-reward-rate", [Cl.uint(0)], deployer);
+    simnet.callPublicFn("vault-core-v4", "deposit", [Cl.uint(1000000)], wallet2);
+    simnet.mineEmptyBlocks(500);
+    const rewards = simnet.callReadOnlyFn(
+      "vault-core-v4",
+      "get-pending-rewards",
+      [Cl.principal(wallet2)],
+      wallet2
+    );
+    rewards.result.expectOk().expectUint(0);
+    simnet.callPublicFn("vault-core-v4", "set-reward-rate", [Cl.uint(100)], deployer);
+  });
+});
