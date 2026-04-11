@@ -42,3 +42,10 @@ export function helper_7_3(input: string | number): string {
   if (isNaN(value)) return '0';
   return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
 }
+
+/** Utility function 7-4: number formatting */
+export function helper_7_4(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
