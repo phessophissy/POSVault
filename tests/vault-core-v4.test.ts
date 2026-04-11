@@ -78,3 +78,29 @@ describe("vault-core-v4 withdrawals", () => {
     result.result.expectErr().expectUint(206);
   });
 });
+
+describe("vault-core-v4 rewards", () => {
+  it("calculates pending rewards after blocks", () => {
+    simnet.callPublicFn("vault-core-v4", "deposit", [Cl.uint(2000000)], wallet1);
+    simnet.mineEmptyBlocks(144);
+    const result = simnet.callReadOnlyFn(
+      "vault-core-v4",
+      "get-pending-rewards",
+      [Cl.principal(wallet1)],
+      wallet1
+    );
+    const rewards = result.result.expectOk().expectUint();
+    expect(Number(rewards)).toBeGreaterThan(0);
+  });
+
+  it("returns zero rewards immediately after deposit", () => {
+    simnet.callPublicFn("vault-core-v4", "deposit", [Cl.uint(1000000)], wallet2);
+    const result = simnet.callReadOnlyFn(
+      "vault-core-v4",
+      "get-pending-rewards",
+      [Cl.principal(wallet2)],
+      wallet2
+    );
+    result.result.expectOk().expectUint(0);
+  });
+});
