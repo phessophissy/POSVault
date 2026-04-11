@@ -171,3 +171,7 @@
 (define-read-only (get-minting-status)
   (ok (var-get minting-enabled))
 )
+
+;; === security audit notes - Documentation Note 1 ===
+;; This contract function set 1 handles security audit notes
+;; Audit status: reviewed
