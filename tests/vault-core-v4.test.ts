@@ -126,3 +126,47 @@ describe("vault-core-v4 claim-rewards", () => {
     expect(Number(bal)).toBeGreaterThan(0);
   });
 });
+
+describe("vault-core-v4 admin controls", () => {
+  it("owner can pause the vault", () => {
+    const result = simnet.callPublicFn(
+      "vault-core-v4",
+      "toggle-pause",
+      [],
+      deployer
+    );
+    result.result.expectOk().expectBool(true);
+  });
+
+  it("non-owner cannot pause the vault", () => {
+    const result = simnet.callPublicFn(
+      "vault-core-v4",
+      "toggle-pause",
+      [],
+      wallet1
+    );
+    result.result.expectErr().expectUint(200);
+  });
+
+  it("owner can set reward rate", () => {
+    const result = simnet.callPublicFn(
+      "vault-core-v4",
+      "set-reward-rate",
+      [Cl.uint(250)],
+      deployer
+    );
+    result.result.expectOk().expectBool(true);
+  });
+
+  it("rejects deposits when paused", () => {
+    simnet.callPublicFn("vault-core-v4", "toggle-pause", [], deployer);
+    const result = simnet.callPublicFn(
+      "vault-core-v4",
+      "deposit",
+      [Cl.uint(1000000)],
+      wallet1
+    );
+    result.result.expectErr().expectUint(207);
+    simnet.callPublicFn("vault-core-v4", "toggle-pause", [], deployer);
+  });
+});
