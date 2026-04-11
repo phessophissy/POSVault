@@ -1,7 +1,3 @@
-/**
- * Retry logic with exponential backoff for API calls.
- */
-
 import { NetworkError } from './errors.js';
 
 export interface RetryOptions {
@@ -10,11 +6,21 @@ export interface RetryOptions {
   maxDelayMs?: number;
 }
 
-const DEFAULT_OPTIONS: Required<RetryOptions> = {
+const DEFAULT_RETRY: Required<RetryOptions> = {
   maxAttempts: 3,
   baseDelayMs: 1000,
   maxDelayMs: 10000,
 };
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function calculateDelay(attempt: number, baseDelay: number, maxDelay: number): number {
+  const delay = baseDelay * Math.pow(2, attempt - 1);
+  const jitter = delay * 0.2 * Math.random();
+  return Math.min(delay + jitter, maxDelay);
+}
 
 function isRetryable(error: unknown): boolean {
   if (error instanceof NetworkError) {
@@ -22,34 +28,29 @@ function isRetryable(error: unknown): boolean {
     return code === 429 || code === 500 || code === 502 || code === 503 || code === 504;
   }
   if (error instanceof Error) {
-    return error.message.includes('fetch') || error.message.includes('network');
+    return error.message.includes('ECONNRESET') ||
+           error.message.includes('ETIMEDOUT') ||
+           error.message.includes('fetch failed');
   }
   return false;
 }
 
-function calculateDelay(attempt: number, baseDelay: number, maxDelay: number): number {
-  const delay = baseDelay * Math.pow(2, attempt - 1);
-  const jitter = delay * 0.1 * Math.random();
-  return Math.min(delay + jitter, maxDelay);
-}
+export async function withRetry<T>(fn: () => Promise<T>, options?: RetryOptions): Promise<T> {
+  const opts = { ...DEFAULT_RETRY, ...options };
+  let lastError: unknown;
 
-export async function withRetry<T>(
-  fn: () => Promise<T>,
-  options: RetryOptions = {}
-): Promise<T> {
-  const { maxAttempts, baseDelayMs, maxDelayMs } = { ...DEFAULT_OPTIONS, ...options };
-
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+  for (let attempt = 1; attempt <= opts.maxAttempts; attempt++) {
     try {
       return await fn();
     } catch (error) {
-      if (attempt === maxAttempts || !isRetryable(error)) {
+      lastError = error;
+      if (!isRetryable(error) || attempt === opts.maxAttempts) {
         throw error;
       }
-      const delay = calculateDelay(attempt, baseDelayMs, maxDelayMs);
-      await new Promise(resolve => setTimeout(resolve, delay));
+      const delay = calculateDelay(attempt, opts.baseDelayMs, opts.maxDelayMs);
+      await sleep(delay);
     }
   }
 
-  throw new NetworkError('Max retry attempts exceeded');
+  throw lastError;
 }

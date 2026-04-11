@@ -901,3 +901,293 @@ body {
 .flex { display: flex; }
 .items-center { align-items: center; }
 .justify-between { justify-content: space-between; }
+
+/* vault dashboard cards - style block 1 */
+.component-6-1 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-secondary, #1a1a2e);
+  border: 1px solid var(--border-color, #2a2a4a);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.component-6-1:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+}
+
+.component-6-1 .label {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #a0a0b8);
+  font-weight: 500;
+}
+
+.component-6-1 .value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+/* vault dashboard cards - style block 2 */
+.component-6-2 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-secondary, #1a1a2e);
+  border: 1px solid var(--border-color, #2a2a4a);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.component-6-2:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+}
+
+.component-6-2 .label {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #a0a0b8);
+  font-weight: 500;
+}
+
+.component-6-2 .value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+/* vault dashboard cards - style block 3 */
+.component-6-3 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-secondary, #1a1a2e);
+  border: 1px solid var(--border-color, #2a2a4a);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.component-6-3:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+}
+
+.component-6-3 .label {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #a0a0b8);
+  font-weight: 500;
+}
+
+.component-6-3 .value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+/* vault dashboard cards - style block 4 */
+.component-6-4 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-secondary, #1a1a2e);
+  border: 1px solid var(--border-color, #2a2a4a);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.component-6-4:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+}
+
+.component-6-4 .label {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #a0a0b8);
+  font-weight: 500;
+}
+
+.component-6-4 .value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+/* vault dashboard cards - style block 5 */
+.component-6-5 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-secondary, #1a1a2e);
+  border: 1px solid var(--border-color, #2a2a4a);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.component-6-5:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+}
+
+.component-6-5 .label {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #a0a0b8);
+  font-weight: 500;
+}
+
+.component-6-5 .value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+/* vault dashboard cards - style block 6 */
+.component-6-6 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-secondary, #1a1a2e);
+  border: 1px solid var(--border-color, #2a2a4a);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.component-6-6:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+}
+
+.component-6-6 .label {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #a0a0b8);
+  font-weight: 500;
+}
+
+.component-6-6 .value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+/* vault dashboard cards - style block 7 */
+.component-6-7 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-secondary, #1a1a2e);
+  border: 1px solid var(--border-color, #2a2a4a);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.component-6-7:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+}
+
+.component-6-7 .label {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #a0a0b8);
+  font-weight: 500;
+}
+
+.component-6-7 .value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+/* vault dashboard cards - style block 8 */
+.component-6-8 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-secondary, #1a1a2e);
+  border: 1px solid var(--border-color, #2a2a4a);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.component-6-8:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+}
+
+.component-6-8 .label {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #a0a0b8);
+  font-weight: 500;
+}
+
+.component-6-8 .value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+/* vault dashboard cards - style block 9 */
+.component-6-9 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-secondary, #1a1a2e);
+  border: 1px solid var(--border-color, #2a2a4a);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.component-6-9:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+}
+
+.component-6-9 .label {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #a0a0b8);
+  font-weight: 500;
+}
+
+.component-6-9 .value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+/* vault dashboard cards - style block 10 */
+.component-6-10 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-secondary, #1a1a2e);
+  border: 1px solid var(--border-color, #2a2a4a);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.component-6-10:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+}
+
+.component-6-10 .label {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #a0a0b8);
+  font-weight: 500;
+}
+
+.component-6-10 .value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
