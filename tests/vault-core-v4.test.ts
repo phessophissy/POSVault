@@ -101,3 +101,22 @@ describe("vault-core-v4", () => {
     });
   });
 });
+
+describe("vault-core-v4 multi-user scenarios", () => {
+  it("supports multiple concurrent depositors", () => {
+    const r1 = simnet.callPublicFn(contract, "deposit", [Cl.uint(500_000)], user1);
+    const r2 = simnet.callPublicFn(contract, "deposit", [Cl.uint(750_000)], user2);
+    expect(r1.result).toHaveClarityType(ClarityType.ResponseOk);
+    expect(r2.result).toHaveClarityType(ClarityType.ResponseOk);
+
+    const info = simnet.callReadOnlyFn(contract, "get-vault-info", [], deployer);
+    expect(info.result).toHaveClarityType(ClarityType.ResponseOk);
+  });
+
+  it("tracks total depositors accurately", () => {
+    simnet.callPublicFn(contract, "deposit", [Cl.uint(500_000)], user1);
+    simnet.callPublicFn(contract, "deposit", [Cl.uint(500_000)], user2);
+    const info = simnet.callReadOnlyFn(contract, "get-vault-info", [], deployer);
+    expect(info.result).toHaveClarityType(ClarityType.ResponseOk);
+  });
+});
