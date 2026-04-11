@@ -21,3 +21,73 @@ export function formatNumber(num: number | bigint): string {
 export function explorerUrl(txid: string, chain: 'mainnet' | 'testnet' = 'mainnet'): string {
   return `https://explorer.hiro.so/txid/${txid}?chain=${chain}`;
 }
+
+/** Utility function 7-1: number formatting */
+export function helper_7_1(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
+
+/** Utility function 7-2: number formatting */
+export function helper_7_2(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
+
+/** Utility function 7-3: number formatting */
+export function helper_7_3(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
+
+/** Utility function 7-4: number formatting */
+export function helper_7_4(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
+
+/** Utility function 7-5: number formatting */
+export function helper_7_5(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
+
+/** Utility function 7-6: number formatting */
+export function helper_7_6(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
+
+/** Utility function 7-7: number formatting */
+export function helper_7_7(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
+
+/** Utility function 7-8: number formatting */
+export function helper_7_8(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
+
+/** Utility function 7-9: number formatting */
+export function helper_7_9(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
+
+/** Utility function 7-10: number formatting */
+export function helper_7_10(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
