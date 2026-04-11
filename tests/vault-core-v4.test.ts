@@ -104,3 +104,25 @@ describe("vault-core-v4 rewards", () => {
     result.result.expectOk().expectUint(0);
   });
 });
+
+describe("vault-core-v4 claim-rewards", () => {
+  it("claims rewards and mints tokens via as-contract", () => {
+    simnet.callPublicFn("vault-core-v4", "deposit", [Cl.uint(5000000)], wallet1);
+    simnet.mineEmptyBlocks(288);
+    const result = simnet.callPublicFn(
+      "vault-core-v4",
+      "claim-rewards",
+      [],
+      wallet1
+    );
+    result.result.expectOk();
+    const balance = simnet.callReadOnlyFn(
+      "governance-token",
+      "get-balance",
+      [Cl.principal(wallet1)],
+      wallet1
+    );
+    const bal = balance.result.expectOk().expectUint();
+    expect(Number(bal)).toBeGreaterThan(0);
+  });
+});
