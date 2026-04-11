@@ -186,3 +186,173 @@ describe("governance-token", () => {
     expect(mintResult.result).toBeErr(Cl.uint(100)); // ERR-NOT-AUTHORIZED (minting disabled)
   });
 });
+
+describe("governance-token additional test 4-1", () => {
+  it("validates token transfer between principals (case 1)", () => {
+    // Mint tokens to wallet_1 first
+    const mintResult = simnet.callPublicFn(
+      "governance-token", "mint", [Cl.uint(100000), Cl.principal(wallet1)], deployer
+    );
+    mintResult.result.expectOk();
+    
+    const result = simnet.callPublicFn(
+      "governance-token", "transfer",
+      [Cl.uint(10000), Cl.principal(wallet1), Cl.principal(wallet2), Cl.none()],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+});
+
+describe("governance-token additional test 4-2", () => {
+  it("validates token transfer between principals (case 2)", () => {
+    // Mint tokens to wallet_1 first
+    const mintResult = simnet.callPublicFn(
+      "governance-token", "mint", [Cl.uint(200000), Cl.principal(wallet1)], deployer
+    );
+    mintResult.result.expectOk();
+    
+    const result = simnet.callPublicFn(
+      "governance-token", "transfer",
+      [Cl.uint(20000), Cl.principal(wallet1), Cl.principal(wallet2), Cl.none()],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+});
+
+describe("governance-token additional test 4-3", () => {
+  it("validates token transfer between principals (case 3)", () => {
+    // Mint tokens to wallet_1 first
+    const mintResult = simnet.callPublicFn(
+      "governance-token", "mint", [Cl.uint(300000), Cl.principal(wallet1)], deployer
+    );
+    mintResult.result.expectOk();
+    
+    const result = simnet.callPublicFn(
+      "governance-token", "transfer",
+      [Cl.uint(30000), Cl.principal(wallet1), Cl.principal(wallet2), Cl.none()],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+});
+
+describe("governance-token additional test 4-4", () => {
+  it("validates token transfer between principals (case 4)", () => {
+    // Mint tokens to wallet_1 first
+    const mintResult = simnet.callPublicFn(
+      "governance-token", "mint", [Cl.uint(400000), Cl.principal(wallet1)], deployer
+    );
+    mintResult.result.expectOk();
+    
+    const result = simnet.callPublicFn(
+      "governance-token", "transfer",
+      [Cl.uint(40000), Cl.principal(wallet1), Cl.principal(wallet2), Cl.none()],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+});
+
+describe("governance-token additional test 4-5", () => {
+  it("validates token transfer between principals (case 5)", () => {
+    // Mint tokens to wallet_1 first
+    const mintResult = simnet.callPublicFn(
+      "governance-token", "mint", [Cl.uint(500000), Cl.principal(wallet1)], deployer
+    );
+    mintResult.result.expectOk();
+    
+    const result = simnet.callPublicFn(
+      "governance-token", "transfer",
+      [Cl.uint(50000), Cl.principal(wallet1), Cl.principal(wallet2), Cl.none()],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+});
+
+describe("governance-token additional test 4-6", () => {
+  it("validates token transfer between principals (case 6)", () => {
+    // Mint tokens to wallet_1 first
+    const mintResult = simnet.callPublicFn(
+      "governance-token", "mint", [Cl.uint(600000), Cl.principal(wallet1)], deployer
+    );
+    mintResult.result.expectOk();
+    
+    const result = simnet.callPublicFn(
+      "governance-token", "transfer",
+      [Cl.uint(60000), Cl.principal(wallet1), Cl.principal(wallet2), Cl.none()],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+});
+
+describe("governance-token additional test 4-7", () => {
+  it("validates token transfer between principals (case 7)", () => {
+    // Mint tokens to wallet_1 first
+    const mintResult = simnet.callPublicFn(
+      "governance-token", "mint", [Cl.uint(700000), Cl.principal(wallet1)], deployer
+    );
+    mintResult.result.expectOk();
+    
+    const result = simnet.callPublicFn(
+      "governance-token", "transfer",
+      [Cl.uint(70000), Cl.principal(wallet1), Cl.principal(wallet2), Cl.none()],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+});
+
+describe("governance-token additional test 4-8", () => {
+  it("validates token transfer between principals (case 8)", () => {
+    // Mint tokens to wallet_1 first
+    const mintResult = simnet.callPublicFn(
+      "governance-token", "mint", [Cl.uint(800000), Cl.principal(wallet1)], deployer
+    );
+    mintResult.result.expectOk();
+    
+    const result = simnet.callPublicFn(
+      "governance-token", "transfer",
+      [Cl.uint(80000), Cl.principal(wallet1), Cl.principal(wallet2), Cl.none()],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+});
+
+describe("governance-token additional test 4-9", () => {
+  it("validates token transfer between principals (case 9)", () => {
+    // Mint tokens to wallet_1 first
+    const mintResult = simnet.callPublicFn(
+      "governance-token", "mint", [Cl.uint(900000), Cl.principal(wallet1)], deployer
+    );
+    mintResult.result.expectOk();
+    
+    const result = simnet.callPublicFn(
+      "governance-token", "transfer",
+      [Cl.uint(90000), Cl.principal(wallet1), Cl.principal(wallet2), Cl.none()],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+});
+
+describe("governance-token additional test 4-10", () => {
+  it("validates token transfer between principals (case 10)", () => {
+    // Mint tokens to wallet_1 first
+    const mintResult = simnet.callPublicFn(
+      "governance-token", "mint", [Cl.uint(1000000), Cl.principal(wallet1)], deployer
+    );
+    mintResult.result.expectOk();
+    
+    const result = simnet.callPublicFn(
+      "governance-token", "transfer",
+      [Cl.uint(100000), Cl.principal(wallet1), Cl.principal(wallet2), Cl.none()],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+});
