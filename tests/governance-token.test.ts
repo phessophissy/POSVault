@@ -186,3 +186,20 @@ describe("governance-token", () => {
     expect(mintResult.result).toBeErr(Cl.uint(100)); // ERR-NOT-AUTHORIZED (minting disabled)
   });
 });
+
+describe("governance-token additional test 4-1", () => {
+  it("validates token transfer between principals (case 1)", () => {
+    // Mint tokens to wallet_1 first
+    const mintResult = simnet.callPublicFn(
+      "governance-token", "mint", [Cl.uint(100000), Cl.principal(wallet1)], deployer
+    );
+    mintResult.result.expectOk();
+    
+    const result = simnet.callPublicFn(
+      "governance-token", "transfer",
+      [Cl.uint(10000), Cl.principal(wallet1), Cl.principal(wallet2), Cl.none()],
+      wallet1
+    );
+    result.result.expectOk().expectBool(true);
+  });
+});
