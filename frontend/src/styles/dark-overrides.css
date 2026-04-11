@@ -1,0 +1,22 @@
+/* High-contrast dark mode overrides for accessibility */
+@media (prefers-contrast: more) {
+  :root {
+    --text-primary: #ffffff;
+    --text-secondary: #c0c0c0;
+    --border-color: #555555;
+    --bg-card: #1a1a2e;
+  }
+
+  .stat-card { border-width: 2px; }
+  .btn { font-weight: 600; }
+  .form-group input { border-width: 2px; }
+  .tx-status { font-weight: 700; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
