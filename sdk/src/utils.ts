@@ -84,3 +84,10 @@ export function helper_7_9(input: string | number): string {
   if (isNaN(value)) return '0';
   return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
 }
+
+/** Utility function 7-10: number formatting */
+export function helper_7_10(input: string | number): string {
+  const value = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(value)) return '0';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
