@@ -120,3 +120,30 @@ export async function fetchUserDashboard(
     totalDurationMs: results.reduce((sum, r) => sum + r.durationMs, 0),
   };
 }
+
+// ---------------------------------------------------------------------------
+// Convenience: fetch all proposals
+// ---------------------------------------------------------------------------
+
+export async function fetchAllProposals(
+  senderAddress: string,
+  proposalCount: number,
+  opts?: MulticallOptions,
+) {
+  const { uintCV } = await import('@stacks/transactions');
+
+  const requests: MulticallRequest[] = [];
+  for (let i = 1; i <= proposalCount; i++) {
+    requests.push({
+      contract: 'proposalVoting',
+      functionName: 'get-proposal',
+      args: [uintCV(i)],
+      sender: senderAddress,
+    });
+  }
+
+  const results = await multicall(requests, opts);
+  return results
+    .filter((r) => r.result !== null)
+    .map((r, idx) => ({ id: idx + 1, ...r.result }));
+}
