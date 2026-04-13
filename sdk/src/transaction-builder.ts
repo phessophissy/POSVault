@@ -15,6 +15,13 @@ export interface TransactionPlan {
   estimatedFee?: number;
 }
 
+export interface TransactionResult {
+  plan: TransactionPlan;
+  txids: string[];
+  success: boolean;
+  errors: string[];
+}
+
 export class TransactionBuilder {
   private steps: TransactionStep[] = [];
   private description = '';
