@@ -14,6 +14,7 @@ export interface MulticallResult<T = any> {
   result: T | null;
   error: string | null;
   durationMs: number;
+  retryCount: number;
 }
 
 export interface MulticallOptions extends POSVaultConfig {
@@ -47,6 +48,7 @@ async function executeOne(
       result: cvToJSON(result),
       error: null,
       durationMs: Date.now() - start,
+      retryCount: 0,
     };
   } catch (err: any) {
     return {
@@ -54,6 +56,7 @@ async function executeOne(
       result: null,
       error: err.message ?? String(err),
       durationMs: Date.now() - start,
+      retryCount: 0,
     };
   }
 }
