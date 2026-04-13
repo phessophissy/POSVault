@@ -86,4 +86,47 @@ describe("proposal-lifecycle", () => {
     mintGovernanceTokens(wallet2, 15_000_000);
     mintGovernanceTokens(wallet3, 10_000_000);
   });
+
+  // ----------------------------------------------------------------
+  // Phase 1: Proposal creation
+  // ----------------------------------------------------------------
+
+  describe("creation", () => {
+    it("should create a general proposal and return id 1", () => {
+      const result = createProposal(
+        wallet1,
+        "Community fund allocation",
+        "Allocate 500 STX from treasury to community grants",
+        "general",
+        0,
+      );
+      expect(result.result).toBeOk(Cl.uint(1));
+    });
+
+    it("should increment proposal count after each creation", () => {
+      createProposal(wallet1, "First", "First proposal", "general", 0);
+      createProposal(wallet1, "Second", "Second proposal", "general", 0);
+
+      const countResult = getProposalCount();
+      expect(countResult.result).toBeOk(Cl.uint(2));
+    });
+
+    it("should store proposal details correctly", () => {
+      createProposal(
+        wallet1,
+        "Reward rate change",
+        "Increase rate to 200 basis points",
+        "reward-rate",
+        200,
+      );
+
+      const proposal = getProposal(1);
+      const data = proposal.result;
+      expect(data).toBeOk(
+        expect.objectContaining({
+          type: expect.any(Number),
+        }),
+      );
+    });
+  });
 });
