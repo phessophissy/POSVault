@@ -133,3 +133,43 @@ npm run build
 ```
 
 The compiled output will be in `sdk/dist/`.
+
+## Frontend Deployment
+
+The frontend is a React 19 app built with Vite.
+
+### Local Development
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Production Build
+
+```bash
+cd frontend
+npm run build
+```
+
+The build output is in `frontend/dist/`.
+
+### Hosting Options
+
+| Platform | Command | Notes |
+|----------|---------|-------|
+| Vercel | `vercel --prod` | Zero-config for Vite apps |
+| Netlify | Push to connected repo | Set build command: `cd frontend && npm run build` |
+| GitHub Pages | `gh-pages -d frontend/dist` | Requires `gh-pages` package |
+| Self-hosted | `npx serve frontend/dist` | Any static file server works |
+
+### Environment Variables for Frontend
+
+Set these in your hosting platform's dashboard:
+
+```bash
+VITE_STACKS_NETWORK=mainnet
+VITE_API_BASE_URL=https://api.hiro.so
+VITE_DEPLOYER_ADDRESS=SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09
+```
