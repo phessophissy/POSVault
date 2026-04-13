@@ -7,6 +7,7 @@ export interface MulticallRequest {
   functionName: string;
   args: ClarityValue[];
   sender: string;
+  label?: string;
 }
 
 export interface MulticallResult<T = any> {
