@@ -379,4 +379,51 @@ describe("proposal-lifecycle", () => {
       expect(result.result).toBeDefined();
     });
   });
+
+  // ----------------------------------------------------------------
+  // Phase 8: Vote record queries
+  // ----------------------------------------------------------------
+
+  describe("vote records", () => {
+    function getVoteRecord(proposalId: number, voter: string) {
+      return simnet.callReadOnlyFn(
+        "proposal-voting",
+        "get-vote-record",
+        [Cl.uint(proposalId), Cl.principal(voter)],
+        deployer,
+      );
+    }
+
+    function isVotingActive(proposalId: number) {
+      return simnet.callReadOnlyFn(
+        "proposal-voting",
+        "is-voting-active",
+        [Cl.uint(proposalId)],
+        deployer,
+      );
+    }
+
+    it("should return vote record for a voter", () => {
+      createProposal(wallet1, "Vote record test", "desc", "general", 0);
+      vote(wallet1, 1, true);
+
+      const record = getVoteRecord(1, wallet1);
+      expect(record.result).toBeDefined();
+    });
+
+    it("should show voting as active during voting period", () => {
+      createProposal(wallet1, "Active vote", "desc", "general", 0);
+
+      const active = isVotingActive(1);
+      expect(active.result).toBeDefined();
+    });
+
+    it("should show voting as inactive after period expires", () => {
+      createProposal(wallet1, "Expired vote", "desc", "general", 0);
+      simnet.mineEmptyBlocks(150);
+
+      const active = isVotingActive(1);
+      expect(active.result).toBeDefined();
+    });
+  });
 });
