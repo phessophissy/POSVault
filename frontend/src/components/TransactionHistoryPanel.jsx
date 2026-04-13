@@ -1,6 +1,8 @@
 import { useTransactionHistory } from '../hooks/useTransactionHistory.js';
 import { TransactionRow } from './TransactionRow.jsx';
 import { TransactionFilters } from './TransactionFilters.jsx';
+import { computeTxStats } from '../utils/txStats.js';
+import { formatMicroStx } from '../utils/txFormatters.js';
 
 /**
  * Full transaction history panel with filtering, pagination,
@@ -61,6 +63,18 @@ export function TransactionHistoryPanel({
           Failed to load transactions: {error}
         </div>
       )}
+
+      {allTransactions.length > 0 && (() => {
+        const stats = computeTxStats(allTransactions);
+        return (
+          <div className="tx-panel__stats">
+            <span>{stats.confirmed} confirmed</span>
+            <span>{stats.pending} pending</span>
+            <span>{stats.failed} failed</span>
+            <span>Fees: {formatMicroStx(stats.totalFees)}</span>
+          </div>
+        );
+      })()}
 
       <div className="tx-panel__count">
         Showing {transactions.length} of {allTransactions.length} transactions
