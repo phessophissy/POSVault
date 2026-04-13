@@ -12,7 +12,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": false,
+    "noUncheckedIndexedAccess": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
