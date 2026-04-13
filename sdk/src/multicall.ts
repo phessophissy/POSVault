@@ -154,6 +154,45 @@ export async function fetchAllProposals(
 }
 
 // ---------------------------------------------------------------------------
+// Fetch governance summary (proposal count + votes for N proposals)
+// ---------------------------------------------------------------------------
+
+export async function fetchGovernanceSummary(
+  senderAddress: string,
+  proposalCount: number,
+  opts?: MulticallOptions,
+) {
+  const { uintCV, principalCV } = await import('@stacks/transactions');
+
+  const requests: MulticallRequest[] = [
+    { contract: 'proposalVoting', functionName: 'get-proposal-count', args: [], sender: senderAddress },
+  ];
+
+  for (let i = 1; i <= Math.min(proposalCount, 10); i++) {
+    requests.push({
+      contract: 'proposalVoting',
+      functionName: 'get-proposal',
+      args: [uintCV(i)],
+      sender: senderAddress,
+    });
+    requests.push({
+      contract: 'proposalVoting',
+      functionName: 'get-vote-record',
+      args: [uintCV(i), principalCV(senderAddress)],
+      sender: senderAddress,
+    });
+  }
+
+  const results = await multicall(requests, opts);
+  return {
+    proposalCount: results[0]?.result,
+    proposals: results.slice(1).filter((_, i) => i % 2 === 0).map((r) => r.result),
+    userVotes: results.slice(1).filter((_, i) => i % 2 === 1).map((r) => r.result),
+    errors: results.filter((r) => r.error).map((r) => r.error!),
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Multicall statistics helpers
 // ---------------------------------------------------------------------------
 
