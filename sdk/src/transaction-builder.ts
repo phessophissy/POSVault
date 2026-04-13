@@ -63,6 +63,27 @@ export class TransactionBuilder {
     };
   }
 
+  validate(): string[] {
+    const errors: string[] = [];
+    if (this.steps.length === 0) {
+      errors.push('No steps defined');
+    }
+    for (let i = 0; i < this.steps.length; i++) {
+      const step = this.steps[i];
+      if (!step.functionName) {
+        errors.push(`Step ${i}: missing function name`);
+      }
+      if (!step.contract) {
+        errors.push(`Step ${i}: missing contract key`);
+      }
+    }
+    return errors;
+  }
+
+  isValid(): boolean {
+    return this.validate().length === 0;
+  }
+
   clear(): this {
     this.steps = [];
     this.description = '';
