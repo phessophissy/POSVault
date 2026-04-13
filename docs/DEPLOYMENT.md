@@ -173,3 +173,41 @@ VITE_STACKS_NETWORK=mainnet
 VITE_API_BASE_URL=https://api.hiro.so
 VITE_DEPLOYER_ADDRESS=SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09
 ```
+
+## Post-Deployment Verification
+
+After deploying, verify everything is working:
+
+### 1. Contract Verification
+
+Check that contracts are deployed and accessible:
+
+```bash
+# Verify vault-core-v4 is deployed
+curl -s "https://api.hiro.so/v2/contracts/interface/\
+SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09/vault-core-v4" | jq '.functions | length'
+
+# Call get-vault-info to check initial state
+curl -s "https://api.hiro.so/v2/contracts/call-read/\
+SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09/vault-core-v4/get-vault-info" \
+  -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"sender":"SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09","arguments":[]}' | jq .
+```
+
+### 2. SDK Smoke Test
+
+```typescript
+import { getVaultInfo } from '@posvault/sdk';
+
+const info = await getVaultInfo('SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09');
+console.log('Vault info:', info);
+// Expected: { totalStxLocked: 0, totalDepositors: 0, ... }
+```
+
+### 3. Frontend Smoke Test
+
+- Open the deployed frontend URL
+- Connect a wallet
+- Verify vault info loads correctly
+- Check that the deposit form renders
