@@ -291,4 +291,55 @@ describe("proposal-lifecycle", () => {
       expect(execution.result).toBeErr(expect.anything());
     });
   });
+
+  // ----------------------------------------------------------------
+  // Phase 6: Multiple concurrent proposals
+  // ----------------------------------------------------------------
+
+  describe("concurrent proposals", () => {
+    it("should handle multiple active proposals independently", () => {
+      const p1 = createProposal(wallet1, "Proposal A", "desc A", "general", 0);
+      const p2 = createProposal(wallet1, "Proposal B", "desc B", "general", 0);
+      const p3 = createProposal(wallet2, "Proposal C", "desc C", "general", 0);
+
+      expect(p1.result).toBeOk(Cl.uint(1));
+      expect(p2.result).toBeOk(Cl.uint(2));
+      expect(p3.result).toBeOk(Cl.uint(3));
+
+      // Vote differently on each
+      vote(wallet1, 1, true);
+      vote(wallet2, 1, true);
+
+      vote(wallet1, 2, false);
+      vote(wallet2, 2, false);
+
+      vote(wallet1, 3, true);
+      vote(wallet3, 3, true);
+
+      simnet.mineEmptyBlocks(150);
+
+      // Proposal 1 should pass (2 for, 0 against)
+      const exec1 = executeProposal(deployer, 1);
+      expect(exec1.result).toBeOk(Cl.bool(true));
+
+      // Proposal 2 should fail (0 for, 2 against)
+      const exec2 = executeProposal(deployer, 2);
+      expect(exec2.result).toBeErr(expect.anything());
+
+      // Proposal 3 should pass (2 for, 0 against)
+      const exec3 = executeProposal(deployer, 3);
+      expect(exec3.result).toBeOk(Cl.bool(true));
+    });
+
+    it("should track proposal count across multiple creations", () => {
+      createProposal(wallet1, "A", "a", "general", 0);
+      createProposal(wallet2, "B", "b", "general", 0);
+      createProposal(wallet1, "C", "c", "general", 0);
+      createProposal(wallet2, "D", "d", "general", 0);
+      createProposal(wallet3, "E", "e", "general", 0);
+
+      const count = getProposalCount();
+      expect(count.result).toBeOk(Cl.uint(5));
+    });
+  });
 });
