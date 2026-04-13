@@ -84,3 +84,25 @@ export function isProposalResult(value: unknown): value is ProposalResult {
     typeof obj.votingEnded === 'boolean'
   );
 }
+
+export function isWithdrawResult(value: unknown): value is WithdrawResult {
+  if (!isNonNullObject(value)) return false;
+  return isBigInt(value.stxReturned) && isBigInt(value.rewardsEarned);
+}
+
+export function isContractNames(value: unknown): value is ContractNames {
+  if (!isNonNullObject(value)) return false;
+  return (
+    typeof value.vaultCore === 'string' &&
+    typeof value.governanceToken === 'string' &&
+    typeof value.proposalVoting === 'string'
+  );
+}
+
+export function isPOSVaultConfig(value: unknown): value is POSVaultConfig {
+  if (!isNonNullObject(value)) return false;
+  if (value.deployer !== undefined && typeof value.deployer !== 'string') return false;
+  if (value.network !== undefined && value.network !== 'mainnet' && value.network !== 'testnet')
+    return false;
+  return true;
+}
