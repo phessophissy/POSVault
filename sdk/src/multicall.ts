@@ -152,3 +152,31 @@ export async function fetchAllProposals(
     .filter((r) => r.result !== null)
     .map((r, idx) => ({ id: idx + 1, ...r.result }));
 }
+
+// ---------------------------------------------------------------------------
+// Multicall statistics helpers
+// ---------------------------------------------------------------------------
+
+export interface MulticallStats {
+  total: number;
+  succeeded: number;
+  failed: number;
+  totalDurationMs: number;
+  avgDurationMs: number;
+  maxDurationMs: number;
+}
+
+export function getMulticallStats(results: MulticallResult[]): MulticallStats {
+  const succeeded = results.filter((r) => r.error === null).length;
+  const durations = results.map((r) => r.durationMs);
+  const totalDurationMs = durations.reduce((a, b) => a + b, 0);
+
+  return {
+    total: results.length,
+    succeeded,
+    failed: results.length - succeeded,
+    totalDurationMs,
+    avgDurationMs: results.length > 0 ? Math.round(totalDurationMs / results.length) : 0,
+    maxDurationMs: durations.length > 0 ? Math.max(...durations) : 0,
+  };
+}
