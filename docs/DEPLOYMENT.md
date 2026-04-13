@@ -211,3 +211,36 @@ console.log('Vault info:', info);
 - Connect a wallet
 - Verify vault info loads correctly
 - Check that the deposit form renders
+
+## Troubleshooting
+
+### Common Issues
+
+#### "ERR-NOT-AUTHORIZED" (Error 200)
+
+The calling principal is not the contract deployer or an admin. Ensure you're
+using the correct deployer address.
+
+#### "ERR-VAULT-PAUSED" (Error 207)
+
+The vault has been paused by an admin. Call `toggle-pause` with the deployer
+account to unpause.
+
+#### Contract deployment fails with "ConflictingNonFungibleAssetNames"
+
+A contract with the same name is already deployed at that address. Clarity
+contracts are immutable – you cannot re-deploy. Use a new contract name
+(e.g. `vault-core-v5`).
+
+#### Transaction stuck in pending
+
+Stacks transactions can take 10-30 minutes to confirm. If stuck for longer:
+
+1. Check the mempool: `https://api.hiro.so/extended/v1/tx/mempool?address=<YOUR_ADDRESS>`
+2. Consider replacing with a higher-fee transaction (same nonce)
+
+#### Frontend shows "Failed to fetch" errors
+
+- Verify `VITE_API_BASE_URL` is set correctly
+- Check CORS headers if self-hosting the API
+- Ensure the deployer address matches the deployed contracts
