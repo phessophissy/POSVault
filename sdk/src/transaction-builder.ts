@@ -62,3 +62,52 @@ export class TransactionBuilder {
     return this;
   }
 }
+
+// ---------------------------------------------------------------------------
+// Deposit builder
+// ---------------------------------------------------------------------------
+
+export function buildDeposit(amountMicroSTX: bigint, config?: POSVaultConfig): TransactionPlan {
+  const { uintCV } = require('@stacks/transactions');
+  const builder = new TransactionBuilder(config);
+  return builder
+    .describe(`Deposit ${amountMicroSTX} µSTX into POSVault`)
+    .addStep({
+      contract: 'vaultCore',
+      functionName: 'deposit',
+      args: [uintCV(amountMicroSTX)],
+    })
+    .build();
+}
+
+// ---------------------------------------------------------------------------
+// Withdraw builder
+// ---------------------------------------------------------------------------
+
+export function buildWithdraw(config?: POSVaultConfig): TransactionPlan {
+  const builder = new TransactionBuilder(config);
+  return builder
+    .describe('Withdraw STX from POSVault and claim pending rewards')
+    .addStep({
+      contract: 'vaultCore',
+      functionName: 'withdraw',
+      args: [],
+    })
+    .build();
+}
+
+// ---------------------------------------------------------------------------
+// Claim rewards builder
+// ---------------------------------------------------------------------------
+
+export function buildClaimRewards(config?: POSVaultConfig): TransactionPlan {
+  const builder = new TransactionBuilder(config);
+  return builder
+    .describe('Claim pending POS-GOV rewards')
+    .addStep({
+      contract: 'vaultCore',
+      functionName: 'claim-rewards',
+      args: [],
+    })
+    .build();
+}
