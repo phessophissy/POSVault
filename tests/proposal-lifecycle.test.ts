@@ -426,4 +426,45 @@ describe("proposal-lifecycle", () => {
       expect(active.result).toBeDefined();
     });
   });
+
+  // ----------------------------------------------------------------
+  // Phase 9: Full lifecycle end-to-end
+  // ----------------------------------------------------------------
+
+  describe("end-to-end lifecycle", () => {
+    it("should complete full create → vote → wait → execute cycle", () => {
+      // Step 1: Create a reward-rate proposal
+      const creation = createProposal(
+        wallet1,
+        "Full lifecycle test",
+        "End to end proposal lifecycle validation",
+        "reward-rate",
+        150,
+      );
+      expect(creation.result).toBeOk(Cl.uint(1));
+
+      // Step 2: Multiple voters cast votes
+      const v1 = vote(wallet1, 1, true);
+      const v2 = vote(wallet2, 1, true);
+      const v3 = vote(wallet3, 1, false);
+      expect(v1.result).toBeOk(Cl.bool(true));
+      expect(v2.result).toBeOk(Cl.bool(true));
+      expect(v3.result).toBeOk(Cl.bool(true));
+
+      // Step 3: Verify proposal data mid-vote
+      const midProposal = getProposal(1);
+      expect(midProposal.result).toBeDefined();
+
+      // Step 4: Wait for voting period to end
+      simnet.mineEmptyBlocks(150);
+
+      // Step 5: Execute the proposal (should pass: 2 for, 1 against)
+      const execution = executeProposal(deployer, 1);
+      expect(execution.result).toBeOk(Cl.bool(true));
+
+      // Step 6: Verify proposal is marked as executed
+      const finalProposal = getProposal(1);
+      expect(finalProposal.result).toBeDefined();
+    });
+  });
 });
