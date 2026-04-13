@@ -27,6 +27,10 @@
       "types": "./dist/config.d.ts"
     }
   },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "dist",
     "README.md"
