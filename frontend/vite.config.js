@@ -12,6 +12,19 @@ export default defineConfig({
             buffer: 'buffer',
         },
     },
+    build: {
+        target: 'es2022',
+        minify: 'esbuild',
+        sourcemap: true,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    'stacks': ['@stacks/connect', '@stacks/transactions', '@stacks/network'],
+                    'react-vendor': ['react', 'react-dom'],
+                },
+            },
+        },
+    },
     server: {
         port: 3000,
         open: true,
