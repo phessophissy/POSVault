@@ -62,6 +62,54 @@ async function executeOne(
   }
 }
 
+async function executeWithRetry(
+  req: MulticallRequest,
+  config: ReturnType<typeof resolveConfig>,
+  maxRetries: number,
+  timeoutMs?: number,
+): Promise<MulticallResult> {
+  let lastResult: MulticallResult | null = null;
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    if (attempt > 0) {
+      // Exponential backoff: 200ms, 400ms, 800ms, ...
+      const delay = Math.min(200 * Math.pow(2, attempt - 1), 5000);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+
+    const controller = timeoutMs ? new AbortController() : null;
+    const timer = controller
+      ? setTimeout(() => controller.abort(), timeoutMs)
+      : null;
+
+    try {
+      lastResult = await executeOne(req, config);
+      if (timer) clearTimeout(timer);
+
+      if (lastResult.error === null) {
+        lastResult.retryCount = attempt;
+        return lastResult;
+      }
+    } catch {
+      if (timer) clearTimeout(timer);
+    }
+  }
+
+  // All retries exhausted – return the last failed result
+  if (lastResult) {
+    lastResult.retryCount = maxRetries;
+    return lastResult;
+  }
+
+  return {
+    request: req,
+    result: null,
+    error: `All ${maxRetries + 1} attempts failed`,
+    durationMs: 0,
+    retryCount: maxRetries,
+  };
+}
+
 export async function multicall(
   requests: MulticallRequest[],
   opts?: MulticallOptions,
@@ -69,6 +117,8 @@ export async function multicall(
   const config = resolveConfig(opts);
   const concurrency = opts?.concurrency ?? 5;
   const abortOnError = opts?.abortOnError ?? false;
+  const retries = opts?.retries ?? 0;
+  const timeoutMs = opts?.timeoutMs;
 
   const results: MulticallResult[] = [];
   const queue = [...requests];
@@ -76,7 +126,7 @@ export async function multicall(
   while (queue.length > 0) {
     const batch = queue.splice(0, concurrency);
     const batchResults = await Promise.all(
-      batch.map((req) => executeOne(req, config)),
+      batch.map((req) => executeWithRetry(req, config, retries, timeoutMs)),
     );
 
     for (const r of batchResults) {
