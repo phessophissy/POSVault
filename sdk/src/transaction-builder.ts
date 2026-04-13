@@ -41,6 +41,22 @@ export class TransactionBuilder {
     return this;
   }
 
+  removeStep(index: number): this {
+    if (index < 0 || index >= this.steps.length) {
+      throw new Error(`TransactionBuilder: step index ${index} out of range`);
+    }
+    this.steps.splice(index, 1);
+    return this;
+  }
+
+  insertStep(index: number, step: TransactionStep): this {
+    if (index < 0 || index > this.steps.length) {
+      throw new Error(`TransactionBuilder: insert index ${index} out of range`);
+    }
+    this.steps.splice(index, 0, step);
+    return this;
+  }
+
   getSteps(): ReadonlyArray<TransactionStep> {
     return [...this.steps];
   }
