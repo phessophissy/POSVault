@@ -83,3 +83,53 @@ stx deploy_contract contracts/proposal-voting.clar proposal-voting \
 stx deploy_contract contracts/vault-core-v4.clar vault-core-v4 \
   --mainnet --fee 50000
 ```
+
+## SDK Configuration
+
+After deploying contracts, update the SDK configuration to point to the correct deployer address and contract names.
+
+### Environment Variables
+
+Create a `.env` file (or set environment variables) with:
+
+```bash
+# Network selection
+POSVAULT_NETWORK=testnet          # or "mainnet"
+
+# Deployer address (the principal that deployed the contracts)
+POSVAULT_DEPLOYER=SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09
+
+# Custom contract names (optional, defaults below)
+POSVAULT_VAULT_CORE=vault-core-v4
+POSVAULT_GOV_TOKEN=governance-token
+POSVAULT_PROPOSAL_VOTING=proposal-voting
+
+# API base URL (optional – auto-detected from network)
+POSVAULT_API_URL=https://api.hiro.so
+```
+
+### SDK Initialization
+
+```typescript
+import { resolveConfig } from '@posvault/sdk';
+
+const config = resolveConfig({
+  network: process.env.POSVAULT_NETWORK as 'mainnet' | 'testnet',
+  deployer: process.env.POSVAULT_DEPLOYER,
+  contractNames: {
+    vaultCore: process.env.POSVAULT_VAULT_CORE,
+    governanceToken: process.env.POSVAULT_GOV_TOKEN,
+    proposalVoting: process.env.POSVAULT_PROPOSAL_VOTING,
+  },
+});
+```
+
+### Building the SDK
+
+```bash
+cd sdk
+npm install
+npm run build
+```
+
+The compiled output will be in `sdk/dist/`.
