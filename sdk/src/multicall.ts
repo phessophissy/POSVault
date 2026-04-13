@@ -83,3 +83,40 @@ export async function multicall(
 
   return results;
 }
+
+// ---------------------------------------------------------------------------
+// Convenience: fetch all vault data for a user in one batch
+// ---------------------------------------------------------------------------
+
+export async function fetchUserDashboard(
+  userAddress: string,
+  opts?: MulticallOptions,
+) {
+  const config = resolveConfig(opts);
+  const vaultCore = config.contractNames.vaultCore;
+  const govToken = config.contractNames.governanceToken;
+
+  const { principalCV } = await import('@stacks/transactions');
+
+  const requests: MulticallRequest[] = [
+    { contract: 'vaultCore', functionName: 'get-vault-info', args: [], sender: userAddress },
+    { contract: 'vaultCore', functionName: 'get-deposit', args: [principalCV(userAddress)], sender: userAddress },
+    { contract: 'vaultCore', functionName: 'get-user-stats', args: [principalCV(userAddress)], sender: userAddress },
+    { contract: 'vaultCore', functionName: 'get-pending-rewards', args: [principalCV(userAddress)], sender: userAddress },
+    { contract: 'governanceToken', functionName: 'get-balance', args: [principalCV(userAddress)], sender: userAddress },
+    { contract: 'governanceToken', functionName: 'get-total-supply', args: [], sender: userAddress },
+  ];
+
+  const results = await multicall(requests, opts);
+
+  return {
+    vaultInfo: results[0].result,
+    deposit: results[1].result,
+    userStats: results[2].result,
+    pendingRewards: results[3].result,
+    tokenBalance: results[4].result,
+    totalSupply: results[5].result,
+    errors: results.filter((r) => r.error).map((r) => r.error!),
+    totalDurationMs: results.reduce((sum, r) => sum + r.durationMs, 0),
+  };
+}
