@@ -8,6 +8,7 @@ import {
   formatMicroStx,
   explorerUrl,
 } from '../utils/txFormatters.js';
+import { timeAgo, formatDateTime } from '../utils/timeAgo.js';
 
 /**
  * Renders a single transaction row with expandable details.
@@ -19,7 +20,10 @@ export function TransactionRow({ tx, network = 'mainnet' }) {
   const fnName = extractFunctionName(tx);
   const fee = tx.fee_rate ? formatMicroStx(tx.fee_rate) : null;
   const timestamp = tx.burn_block_time
-    ? new Date(tx.burn_block_time * 1000).toLocaleString()
+    ? formatDateTime(tx.burn_block_time)
+    : null;
+  const relativeTime = tx.burn_block_time
+    ? timeAgo(tx.burn_block_time)
     : null;
 
   return (
@@ -36,7 +40,8 @@ export function TransactionRow({ tx, network = 'mainnet' }) {
         </span>
         <span className="tx-row__type">{formatTxType(tx.tx_type)}</span>
         {fnName && <span className="tx-row__fn">{fnName}</span>}
-        <a
+        {relativeTime && <span className="tx-row__time">{relativeTime}</span>}
+        <aa
           href={explorerUrl(tx.tx_id, network)}
           target="_blank"
           rel="noopener noreferrer"
