@@ -111,3 +111,64 @@ export function buildClaimRewards(config?: POSVaultConfig): TransactionPlan {
     })
     .build();
 }
+
+// ---------------------------------------------------------------------------
+// Governance builders
+// ---------------------------------------------------------------------------
+
+export function buildCreateProposal(
+  title: string,
+  description: string,
+  proposalType: string,
+  value: bigint,
+  config?: POSVaultConfig,
+): TransactionPlan {
+  const { stringAsciiCV, uintCV } = require('@stacks/transactions');
+  const builder = new TransactionBuilder(config);
+  return builder
+    .describe(`Create proposal: ${title}`)
+    .addStep({
+      contract: 'proposalVoting',
+      functionName: 'create-proposal',
+      args: [
+        stringAsciiCV(title),
+        stringAsciiCV(description),
+        stringAsciiCV(proposalType),
+        uintCV(value),
+      ],
+    })
+    .build();
+}
+
+export function buildVote(
+  proposalId: bigint,
+  voteFor: boolean,
+  config?: POSVaultConfig,
+): TransactionPlan {
+  const { uintCV, boolCV } = require('@stacks/transactions');
+  const builder = new TransactionBuilder(config);
+  return builder
+    .describe(`Vote ${voteFor ? 'FOR' : 'AGAINST'} proposal #${proposalId}`)
+    .addStep({
+      contract: 'proposalVoting',
+      functionName: 'vote',
+      args: [uintCV(proposalId), boolCV(voteFor)],
+    })
+    .build();
+}
+
+export function buildExecuteProposal(
+  proposalId: bigint,
+  config?: POSVaultConfig,
+): TransactionPlan {
+  const { uintCV } = require('@stacks/transactions');
+  const builder = new TransactionBuilder(config);
+  return builder
+    .describe(`Execute proposal #${proposalId}`)
+    .addStep({
+      contract: 'proposalVoting',
+      functionName: 'execute-proposal',
+      args: [uintCV(proposalId)],
+    })
+    .build();
+}
