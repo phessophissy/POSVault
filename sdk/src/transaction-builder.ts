@@ -266,3 +266,47 @@ export function buildAddAdmin(
     })
     .build();
 }
+
+// ---------------------------------------------------------------------------
+// Compound builders (multi-step flows)
+// ---------------------------------------------------------------------------
+
+export function buildDepositAndVote(
+  amountMicroSTX: bigint,
+  proposalId: bigint,
+  voteFor: boolean,
+  config?: POSVaultConfig,
+): TransactionPlan {
+  const { uintCV, boolCV } = require('@stacks/transactions');
+  const builder = new TransactionBuilder(config);
+  return builder
+    .describe(`Deposit ${amountMicroSTX} µSTX then vote on proposal #${proposalId}`)
+    .addStep({
+      contract: 'vaultCore',
+      functionName: 'deposit',
+      args: [uintCV(amountMicroSTX)],
+    })
+    .addStep({
+      contract: 'proposalVoting',
+      functionName: 'vote',
+      args: [uintCV(proposalId), boolCV(voteFor)],
+    })
+    .build();
+}
+
+export function buildClaimAndWithdraw(config?: POSVaultConfig): TransactionPlan {
+  const builder = new TransactionBuilder(config);
+  return builder
+    .describe('Claim rewards then withdraw all STX')
+    .addStep({
+      contract: 'vaultCore',
+      functionName: 'claim-rewards',
+      args: [],
+    })
+    .addStep({
+      contract: 'vaultCore',
+      functionName: 'withdraw',
+      args: [],
+    })
+    .build();
+}
