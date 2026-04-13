@@ -1,4 +1,25 @@
-import type { DepositRecord, UserStats, VaultInfo, Proposal, VoteRecord, ProposalResult } from './types.js';
+import type { DepositRecord, UserStats, VaultInfo, Proposal, VoteRecord, ProposalResult, WithdrawResult, ContractNames, POSVaultConfig } from './types.js';
+
+// ---------------------------------------------------------------------------
+// Primitive guards
+// ---------------------------------------------------------------------------
+
+export function isNonNullObject(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+export function isBigInt(value: unknown): value is bigint {
+  return typeof value === 'bigint';
+}
+
+export function isStxAddress(value: unknown): value is string {
+  if (typeof value !== 'string') return false;
+  return /^S[PM][A-Z0-9]{38,40}$/.test(value);
+}
+
+// ---------------------------------------------------------------------------
+// Domain type guards
+// ---------------------------------------------------------------------------
 
 export function isDepositRecord(value: unknown): value is DepositRecord {
   if (!value || typeof value !== 'object') return false;
