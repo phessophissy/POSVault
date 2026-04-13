@@ -213,4 +213,38 @@ describe("proposal-lifecycle", () => {
       expect(secondExecution.result).toBeErr(expect.anything());
     });
   });
+
+  // ----------------------------------------------------------------
+  // Phase 4: Rejection scenarios
+  // ----------------------------------------------------------------
+
+  describe("rejection", () => {
+    it("should not execute a proposal that failed to pass", () => {
+      createProposal(
+        wallet1,
+        "Controversial proposal",
+        "This one will get voted down",
+        "general",
+        0,
+      );
+
+      // Majority votes against
+      vote(wallet1, 1, false);
+      vote(wallet2, 1, false);
+      vote(wallet3, 1, true);
+
+      simnet.mineEmptyBlocks(150);
+
+      const result = executeProposal(deployer, 1);
+      expect(result.result).toBeErr(expect.anything());
+    });
+
+    it("should not execute a proposal with no votes", () => {
+      createProposal(wallet1, "Ignored", "Nobody voted", "general", 0);
+      simnet.mineEmptyBlocks(150);
+
+      const result = executeProposal(deployer, 1);
+      expect(result.result).toBeErr(expect.anything());
+    });
+  });
 });
