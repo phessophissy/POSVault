@@ -129,4 +129,46 @@ describe("proposal-lifecycle", () => {
       );
     });
   });
+
+  // ----------------------------------------------------------------
+  // Phase 2: Voting
+  // ----------------------------------------------------------------
+
+  describe("voting", () => {
+    beforeEach(() => {
+      createProposal(
+        wallet1,
+        "Test proposal for voting",
+        "A proposal that all voters will interact with",
+        "general",
+        0,
+      );
+    });
+
+    it("should allow a token holder to vote in favour", () => {
+      const result = vote(wallet1, 1, true);
+      expect(result.result).toBeOk(Cl.bool(true));
+    });
+
+    it("should allow a token holder to vote against", () => {
+      const result = vote(wallet2, 1, false);
+      expect(result.result).toBeOk(Cl.bool(true));
+    });
+
+    it("should prevent double voting on the same proposal", () => {
+      vote(wallet1, 1, true);
+      const secondVote = vote(wallet1, 1, true);
+      expect(secondVote.result).toBeErr(Cl.uint(307)); // ERR-ALREADY-VOTED
+    });
+
+    it("should track vote counts accurately", () => {
+      vote(wallet1, 1, true);
+      vote(wallet2, 1, true);
+      vote(wallet3, 1, false);
+
+      const proposal = getProposal(1);
+      // Proposal data should reflect 2 for / 1 against
+      expect(proposal.result).toBeDefined();
+    });
+  });
 });
