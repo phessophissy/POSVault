@@ -171,4 +171,46 @@ describe("proposal-lifecycle", () => {
       expect(proposal.result).toBeDefined();
     });
   });
+
+  // ----------------------------------------------------------------
+  // Phase 3: Execution
+  // ----------------------------------------------------------------
+
+  describe("execution", () => {
+    beforeEach(() => {
+      createProposal(
+        wallet1,
+        "Executable proposal",
+        "A general proposal that should pass and be executed",
+        "general",
+        0,
+      );
+      // All three vote in favour
+      vote(wallet1, 1, true);
+      vote(wallet2, 1, true);
+      vote(wallet3, 1, true);
+    });
+
+    it("should not allow execution before voting period ends", () => {
+      const result = executeProposal(deployer, 1);
+      // Expect error because voting hasn't ended
+      expect(result.result).toBeErr(expect.anything());
+    });
+
+    it("should allow execution after voting period ends and proposal passed", () => {
+      // Advance blocks past voting period (default ~144 blocks)
+      simnet.mineEmptyBlocks(150);
+
+      const result = executeProposal(deployer, 1);
+      expect(result.result).toBeOk(Cl.bool(true));
+    });
+
+    it("should prevent double execution", () => {
+      simnet.mineEmptyBlocks(150);
+      executeProposal(deployer, 1);
+
+      const secondExecution = executeProposal(deployer, 1);
+      expect(secondExecution.result).toBeErr(expect.anything());
+    });
+  });
 });
