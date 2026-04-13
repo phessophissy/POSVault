@@ -216,3 +216,51 @@ export function buildExecuteProposal(
     })
     .build();
 }
+
+// ---------------------------------------------------------------------------
+// Admin builders
+// ---------------------------------------------------------------------------
+
+export function buildSetRewardRate(
+  rate: number,
+  config?: POSVaultConfig,
+): TransactionPlan {
+  const { uintCV } = require('@stacks/transactions');
+  const builder = new TransactionBuilder(config);
+  return builder
+    .describe(`Set reward rate to ${rate} basis points`)
+    .addStep({
+      contract: 'vaultCore',
+      functionName: 'set-reward-rate',
+      args: [uintCV(rate)],
+    })
+    .build();
+}
+
+export function buildTogglePause(config?: POSVaultConfig): TransactionPlan {
+  const builder = new TransactionBuilder(config);
+  return builder
+    .describe('Toggle vault pause state')
+    .addStep({
+      contract: 'vaultCore',
+      functionName: 'toggle-pause',
+      args: [],
+    })
+    .build();
+}
+
+export function buildAddAdmin(
+  adminAddress: string,
+  config?: POSVaultConfig,
+): TransactionPlan {
+  const { principalCV } = require('@stacks/transactions');
+  const builder = new TransactionBuilder(config);
+  return builder
+    .describe(`Add admin: ${adminAddress}`)
+    .addStep({
+      contract: 'vaultCore',
+      functionName: 'add-admin',
+      args: [principalCV(adminAddress)],
+    })
+    .build();
+}
