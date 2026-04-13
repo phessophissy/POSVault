@@ -247,4 +247,48 @@ describe("proposal-lifecycle", () => {
       expect(result.result).toBeErr(expect.anything());
     });
   });
+
+  // ----------------------------------------------------------------
+  // Phase 5: Reward-rate proposal type
+  // ----------------------------------------------------------------
+
+  describe("reward-rate proposals", () => {
+    it("should create and pass a reward-rate update proposal", () => {
+      const creation = createProposal(
+        wallet1,
+        "Boost rewards",
+        "Set reward rate to 300 bps",
+        "reward-rate",
+        300,
+      );
+      expect(creation.result).toBeOk(Cl.uint(1));
+
+      vote(wallet1, 1, true);
+      vote(wallet2, 1, true);
+      vote(wallet3, 1, true);
+
+      simnet.mineEmptyBlocks(150);
+
+      const execution = executeProposal(deployer, 1);
+      expect(execution.result).toBeOk(Cl.bool(true));
+    });
+
+    it("should reject a reward-rate proposal that doesn't pass", () => {
+      createProposal(
+        wallet1,
+        "Bad rate",
+        "Set reward rate to 9999",
+        "reward-rate",
+        9999,
+      );
+
+      vote(wallet1, 1, false);
+      vote(wallet2, 1, false);
+
+      simnet.mineEmptyBlocks(150);
+
+      const execution = executeProposal(deployer, 1);
+      expect(execution.result).toBeErr(expect.anything());
+    });
+  });
 });
