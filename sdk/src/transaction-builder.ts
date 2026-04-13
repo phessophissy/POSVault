@@ -2,6 +2,8 @@ import type { ClarityValue } from '@stacks/transactions';
 import type { ContractNames, POSVaultConfig } from './types.js';
 import { resolveConfig, getContractId } from './config.js';
 
+export type TransactionStatus = 'pending' | 'submitted' | 'confirmed' | 'failed';
+
 export interface TransactionStep {
   contract: keyof ContractNames;
   functionName: string;
