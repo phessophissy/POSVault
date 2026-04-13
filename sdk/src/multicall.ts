@@ -19,6 +19,8 @@ export interface MulticallResult<T = any> {
 export interface MulticallOptions extends POSVaultConfig {
   concurrency?: number;
   abortOnError?: boolean;
+  timeoutMs?: number;
+  retries?: number;
 }
 
 async function executeOne(
