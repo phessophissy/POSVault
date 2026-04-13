@@ -10,7 +10,12 @@
     "fund:gov": "node scripts/fund-governance.js",
     "test": "vitest run",
     "test:report": "vitest run -- --coverage --costs",
-    "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\""
+    "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\"",
+    "build:sdk": "cd sdk && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "build": "npm run build:sdk && npm run build:frontend",
+    "typecheck": "cd sdk && npm run typecheck",
+    "clean": "rm -rf sdk/dist frontend/dist"
   },
   "author": "",
   "license": "ISC",
