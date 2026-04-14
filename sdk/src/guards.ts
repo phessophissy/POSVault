@@ -1,4 +1,25 @@
-import type { DepositRecord, UserStats, VaultInfo, Proposal, VoteRecord, ProposalResult } from './types.js';
+import type { DepositRecord, UserStats, VaultInfo, Proposal, VoteRecord, ProposalResult, WithdrawResult, ContractNames, POSVaultConfig } from './types.js';
+
+// ---------------------------------------------------------------------------
+// Primitive guards
+// ---------------------------------------------------------------------------
+
+export function isNonNullObject(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+export function isBigInt(value: unknown): value is bigint {
+  return typeof value === 'bigint';
+}
+
+export function isStxAddress(value: unknown): value is string {
+  if (typeof value !== 'string') return false;
+  return /^S[PM][A-Z0-9]{38,40}$/.test(value);
+}
+
+// ---------------------------------------------------------------------------
+// Domain type guards
+// ---------------------------------------------------------------------------
 
 export function isDepositRecord(value: unknown): value is DepositRecord {
   if (!value || typeof value !== 'object') return false;
@@ -62,4 +83,26 @@ export function isProposalResult(value: unknown): value is ProposalResult {
     typeof obj.executed === 'boolean' &&
     typeof obj.votingEnded === 'boolean'
   );
+}
+
+export function isWithdrawResult(value: unknown): value is WithdrawResult {
+  if (!isNonNullObject(value)) return false;
+  return isBigInt(value.stxReturned) && isBigInt(value.rewardsEarned);
+}
+
+export function isContractNames(value: unknown): value is ContractNames {
+  if (!isNonNullObject(value)) return false;
+  return (
+    typeof value.vaultCore === 'string' &&
+    typeof value.governanceToken === 'string' &&
+    typeof value.proposalVoting === 'string'
+  );
+}
+
+export function isPOSVaultConfig(value: unknown): value is POSVaultConfig {
+  if (!isNonNullObject(value)) return false;
+  if (value.deployer !== undefined && typeof value.deployer !== 'string') return false;
+  if (value.network !== undefined && value.network !== 'mainnet' && value.network !== 'testnet')
+    return false;
+  return true;
 }
