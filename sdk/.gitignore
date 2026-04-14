@@ -1,0 +1,22 @@
+# SDK build artifacts
+dist/
+
+# Test artifacts
+coverage/
+*.tsbuildinfo
+
+# Dependencies
+node_modules/
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
