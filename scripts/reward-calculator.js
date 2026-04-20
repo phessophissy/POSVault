@@ -84,3 +84,20 @@ function formatNumber(num) {
 function formatPercent(value) {
   return (value * 100).toFixed(2) + "%";
 }
+
+/** Check vault health status */
+async function checkHealth() {
+  const checks = [];
+
+  // Check 1: API responsiveness
+  try {
+    const start = Date.now();
+    await getVaultInfo();
+    const latency = Date.now() - start;
+    checks.push({ name: "API Latency", status: latency < 5000 ? "OK" : "WARN", value: `${latency}ms` });
+  } catch (err) {
+    checks.push({ name: "API Latency", status: "FAIL", value: err.message });
+  }
+
+  return checks;
+}
