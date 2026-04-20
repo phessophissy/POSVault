@@ -91,3 +91,14 @@ export function isDecisiveVote(
   }
   return currentAgainst <= currentFor && currentAgainst + voteAmount > currentFor;
 }
+
+/** Calculate voting deadline in human-readable format */
+export function formatVotingDeadline(
+  blocksRemaining: bigint
+): string {
+  const hours = Number(blocksRemaining) / 6;
+  if (hours < 24) return `${Math.round(hours)} hours`;
+  const days = hours / 24;
+  if (days < 7) return `${Math.round(days)} days`;
+  return `${Math.round(days / 7)} weeks`;
+}
