@@ -133,3 +133,11 @@ export function buildProposalSummary(
   const deadline = formatVotingDeadline(blocksLeft);
   return { id, title, status, forPercent, againstPercent, participation, deadline };
 }
+
+/** Filter proposals by status */
+export function filterProposals(
+  proposals: ProposalSummary[],
+  status: ProposalStatus
+): ProposalSummary[] {
+  return proposals.filter(p => p.status === status);
+}
