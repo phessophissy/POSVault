@@ -91,3 +91,11 @@ export function sortTransactionHistoryByValue(
 ): TransactionHistoryEntry[] {
   return [...entries].sort((a, b) => Number(b.value - a.value));
 }
+
+/** Get top N TransactionHistory entries */
+export function getTopTransactionHistoryEntries(
+  entries: TransactionHistoryEntry[],
+  n: number
+): TransactionHistoryEntry[] {
+  return sortTransactionHistoryByValue(entries).slice(0, n);
+}
