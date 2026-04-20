@@ -91,3 +91,11 @@ export function sortCsvExportByValue(
 ): CsvExportEntry[] {
   return [...entries].sort((a, b) => Number(b.value - a.value));
 }
+
+/** Get top N CsvExport entries */
+export function getTopCsvExportEntries(
+  entries: CsvExportEntry[],
+  n: number
+): CsvExportEntry[] {
+  return sortCsvExportByValue(entries).slice(0, n);
+}
