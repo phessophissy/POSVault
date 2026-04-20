@@ -116,3 +116,17 @@ function generateReport(checks) {
   const passed = checks.filter(c => c.status === "OK").length;
   log(`Summary: ${passed}/${checks.length} checks passed`);
 }
+
+/** Retry helper */
+async function withRetry(fn, maxRetries = 3, delay = 1000) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      if (i === maxRetries - 1) throw err;
+      logError(`Attempt ${i + 1} failed: ${err.message}. Retrying in ${delay}ms...`);
+      await new Promise(r => setTimeout(r, delay));
+      delay *= 2; // exponential backoff
+    }
+  }
+}
