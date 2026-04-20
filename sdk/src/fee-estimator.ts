@@ -71,3 +71,16 @@ export function calculateFeeEstimatorAverage(
   const total = Number(aggregateFeeEstimatorValues(entries));
   return total / entries.length;
 }
+
+/** Group FeeEstimator entries by label */
+export function groupFeeEstimatorByLabel(
+  entries: FeeEstimatorEntry[]
+): Map<string, FeeEstimatorEntry[]> {
+  const groups = new Map<string, FeeEstimatorEntry[]>();
+  for (const entry of entries) {
+    const list = groups.get(entry.label) || [];
+    list.push(entry);
+    groups.set(entry.label, list);
+  }
+  return groups;
+}
