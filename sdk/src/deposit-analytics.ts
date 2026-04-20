@@ -23,3 +23,18 @@ export interface DepositAnalyticsEntry {
   label: string;
   metadata: Record<string, unknown>;
 }
+
+/** Create a new DepositAnalytics entry */
+export function createDepositAnalyticsEntry(
+  id: string,
+  value: bigint,
+  label: string
+): DepositAnalyticsEntry {
+  return {
+    id,
+    timestamp: Date.now(),
+    value,
+    label,
+    metadata: {},
+  };
+}
