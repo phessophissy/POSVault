@@ -7,3 +7,10 @@ export interface PortfolioConfig {
   cacheTimeout: number;
   maxRetries: number;
 }
+
+/** Default Portfolio configuration */
+export const DEFAULT_PORTFOLIO_CONFIG: PortfolioConfig = {
+  enabled: true,
+  cacheTimeout: 300000,
+  maxRetries: 3,
+};
