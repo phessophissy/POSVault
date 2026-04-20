@@ -55,3 +55,10 @@ export function filterNotificationsByTimeRange(
 ): NotificationsEntry[] {
   return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
 }
+
+/** Aggregate Notifications values */
+export function aggregateNotificationsValues(
+  entries: NotificationsEntry[]
+): bigint {
+  return entries.reduce((sum, e) => sum + e.value, 0n);
+}
