@@ -241,3 +241,31 @@ export default function ProposalList() {
     </div>
   );
 }
+
+/** CSS-in-JS styles */
+export const proposallistStyles = {
+  container: {
+    padding: "24px",
+    maxWidth: "1200px",
+    margin: "0 auto",
+    fontFamily: "-apple-system, sans-serif",
+  },
+  header: {
+    fontSize: "24px",
+    fontWeight: 600,
+    marginBottom: "16px",
+    color: "#1a1a2e",
+  },
+  statsGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+    gap: "16px",
+    marginBottom: "24px",
+  },
+  card: {
+    padding: "16px",
+    borderRadius: "12px",
+    backgroundColor: "#f8f9fa",
+    border: "1px solid #e9ecef",
+  },
+};
