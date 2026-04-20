@@ -38,3 +38,11 @@ export function createPortfolioEntry(
     metadata: {},
   };
 }
+
+/** Validate Portfolio entry */
+export function validatePortfolioEntry(entry: PortfolioEntry): boolean {
+  if (!entry.id || entry.id.length === 0) return false;
+  if (entry.value < 0n) return false;
+  if (entry.timestamp <= 0) return false;
+  return true;
+}
