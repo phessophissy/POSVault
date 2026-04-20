@@ -269,3 +269,21 @@ export const rewardchartStyles = {
     border: "1px solid #e9ecef",
   },
 };
+
+/** RewardChart prop types documentation */
+/**
+ * @typedef {RewardChartProps}
+ * @property {string} walletAddress - Connected wallet address
+ * @property {"mainnet"|"testnet"} network - Target network
+ * @property {boolean} autoRefresh - Enable auto-refresh
+ * @property {number} refreshInterval - Refresh interval in ms
+ * @property {(error: Error) => void} onError - Error callback
+ */
+
+/** Default props */
+export const defaultRewardChartProps = {
+  network: "mainnet",
+  autoRefresh: true,
+  refreshInterval: 30000,
+  onError: (err) => console.error(`RewardChart error:`, err),
+};
