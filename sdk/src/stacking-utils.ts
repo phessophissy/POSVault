@@ -46,3 +46,12 @@ export function validateStackingUtilsEntry(entry: StackingUtilsEntry): boolean {
   if (entry.timestamp <= 0) return false;
   return true;
 }
+
+/** Filter entries by time range */
+export function filterStackingUtilsByTimeRange(
+  entries: StackingUtilsEntry[],
+  startTime: number,
+  endTime: number
+): StackingUtilsEntry[] {
+  return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
+}
