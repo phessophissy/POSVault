@@ -62,3 +62,12 @@ export function aggregateNotificationsValues(
 ): bigint {
   return entries.reduce((sum, e) => sum + e.value, 0n);
 }
+
+/** Calculate Notifications average */
+export function calculateNotificationsAverage(
+  entries: NotificationsEntry[]
+): number {
+  if (entries.length === 0) return 0;
+  const total = Number(aggregateNotificationsValues(entries));
+  return total / entries.length;
+}
