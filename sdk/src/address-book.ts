@@ -23,3 +23,18 @@ export interface AddressBookEntry {
   label: string;
   metadata: Record<string, unknown>;
 }
+
+/** Create a new AddressBook entry */
+export function createAddressBookEntry(
+  id: string,
+  value: bigint,
+  label: string
+): AddressBookEntry {
+  return {
+    id,
+    timestamp: Date.now(),
+    value,
+    label,
+    metadata: {},
+  };
+}
