@@ -269,3 +269,21 @@ export const walletstatsStyles = {
     border: "1px solid #e9ecef",
   },
 };
+
+/** WalletStats prop types documentation */
+/**
+ * @typedef {WalletStatsProps}
+ * @property {string} walletAddress - Connected wallet address
+ * @property {"mainnet"|"testnet"} network - Target network
+ * @property {boolean} autoRefresh - Enable auto-refresh
+ * @property {number} refreshInterval - Refresh interval in ms
+ * @property {(error: Error) => void} onError - Error callback
+ */
+
+/** Default props */
+export const defaultWalletStatsProps = {
+  network: "mainnet",
+  autoRefresh: true,
+  refreshInterval: 30000,
+  onError: (err) => console.error(`WalletStats error:`, err),
+};
