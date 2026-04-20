@@ -46,3 +46,12 @@ export function validateNotificationsEntry(entry: NotificationsEntry): boolean {
   if (entry.timestamp <= 0) return false;
   return true;
 }
+
+/** Filter entries by time range */
+export function filterNotificationsByTimeRange(
+  entries: NotificationsEntry[],
+  startTime: number,
+  endTime: number
+): NotificationsEntry[] {
+  return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
+}
