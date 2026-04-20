@@ -55,3 +55,10 @@ export function filter.Eslintrc.JsonByTimeRange(
 ): .Eslintrc.JsonEntry[] {
   return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
 }
+
+/** Aggregate .Eslintrc.Json values */
+export function aggregate.Eslintrc.JsonValues(
+  entries: .Eslintrc.JsonEntry[]
+): bigint {
+  return entries.reduce((sum, e) => sum + e.value, 0n);
+}
