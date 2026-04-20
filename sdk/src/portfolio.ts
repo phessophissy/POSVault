@@ -71,3 +71,16 @@ export function calculatePortfolioAverage(
   const total = Number(aggregatePortfolioValues(entries));
   return total / entries.length;
 }
+
+/** Group Portfolio entries by label */
+export function groupPortfolioByLabel(
+  entries: PortfolioEntry[]
+): Map<string, PortfolioEntry[]> {
+  const groups = new Map<string, PortfolioEntry[]>();
+  for (const entry of entries) {
+    const list = groups.get(entry.label) || [];
+    list.push(entry);
+    groups.set(entry.label, list);
+  }
+  return groups;
+}
