@@ -207,3 +207,37 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
     </div>
   );
 }
+
+/** Main TransactionFeed component */
+export default function TransactionFeed() {
+  const { data, loading, error } = useVaultData();
+  const [activeTab, setActiveTab] = useState("overview");
+
+  if (loading) return <LoadingSpinner message="Loading vault data..." />;
+
+  return (
+    <div className="transactionfeed-container">
+      <h2>TransactionFeed</h2>
+      <ErrorBanner error={error} onDismiss={() => {}} />
+      <div className="tabs">
+        {["overview", "details", "history"].map((tab) => (
+          <button
+            key={tab}
+            className={activeTab === tab ? "active" : ""}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          </button>
+        ))}
+      </div>
+      {data && (
+        <div className="stats-grid">
+          <StatsCard label="Total Locked" value={formatSTX(data.totalLocked)} unit="STX" />
+          <StatsCard label="Depositors" value={data.depositors} />
+          <StatsCard label="Reward Rate" value={data.rewardRate} unit="bps" />
+          <StatusBadge status={data.isPaused ? "paused" : "active"} />
+        </div>
+      )}
+    </div>
+  );
+}
