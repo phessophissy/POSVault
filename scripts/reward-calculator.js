@@ -180,3 +180,16 @@ function validateConfig(options) {
     process.exit(1);
   }
 }
+
+/** Graceful shutdown handler */
+function setupGracefulShutdown() {
+  let isShuttingDown = false;
+  const shutdown = (signal) => {
+    if (isShuttingDown) return;
+    isShuttingDown = true;
+    log(`Received ${signal}, shutting down gracefully...`);
+    process.exit(0);
+  };
+  process.on("SIGINT", () => shutdown("SIGINT"));
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
+}
