@@ -55,3 +55,10 @@ export function filterTransactionHistoryByTimeRange(
 ): TransactionHistoryEntry[] {
   return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
 }
+
+/** Aggregate TransactionHistory values */
+export function aggregateTransactionHistoryValues(
+  entries: TransactionHistoryEntry[]
+): bigint {
+  return entries.reduce((sum, e) => sum + e.value, 0n);
+}
