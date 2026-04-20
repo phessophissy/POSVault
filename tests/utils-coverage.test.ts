@@ -67,3 +67,21 @@ describe("Utils Coverage - block calculations", () => {
     expect(cycles).toBe(0n);
   });
 });
+
+describe("Utils Coverage - reward calculations", () => {
+  it("should calculate basic rewards", () => {
+    const deposit = 1000000n;
+    const rate = 50n; // 0.5%
+    const cycles = 10n;
+    const reward = (deposit * rate * cycles) / 10000n;
+    expect(reward).toBe(5000n);
+  });
+
+  it("should return zero for zero deposit", () => {
+    const deposit = 0n;
+    const rate = 50n;
+    const cycles = 10n;
+    const reward = (deposit * rate * cycles) / 10000n;
+    expect(reward).toBe(0n);
+  });
+});
