@@ -41,3 +41,12 @@ services:
       - stacks-api
     networks:
       - posvault
+
+  sdk-dev:
+    image: node:20-alpine
+    volumes:
+      - ./sdk:/app
+    working_dir: /app
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
