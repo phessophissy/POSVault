@@ -91,3 +91,11 @@ export function sortRateLimiterByValue(
 ): RateLimiterEntry[] {
   return [...entries].sort((a, b) => Number(b.value - a.value));
 }
+
+/** Get top N RateLimiter entries */
+export function getTopRateLimiterEntries(
+  entries: RateLimiterEntry[],
+  n: number
+): RateLimiterEntry[] {
+  return sortRateLimiterByValue(entries).slice(0, n);
+}
