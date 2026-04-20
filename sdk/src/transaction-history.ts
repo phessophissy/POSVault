@@ -23,3 +23,18 @@ export interface TransactionHistoryEntry {
   label: string;
   metadata: Record<string, unknown>;
 }
+
+/** Create a new TransactionHistory entry */
+export function createTransactionHistoryEntry(
+  id: string,
+  value: bigint,
+  label: string
+): TransactionHistoryEntry {
+  return {
+    id,
+    timestamp: Date.now(),
+    value,
+    label,
+    metadata: {},
+  };
+}
