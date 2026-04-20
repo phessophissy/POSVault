@@ -207,3 +207,8 @@ async function main() {
   const checks = await withRetry(() => checkHealth());
   generateReport(checks);
 }
+
+main().catch((err) => {
+  logError(`Fatal error: ${err.message}`);
+  process.exit(1);
+});
