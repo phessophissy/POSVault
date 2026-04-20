@@ -71,3 +71,16 @@ export function calculateDepositAnalyticsAverage(
   const total = Number(aggregateDepositAnalyticsValues(entries));
   return total / entries.length;
 }
+
+/** Group DepositAnalytics entries by label */
+export function groupDepositAnalyticsByLabel(
+  entries: DepositAnalyticsEntry[]
+): Map<string, DepositAnalyticsEntry[]> {
+  const groups = new Map<string, DepositAnalyticsEntry[]>();
+  for (const entry of entries) {
+    const list = groups.get(entry.label) || [];
+    list.push(entry);
+    groups.set(entry.label, list);
+  }
+  return groups;
+}
