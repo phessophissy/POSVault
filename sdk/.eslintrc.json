@@ -84,3 +84,10 @@ export function group.Eslintrc.JsonByLabel(
   }
   return groups;
 }
+
+/** Sort .Eslintrc.Json entries by value descending */
+export function sort.Eslintrc.JsonByValue(
+  entries: .Eslintrc.JsonEntry[]
+): .Eslintrc.JsonEntry[] {
+  return [...entries].sort((a, b) => Number(b.value - a.value));
+}
