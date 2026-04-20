@@ -141,3 +141,15 @@ This verifies:
 (get-proposal (id uint))
 (get-vote-record (proposal-id uint) (voter principal))
 ```
+
+## Changelog
+
+### v4.0.0
+- Removed lock period requirement
+- Added pending POS-GOV reward token minting on withdrawal
+- Improved gas efficiency for batch operations
+
+### v3.0.0
+- Added governance token integration
+- Introduced proposal voting mechanism
+- Added reward rate adjustment via governance
