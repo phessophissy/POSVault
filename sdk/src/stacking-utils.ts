@@ -84,3 +84,10 @@ export function groupStackingUtilsByLabel(
   }
   return groups;
 }
+
+/** Sort StackingUtils entries by value descending */
+export function sortStackingUtilsByValue(
+  entries: StackingUtilsEntry[]
+): StackingUtilsEntry[] {
+  return [...entries].sort((a, b) => Number(b.value - a.value));
+}
