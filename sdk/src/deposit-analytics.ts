@@ -7,3 +7,10 @@ export interface DepositAnalyticsConfig {
   cacheTimeout: number;
   maxRetries: number;
 }
+
+/** Default DepositAnalytics configuration */
+export const DEFAULT_DEPOSITANALYTICS_CONFIG: DepositAnalyticsConfig = {
+  enabled: true,
+  cacheTimeout: 300000,
+  maxRetries: 3,
+};
