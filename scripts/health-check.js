@@ -21,3 +21,23 @@ async function getVaultInfo() {
   if (!resp.ok) throw new Error(`API error: ${resp.status}`);
   return resp.json();
 }
+
+/** Parse CLI arguments */
+function parseArgs() {
+  const args = process.argv.slice(2);
+  const options = {
+    network: "mainnet",
+    verbose: false,
+    output: "console",
+    interval: 60000,
+  };
+  for (let i = 0; i < args.length; i++) {
+    switch (args[i]) {
+      case "--network": options.network = args[++i]; break;
+      case "--verbose": options.verbose = true; break;
+      case "--output": options.output = args[++i]; break;
+      case "--interval": options.interval = parseInt(args[++i]); break;
+    }
+  }
+  return options;
+}
