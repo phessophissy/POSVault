@@ -78,3 +78,17 @@ const deposit = await vault.getDeposit(address);
 console.log(`Amount: ${deposit.amount}`);
 console.log(`Since block: ${deposit.depositBlock}`);
 ```
+
+## Security Considerations
+
+### Access Control
+
+- Only contract deployer can pause/unpause the vault
+- Users can only withdraw their own deposits
+- Governance votes are weighted by token holdings
+
+### Risk Factors
+
+1. Smart contract risk: Audited but non-zero risk
+2. Network congestion: Transactions may be delayed
+3. Reward rate changes: Subject to governance votes
