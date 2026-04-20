@@ -14,3 +14,12 @@ export const DEFAULT_TRANSACTIONHISTORY_CONFIG: TransactionHistoryConfig = {
   cacheTimeout: 300000,
   maxRetries: 3,
 };
+
+/** TransactionHistory data entry */
+export interface TransactionHistoryEntry {
+  id: string;
+  timestamp: number;
+  value: bigint;
+  label: string;
+  metadata: Record<string, unknown>;
+}
