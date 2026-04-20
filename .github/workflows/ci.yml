@@ -26,3 +26,10 @@ jobs:
         run: cd sdk && npm ci && npm run build --if-present
       - name: Check types
         run: npx tsc --noEmit --if-present
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run audit
+        run: npm audit --audit-level=high
