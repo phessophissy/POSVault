@@ -1,0 +1,89 @@
+version: "3.8"
+
+services:
+  devnet:
+    image: hirosystems/clarinet:latest
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: clarinet devnet start
+    ports:
+      - "3999:3999"
+      - "20443:20443"
+      - "20444:20444"
+    networks:
+      - posvault
+
+  stacks-api:
+    image: hirosystems/stacks-blockchain-api:latest
+    depends_on:
+      - devnet
+    ports:
+      - "3999:3999"
+    environment:
+      - STACKS_CORE_RPC_HOST=devnet
+      - STACKS_CORE_RPC_PORT=20443
+    networks:
+      - posvault
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/src:/app/src
+    environment:
+      - VITE_NETWORK=devnet
+    depends_on:
+      - stacks-api
+    networks:
+      - posvault
+
+  sdk-dev:
+    image: node:20-alpine
+    volumes:
+      - ./sdk:/app
+    working_dir: /app
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+    networks:
+      - posvault
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=posvault
+      - POSTGRES_PASSWORD=devpassword
+      - POSTGRES_DB=posvault_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - posvault
+    restart: unless-stopped
+
+networks:
+  posvault:
+    driver: bridge
+
+volumes:
+  pgdata:
+    driver: local
+
+# Docker Compose Notes:
+# - devnet: Runs local Stacks blockchain via Clarinet
+# - stacks-api: Provides REST API for blockchain queries
+# - frontend: Vite dev server with hot reload
+# - sdk-dev: SDK development environment
+# - postgres: Database for indexing and caching
+#
+# Usage:
+#   docker compose up -d          # Start all services
+#   docker compose up devnet -d   # Start only devnet
+#   docker compose logs -f frontend  # Follow frontend logs
+#   docker compose down -v          # Stop and remove volumes
