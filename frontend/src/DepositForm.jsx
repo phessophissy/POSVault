@@ -287,3 +287,13 @@ export const defaultDepositFormProps = {
   refreshInterval: 30000,
   onError: (err) => console.error(`DepositForm error:`, err),
 };
+
+/** DepositForm utility constants */
+export const DEPOSITFORM_CONSTANTS = {
+  MIN_DEPOSIT: 1000,
+  MAX_DISPLAY_ROWS: 50,
+  REFRESH_INTERVAL: 30000,
+  ANIMATION_DURATION: 300,
+  CHART_COLORS: ["#5C6BC0", "#42A5F5", "#26C6DA", "#66BB6A", "#FFA726"],
+  BREAKPOINTS: { mobile: 480, tablet: 768, desktop: 1024, wide: 1440 },
+};
