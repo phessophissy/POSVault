@@ -7,3 +7,10 @@ export interface .Eslintrc.JsonConfig {
   cacheTimeout: number;
   maxRetries: number;
 }
+
+/** Default .Eslintrc.Json configuration */
+export const DEFAULT_.ESLINTRC.JSON_CONFIG: .Eslintrc.JsonConfig = {
+  enabled: true,
+  cacheTimeout: 300000,
+  maxRetries: 3,
+};
