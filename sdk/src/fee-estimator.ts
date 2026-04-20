@@ -55,3 +55,10 @@ export function filterFeeEstimatorByTimeRange(
 ): FeeEstimatorEntry[] {
   return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
 }
+
+/** Aggregate FeeEstimator values */
+export function aggregateFeeEstimatorValues(
+  entries: FeeEstimatorEntry[]
+): bigint {
+  return entries.reduce((sum, e) => sum + e.value, 0n);
+}
