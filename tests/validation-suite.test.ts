@@ -199,3 +199,13 @@ describe("Validation Suite - batch operations", () => {
     expect(total).toBe(0n);
   });
 });
+
+describe("Validation Suite - config management", () => {
+  it("should merge configs", () => {
+    const defaults = { network: "mainnet", timeout: 5000 };
+    const overrides = { timeout: 10000 };
+    const merged = { ...defaults, ...overrides };
+    expect(merged.network).toBe("mainnet");
+    expect(merged.timeout).toBe(10000);
+  });
+});
