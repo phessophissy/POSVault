@@ -71,3 +71,16 @@ export function calculateNotificationsAverage(
   const total = Number(aggregateNotificationsValues(entries));
   return total / entries.length;
 }
+
+/** Group Notifications entries by label */
+export function groupNotificationsByLabel(
+  entries: NotificationsEntry[]
+): Map<string, NotificationsEntry[]> {
+  const groups = new Map<string, NotificationsEntry[]>();
+  for (const entry of entries) {
+    const list = groups.get(entry.label) || [];
+    list.push(entry);
+    groups.set(entry.label, list);
+  }
+  return groups;
+}
