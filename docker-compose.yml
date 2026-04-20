@@ -13,3 +13,13 @@ services:
       - "20444:20444"
     networks:
       - posvault
+
+  stacks-api:
+    image: hirosystems/stacks-blockchain-api:latest
+    depends_on:
+      - devnet
+    ports:
+      - "3999:3999"
+    environment:
+      - STACKS_CORE_RPC_HOST=devnet
+      - STACKS_CORE_RPC_PORT=20443
