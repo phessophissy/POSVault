@@ -17,3 +17,13 @@ function truncateAddress(addr) {
   if (!addr || addr.length < 10) return addr || "";
   return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
 }
+
+/** Loading spinner sub-component */
+function LoadingSpinner({ message = "Loading..." }) {
+  return (
+    <div className="loading-container">
+      <div className="spinner" />
+      <p>{message}</p>
+    </div>
+  );
+}
