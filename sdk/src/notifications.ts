@@ -117,3 +117,17 @@ export function formatNotificationsEntry(
   const val = Number(entry.value) / Math.pow(10, TOKEN_DECIMALS);
   return `[${date}] ${entry.label}: ${val.toFixed(6)}`;
 }
+
+/** Serialize Notifications entries to JSON */
+export function serializeNotificationsEntries(
+  entries: NotificationsEntry[]
+): string {
+  return JSON.stringify(
+    entries.map(e => ({
+      ...e,
+      value: e.value.toString(),
+    })),
+    null,
+    2
+  );
+}
