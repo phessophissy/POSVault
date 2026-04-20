@@ -14,3 +14,12 @@ export const DEFAULT_DEPOSITANALYTICS_CONFIG: DepositAnalyticsConfig = {
   cacheTimeout: 300000,
   maxRetries: 3,
 };
+
+/** DepositAnalytics data entry */
+export interface DepositAnalyticsEntry {
+  id: string;
+  timestamp: number;
+  value: bigint;
+  label: string;
+  metadata: Record<string, unknown>;
+}
