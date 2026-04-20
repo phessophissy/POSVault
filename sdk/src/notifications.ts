@@ -84,3 +84,10 @@ export function groupNotificationsByLabel(
   }
   return groups;
 }
+
+/** Sort Notifications entries by value descending */
+export function sortNotificationsByValue(
+  entries: NotificationsEntry[]
+): NotificationsEntry[] {
+  return [...entries].sort((a, b) => Number(b.value - a.value));
+}
