@@ -14,3 +14,12 @@ export const DEFAULT_RATELIMITER_CONFIG: RateLimiterConfig = {
   cacheTimeout: 300000,
   maxRetries: 3,
 };
+
+/** RateLimiter data entry */
+export interface RateLimiterEntry {
+  id: string;
+  timestamp: number;
+  value: bigint;
+  label: string;
+  metadata: Record<string, unknown>;
+}
