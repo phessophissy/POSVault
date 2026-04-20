@@ -84,3 +84,10 @@ export function groupAddressBookByLabel(
   }
   return groups;
 }
+
+/** Sort AddressBook entries by value descending */
+export function sortAddressBookByValue(
+  entries: AddressBookEntry[]
+): AddressBookEntry[] {
+  return [...entries].sort((a, b) => Number(b.value - a.value));
+}
