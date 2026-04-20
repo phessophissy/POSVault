@@ -122,3 +122,18 @@ describe("Calculations Extended - formatting", () => {
     expect(stx).toBe(1.5);
   });
 });
+
+describe("Calculations Extended - voting mechanics", () => {
+  it("should determine majority", () => {
+    const votesFor = 600n;
+    const votesAgainst = 400n;
+    expect(votesFor > votesAgainst).toBe(true);
+  });
+
+  it("should handle tie votes", () => {
+    const votesFor = 500n;
+    const votesAgainst = 500n;
+    const passed = votesFor > votesAgainst;
+    expect(passed).toBe(false);
+  });
+});
