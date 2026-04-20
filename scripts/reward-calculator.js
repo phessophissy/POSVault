@@ -130,3 +130,21 @@ async function withRetry(fn, maxRetries = 3, delay = 1000) {
     }
   }
 }
+
+/** Rate limit helper */
+function createRateLimiter(maxRequests, windowMs) {
+  const timestamps = [];
+  return async function rateLimited(fn) {
+    const now = Date.now();
+    const windowStart = now - windowMs;
+    while (timestamps.length > 0 && timestamps[0] < windowStart) {
+      timestamps.shift();
+    }
+    if (timestamps.length >= maxRequests) {
+      const waitTime = timestamps[0] + windowMs - now;
+      await new Promise(r => setTimeout(r, waitTime));
+    }
+    timestamps.push(Date.now());
+    return fn();
+  };
+}
