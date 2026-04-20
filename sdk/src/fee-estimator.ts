@@ -62,3 +62,12 @@ export function aggregateFeeEstimatorValues(
 ): bigint {
   return entries.reduce((sum, e) => sum + e.value, 0n);
 }
+
+/** Calculate FeeEstimator average */
+export function calculateFeeEstimatorAverage(
+  entries: FeeEstimatorEntry[]
+): number {
+  if (entries.length === 0) return 0;
+  const total = Number(aggregateFeeEstimatorValues(entries));
+  return total / entries.length;
+}
