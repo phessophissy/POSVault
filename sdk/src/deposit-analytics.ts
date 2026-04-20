@@ -55,3 +55,10 @@ export function filterDepositAnalyticsByTimeRange(
 ): DepositAnalyticsEntry[] {
   return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
 }
+
+/** Aggregate DepositAnalytics values */
+export function aggregateDepositAnalyticsValues(
+  entries: DepositAnalyticsEntry[]
+): bigint {
+  return entries.reduce((sum, e) => sum + e.value, 0n);
+}
