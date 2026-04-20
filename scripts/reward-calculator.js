@@ -193,3 +193,17 @@ function setupGracefulShutdown() {
   process.on("SIGINT", () => shutdown("SIGINT"));
   process.on("SIGTERM", () => shutdown("SIGTERM"));
 }
+
+/** Main entry point */
+async function main() {
+  setupGracefulShutdown();
+  const options = parseArgs();
+  validateConfig(options);
+
+  log(`Starting Reward Calculator...`);
+  log(`Network: ${options.network}`);
+  log(`Contract: ${VAULT_CONTRACT}`);
+
+  const checks = await withRetry(() => checkHealth());
+  generateReport(checks);
+}
