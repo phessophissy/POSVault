@@ -103,3 +103,19 @@ console.log(`Since block: ${deposit.depositBlock}`);
 | ERR-VAULT-PAUSED (u101) | Vault is paused | Wait for admin unpause |
 | ERR-NO-DEPOSIT (u102) | No active deposit | Deposit first |
 | ERR-ALREADY-DEPOSITED (u103) | Existing deposit | Withdraw first |
+
+## Monitoring
+
+### Health Checks
+
+Run the health check script periodically:
+
+```bash
+npm run health-check
+```
+
+This verifies:
+- Contract is responsive
+- Vault is not paused
+- Reward rate is within expected range
+- No suspicious large withdrawals
