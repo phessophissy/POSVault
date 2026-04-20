@@ -7,3 +7,10 @@ export interface CsvExportConfig {
   cacheTimeout: number;
   maxRetries: number;
 }
+
+/** Default CsvExport configuration */
+export const DEFAULT_CSVEXPORT_CONFIG: CsvExportConfig = {
+  enabled: true,
+  cacheTimeout: 300000,
+  maxRetries: 3,
+};
