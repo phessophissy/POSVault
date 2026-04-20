@@ -38,3 +38,11 @@ export function createRateLimiterEntry(
     metadata: {},
   };
 }
+
+/** Validate RateLimiter entry */
+export function validateRateLimiterEntry(entry: RateLimiterEntry): boolean {
+  if (!entry.id || entry.id.length === 0) return false;
+  if (entry.value < 0n) return false;
+  if (entry.timestamp <= 0) return false;
+  return true;
+}
