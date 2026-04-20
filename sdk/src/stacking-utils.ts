@@ -38,3 +38,11 @@ export function createStackingUtilsEntry(
     metadata: {},
   };
 }
+
+/** Validate StackingUtils entry */
+export function validateStackingUtilsEntry(entry: StackingUtilsEntry): boolean {
+  if (!entry.id || entry.id.length === 0) return false;
+  if (entry.value < 0n) return false;
+  if (entry.timestamp <= 0) return false;
+  return true;
+}
