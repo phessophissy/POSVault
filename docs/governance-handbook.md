@@ -129,3 +129,15 @@ This verifies:
 - **Average Deposit Size**: TVL / Depositors
 - **Governance Participation**: Votes cast / Eligible voters
 - **Reward Distribution Rate**: Tokens minted per cycle
+
+## API Endpoints
+
+### Read-Only Functions
+
+```clarity
+(get-vault-info)
+(get-deposit (user principal))
+(get-user-stats (user principal))
+(get-proposal (id uint))
+(get-vote-record (proposal-id uint) (voter principal))
+```
