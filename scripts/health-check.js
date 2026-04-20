@@ -56,3 +56,16 @@ function log(message, level = "INFO") {
 function logError(message) {
   log(message, "ERROR");
 }
+
+/** Calculate basic statistics */
+function calculateStats(values) {
+  if (values.length === 0) return { min: 0, max: 0, avg: 0, sum: 0 };
+  const sum = values.reduce((a, b) => a + b, 0);
+  return {
+    min: Math.min(...values),
+    max: Math.max(...values),
+    avg: sum / values.length,
+    sum,
+    count: values.length,
+  };
+}
