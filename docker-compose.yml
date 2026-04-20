@@ -79,3 +79,9 @@ volumes:
 # - devnet: Runs local Stacks blockchain via Clarinet
 # - stacks-api: Provides REST API for blockchain queries
 # - frontend: Vite dev server with hot reload
+# - sdk-dev: SDK development environment
+# - postgres: Database for indexing and caching
+#
+# Usage:
+#   docker compose up -d          # Start all services
+#   docker compose up devnet -d   # Start only devnet
