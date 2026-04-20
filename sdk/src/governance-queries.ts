@@ -35,3 +35,12 @@ export function getProposalStatus(
   if (currentBlock <= endBlock) return ProposalStatus.Active;
   return votesFor > votesAgainst ? ProposalStatus.Passed : ProposalStatus.Rejected;
 }
+
+/** Calculate vote participation rate */
+export function voteParticipation(
+  totalVoters: bigint,
+  eligibleVoters: bigint
+): number {
+  if (eligibleVoters === 0n) return 0;
+  return Number((totalVoters * 10000n) / eligibleVoters) / 100;
+}
