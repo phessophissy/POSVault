@@ -99,3 +99,12 @@ export function getTop.Eslintrc.JsonEntries(
 ): .Eslintrc.JsonEntry[] {
   return sort.Eslintrc.JsonByValue(entries).slice(0, n);
 }
+
+/** Calculate .Eslintrc.Json growth rate */
+export function calculate.Eslintrc.JsonGrowthRate(
+  previousValue: bigint,
+  currentValue: bigint
+): number {
+  if (previousValue === 0n) return currentValue > 0n ? 100 : 0;
+  return Number(((currentValue - previousValue) * 10000n) / previousValue) / 100;
+}
