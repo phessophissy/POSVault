@@ -14,3 +14,12 @@ export const DEFAULT_CSVEXPORT_CONFIG: CsvExportConfig = {
   cacheTimeout: 300000,
   maxRetries: 3,
 };
+
+/** CsvExport data entry */
+export interface CsvExportEntry {
+  id: string;
+  timestamp: number;
+  value: bigint;
+  label: string;
+  metadata: Record<string, unknown>;
+}
