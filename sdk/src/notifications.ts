@@ -7,3 +7,10 @@ export interface NotificationsConfig {
   cacheTimeout: number;
   maxRetries: number;
 }
+
+/** Default Notifications configuration */
+export const DEFAULT_NOTIFICATIONS_CONFIG: NotificationsConfig = {
+  enabled: true,
+  cacheTimeout: 300000,
+  maxRetries: 3,
+};
