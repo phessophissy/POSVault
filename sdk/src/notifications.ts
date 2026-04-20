@@ -131,3 +131,14 @@ export function serializeNotificationsEntries(
     2
   );
 }
+
+/** Deserialize Notifications entries from JSON */
+export function deserializeNotificationsEntries(
+  json: string
+): NotificationsEntry[] {
+  const parsed = JSON.parse(json);
+  return parsed.map((e: Record<string, unknown>) => ({
+    ...e,
+    value: BigInt(e.value as string),
+  }));
+}
