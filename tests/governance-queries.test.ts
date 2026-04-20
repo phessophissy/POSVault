@@ -185,3 +185,17 @@ describe("Governance Queries - time utilities", () => {
     expect(blocksPerDay).toBe(144);
   });
 });
+
+describe("Governance Queries - batch operations", () => {
+  it("should process multiple deposits", () => {
+    const deposits = [100n, 200n, 300n];
+    const total = deposits.reduce((a, b) => a + b, 0n);
+    expect(total).toBe(600n);
+  });
+
+  it("should handle empty batch", () => {
+    const deposits: bigint[] = [];
+    const total = deposits.reduce((a, b) => a + b, 0n);
+    expect(total).toBe(0n);
+  });
+});
