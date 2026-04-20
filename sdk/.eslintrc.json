@@ -71,3 +71,16 @@ export function calculate.Eslintrc.JsonAverage(
   const total = Number(aggregate.Eslintrc.JsonValues(entries));
   return total / entries.length;
 }
+
+/** Group .Eslintrc.Json entries by label */
+export function group.Eslintrc.JsonByLabel(
+  entries: .Eslintrc.JsonEntry[]
+): Map<string, .Eslintrc.JsonEntry[]> {
+  const groups = new Map<string, .Eslintrc.JsonEntry[]>();
+  for (const entry of entries) {
+    const list = groups.get(entry.label) || [];
+    list.push(entry);
+    groups.set(entry.label, list);
+  }
+  return groups;
+}
