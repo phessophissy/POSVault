@@ -23,3 +23,6 @@ services:
     environment:
       - STACKS_CORE_RPC_HOST=devnet
       - STACKS_CORE_RPC_PORT=20443
+    networks:
+      - posvault
+    restart: unless-stopped
