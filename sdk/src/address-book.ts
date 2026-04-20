@@ -14,3 +14,12 @@ export const DEFAULT_ADDRESSBOOK_CONFIG: AddressBookConfig = {
   cacheTimeout: 300000,
   maxRetries: 3,
 };
+
+/** AddressBook data entry */
+export interface AddressBookEntry {
+  id: string;
+  timestamp: number;
+  value: bigint;
+  label: string;
+  metadata: Record<string, unknown>;
+}
