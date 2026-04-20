@@ -1,0 +1,144 @@
+import { DEPLOYER, CONTRACT_NAMES } from "./constants.js";
+import { TOKEN_DECIMALS } from "./constants.js";
+
+/** Notifications module configuration */
+export interface NotificationsConfig {
+  enabled: boolean;
+  cacheTimeout: number;
+  maxRetries: number;
+}
+
+/** Default Notifications configuration */
+export const DEFAULT_NOTIFICATIONS_CONFIG: NotificationsConfig = {
+  enabled: true,
+  cacheTimeout: 300000,
+  maxRetries: 3,
+};
+
+/** Notifications data entry */
+export interface NotificationsEntry {
+  id: string;
+  timestamp: number;
+  value: bigint;
+  label: string;
+  metadata: Record<string, unknown>;
+}
+
+/** Create a new Notifications entry */
+export function createNotificationsEntry(
+  id: string,
+  value: bigint,
+  label: string
+): NotificationsEntry {
+  return {
+    id,
+    timestamp: Date.now(),
+    value,
+    label,
+    metadata: {},
+  };
+}
+
+/** Validate Notifications entry */
+export function validateNotificationsEntry(entry: NotificationsEntry): boolean {
+  if (!entry.id || entry.id.length === 0) return false;
+  if (entry.value < 0n) return false;
+  if (entry.timestamp <= 0) return false;
+  return true;
+}
+
+/** Filter entries by time range */
+export function filterNotificationsByTimeRange(
+  entries: NotificationsEntry[],
+  startTime: number,
+  endTime: number
+): NotificationsEntry[] {
+  return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
+}
+
+/** Aggregate Notifications values */
+export function aggregateNotificationsValues(
+  entries: NotificationsEntry[]
+): bigint {
+  return entries.reduce((sum, e) => sum + e.value, 0n);
+}
+
+/** Calculate Notifications average */
+export function calculateNotificationsAverage(
+  entries: NotificationsEntry[]
+): number {
+  if (entries.length === 0) return 0;
+  const total = Number(aggregateNotificationsValues(entries));
+  return total / entries.length;
+}
+
+/** Group Notifications entries by label */
+export function groupNotificationsByLabel(
+  entries: NotificationsEntry[]
+): Map<string, NotificationsEntry[]> {
+  const groups = new Map<string, NotificationsEntry[]>();
+  for (const entry of entries) {
+    const list = groups.get(entry.label) || [];
+    list.push(entry);
+    groups.set(entry.label, list);
+  }
+  return groups;
+}
+
+/** Sort Notifications entries by value descending */
+export function sortNotificationsByValue(
+  entries: NotificationsEntry[]
+): NotificationsEntry[] {
+  return [...entries].sort((a, b) => Number(b.value - a.value));
+}
+
+/** Get top N Notifications entries */
+export function getTopNotificationsEntries(
+  entries: NotificationsEntry[],
+  n: number
+): NotificationsEntry[] {
+  return sortNotificationsByValue(entries).slice(0, n);
+}
+
+/** Calculate Notifications growth rate */
+export function calculateNotificationsGrowthRate(
+  previousValue: bigint,
+  currentValue: bigint
+): number {
+  if (previousValue === 0n) return currentValue > 0n ? 100 : 0;
+  return Number(((currentValue - previousValue) * 10000n) / previousValue) / 100;
+}
+
+/** Format Notifications entry for display */
+export function formatNotificationsEntry(
+  entry: NotificationsEntry
+): string {
+  const date = new Date(entry.timestamp).toISOString();
+  const val = Number(entry.value) / Math.pow(10, TOKEN_DECIMALS);
+  return `[${date}] ${entry.label}: ${val.toFixed(6)}`;
+}
+
+/** Serialize Notifications entries to JSON */
+export function serializeNotificationsEntries(
+  entries: NotificationsEntry[]
+): string {
+  return JSON.stringify(
+    entries.map(e => ({
+      ...e,
+      value: e.value.toString(),
+    })),
+    null,
+    2
+  );
+}
+
+/** Deserialize Notifications entries from JSON */
+export function deserializeNotificationsEntries(
+  json: string
+): NotificationsEntry[] {
+  const parsed = JSON.parse(json);
+  return parsed.map((e: Record<string, unknown>) => ({
+    ...e,
+    value: BigInt(e.value as string),
+  }));
+}
