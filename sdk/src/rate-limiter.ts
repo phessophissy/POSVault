@@ -62,3 +62,12 @@ export function aggregateRateLimiterValues(
 ): bigint {
   return entries.reduce((sum, e) => sum + e.value, 0n);
 }
+
+/** Calculate RateLimiter average */
+export function calculateRateLimiterAverage(
+  entries: RateLimiterEntry[]
+): number {
+  if (entries.length === 0) return 0;
+  const total = Number(aggregateRateLimiterValues(entries));
+  return total / entries.length;
+}
