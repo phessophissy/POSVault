@@ -91,3 +91,11 @@ export function sortPortfolioByValue(
 ): PortfolioEntry[] {
   return [...entries].sort((a, b) => Number(b.value - a.value));
 }
+
+/** Get top N Portfolio entries */
+export function getTopPortfolioEntries(
+  entries: PortfolioEntry[],
+  n: number
+): PortfolioEntry[] {
+  return sortPortfolioByValue(entries).slice(0, n);
+}
