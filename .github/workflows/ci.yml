@@ -42,3 +42,5 @@ jobs:
         run: |
           curl -L https://github.com/hirosystems/clarinet/releases/latest/download/clarinet-linux-x64.tar.gz | tar xz
           sudo mv clarinet /usr/local/bin/
+      - name: Check contracts
+        run: clarinet check
