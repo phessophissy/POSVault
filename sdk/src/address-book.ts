@@ -131,3 +131,14 @@ export function serializeAddressBookEntries(
     2
   );
 }
+
+/** Deserialize AddressBook entries from JSON */
+export function deserializeAddressBookEntries(
+  json: string
+): AddressBookEntry[] {
+  const parsed = JSON.parse(json);
+  return parsed.map((e: Record<string, unknown>) => ({
+    ...e,
+    value: BigInt(e.value as string),
+  }));
+}
