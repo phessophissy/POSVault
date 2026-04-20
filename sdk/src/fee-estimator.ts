@@ -46,3 +46,12 @@ export function validateFeeEstimatorEntry(entry: FeeEstimatorEntry): boolean {
   if (entry.timestamp <= 0) return false;
   return true;
 }
+
+/** Filter entries by time range */
+export function filterFeeEstimatorByTimeRange(
+  entries: FeeEstimatorEntry[],
+  startTime: number,
+  endTime: number
+): FeeEstimatorEntry[] {
+  return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
+}
