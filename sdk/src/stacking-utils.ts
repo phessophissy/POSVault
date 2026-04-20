@@ -91,3 +91,11 @@ export function sortStackingUtilsByValue(
 ): StackingUtilsEntry[] {
   return [...entries].sort((a, b) => Number(b.value - a.value));
 }
+
+/** Get top N StackingUtils entries */
+export function getTopStackingUtilsEntries(
+  entries: StackingUtilsEntry[],
+  n: number
+): StackingUtilsEntry[] {
+  return sortStackingUtilsByValue(entries).slice(0, n);
+}
