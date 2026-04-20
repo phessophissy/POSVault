@@ -38,3 +38,11 @@ export function createNotificationsEntry(
     metadata: {},
   };
 }
+
+/** Validate Notifications entry */
+export function validateNotificationsEntry(entry: NotificationsEntry): boolean {
+  if (!entry.id || entry.id.length === 0) return false;
+  if (entry.value < 0n) return false;
+  if (entry.timestamp <= 0) return false;
+  return true;
+}
