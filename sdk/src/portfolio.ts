@@ -55,3 +55,10 @@ export function filterPortfolioByTimeRange(
 ): PortfolioEntry[] {
   return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
 }
+
+/** Aggregate Portfolio values */
+export function aggregatePortfolioValues(
+  entries: PortfolioEntry[]
+): bigint {
+  return entries.reduce((sum, e) => sum + e.value, 0n);
+}
