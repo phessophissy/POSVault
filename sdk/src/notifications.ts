@@ -14,3 +14,12 @@ export const DEFAULT_NOTIFICATIONS_CONFIG: NotificationsConfig = {
   cacheTimeout: 300000,
   maxRetries: 3,
 };
+
+/** Notifications data entry */
+export interface NotificationsEntry {
+  id: string;
+  timestamp: number;
+  value: bigint;
+  label: string;
+  metadata: Record<string, unknown>;
+}
