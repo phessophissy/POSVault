@@ -131,3 +131,14 @@ export function serializeCsvExportEntries(
     2
   );
 }
+
+/** Deserialize CsvExport entries from JSON */
+export function deserializeCsvExportEntries(
+  json: string
+): CsvExportEntry[] {
+  const parsed = JSON.parse(json);
+  return parsed.map((e: Record<string, unknown>) => ({
+    ...e,
+    value: BigInt(e.value as string),
+  }));
+}
