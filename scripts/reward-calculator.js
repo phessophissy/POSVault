@@ -101,3 +101,18 @@ async function checkHealth() {
 
   return checks;
 }
+
+/** Generate report */
+function generateReport(checks) {
+  log("=== Vault Health Report ===");
+  log(`Timestamp: ${formatTime()}`);
+  log(`Contract: ${VAULT_CONTRACT}`);
+  log("");
+  for (const check of checks) {
+    const icon = check.status === "OK" ? "✓" : check.status === "WARN" ? "!" : "✗";
+    log(`  [${icon}] ${check.name}: ${check.value} (${check.status})`);
+  }
+  log("");
+  const passed = checks.filter(c => c.status === "OK").length;
+  log(`Summary: ${passed}/${checks.length} checks passed`);
+}
