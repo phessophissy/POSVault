@@ -117,3 +117,17 @@ export function formatAddressBookEntry(
   const val = Number(entry.value) / Math.pow(10, TOKEN_DECIMALS);
   return `[${date}] ${entry.label}: ${val.toFixed(6)}`;
 }
+
+/** Serialize AddressBook entries to JSON */
+export function serializeAddressBookEntries(
+  entries: AddressBookEntry[]
+): string {
+  return JSON.stringify(
+    entries.map(e => ({
+      ...e,
+      value: e.value.toString(),
+    })),
+    null,
+    2
+  );
+}
