@@ -41,3 +41,18 @@ function parseArgs() {
   }
   return options;
 }
+
+/** Format timestamp */
+function formatTime(date = new Date()) {
+  return date.toISOString().replace("T", " ").substring(0, 19);
+}
+
+/** Log with timestamp */
+function log(message, level = "INFO") {
+  console.log(`[${formatTime()}] [${level}] ${message}`);
+}
+
+/** Log error */
+function logError(message) {
+  log(message, "ERROR");
+}
