@@ -23,3 +23,18 @@ export interface .Eslintrc.JsonEntry {
   label: string;
   metadata: Record<string, unknown>;
 }
+
+/** Create a new .Eslintrc.Json entry */
+export function create.Eslintrc.JsonEntry(
+  id: string,
+  value: bigint,
+  label: string
+): .Eslintrc.JsonEntry {
+  return {
+    id,
+    timestamp: Date.now(),
+    value,
+    label,
+    metadata: {},
+  };
+}
