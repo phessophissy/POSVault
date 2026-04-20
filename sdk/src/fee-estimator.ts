@@ -14,3 +14,12 @@ export const DEFAULT_FEEESTIMATOR_CONFIG: FeeEstimatorConfig = {
   cacheTimeout: 300000,
   maxRetries: 3,
 };
+
+/** FeeEstimator data entry */
+export interface FeeEstimatorEntry {
+  id: string;
+  timestamp: number;
+  value: bigint;
+  label: string;
+  metadata: Record<string, unknown>;
+}
