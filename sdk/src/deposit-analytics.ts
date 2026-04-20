@@ -84,3 +84,10 @@ export function groupDepositAnalyticsByLabel(
   }
   return groups;
 }
+
+/** Sort DepositAnalytics entries by value descending */
+export function sortDepositAnalyticsByValue(
+  entries: DepositAnalyticsEntry[]
+): DepositAnalyticsEntry[] {
+  return [...entries].sort((a, b) => Number(b.value - a.value));
+}
