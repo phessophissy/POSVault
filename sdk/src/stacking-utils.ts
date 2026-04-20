@@ -14,3 +14,12 @@ export const DEFAULT_STACKINGUTILS_CONFIG: StackingUtilsConfig = {
   cacheTimeout: 300000,
   maxRetries: 3,
 };
+
+/** StackingUtils data entry */
+export interface StackingUtilsEntry {
+  id: string;
+  timestamp: number;
+  value: bigint;
+  label: string;
+  metadata: Record<string, unknown>;
+}
