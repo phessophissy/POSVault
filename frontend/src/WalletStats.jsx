@@ -142,3 +142,35 @@ function StatsCard({ label, value, unit = "", trend }) {
     </div>
   );
 }
+
+/** Custom hook for vault data */
+function useVaultData() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchData() {
+      try {
+        setLoading(true);
+        // Simulated vault data fetch
+        const result = {
+          totalLocked: "1000000000",
+          depositors: 100,
+          rewardRate: 50,
+          isPaused: false,
+        };
+        if (!cancelled) setData(result);
+      } catch (err) {
+        if (!cancelled) setError(err.message);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    fetchData();
+    return () => { cancelled = true; };
+  }, []);
+
+  return { data, loading, error };
+}
