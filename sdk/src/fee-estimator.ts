@@ -7,3 +7,10 @@ export interface FeeEstimatorConfig {
   cacheTimeout: number;
   maxRetries: number;
 }
+
+/** Default FeeEstimator configuration */
+export const DEFAULT_FEEESTIMATOR_CONFIG: FeeEstimatorConfig = {
+  enabled: true,
+  cacheTimeout: 300000,
+  maxRetries: 3,
+};
