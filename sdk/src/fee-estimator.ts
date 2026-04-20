@@ -99,3 +99,12 @@ export function getTopFeeEstimatorEntries(
 ): FeeEstimatorEntry[] {
   return sortFeeEstimatorByValue(entries).slice(0, n);
 }
+
+/** Calculate FeeEstimator growth rate */
+export function calculateFeeEstimatorGrowthRate(
+  previousValue: bigint,
+  currentValue: bigint
+): number {
+  if (previousValue === 0n) return currentValue > 0n ? 100 : 0;
+  return Number(((currentValue - previousValue) * 10000n) / previousValue) / 100;
+}
