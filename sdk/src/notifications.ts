@@ -99,3 +99,12 @@ export function getTopNotificationsEntries(
 ): NotificationsEntry[] {
   return sortNotificationsByValue(entries).slice(0, n);
 }
+
+/** Calculate Notifications growth rate */
+export function calculateNotificationsGrowthRate(
+  previousValue: bigint,
+  currentValue: bigint
+): number {
+  if (previousValue === 0n) return currentValue > 0n ? 100 : 0;
+  return Number(((currentValue - previousValue) * 10000n) / previousValue) / 100;
+}
