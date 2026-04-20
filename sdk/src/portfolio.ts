@@ -14,3 +14,12 @@ export const DEFAULT_PORTFOLIO_CONFIG: PortfolioConfig = {
   cacheTimeout: 300000,
   maxRetries: 3,
 };
+
+/** Portfolio data entry */
+export interface PortfolioEntry {
+  id: string;
+  timestamp: number;
+  value: bigint;
+  label: string;
+  metadata: Record<string, unknown>;
+}
