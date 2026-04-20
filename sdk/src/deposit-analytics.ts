@@ -46,3 +46,12 @@ export function validateDepositAnalyticsEntry(entry: DepositAnalyticsEntry): boo
   if (entry.timestamp <= 0) return false;
   return true;
 }
+
+/** Filter entries by time range */
+export function filterDepositAnalyticsByTimeRange(
+  entries: DepositAnalyticsEntry[],
+  startTime: number,
+  endTime: number
+): DepositAnalyticsEntry[] {
+  return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
+}
