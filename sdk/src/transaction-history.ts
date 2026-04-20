@@ -38,3 +38,11 @@ export function createTransactionHistoryEntry(
     metadata: {},
   };
 }
+
+/** Validate TransactionHistory entry */
+export function validateTransactionHistoryEntry(entry: TransactionHistoryEntry): boolean {
+  if (!entry.id || entry.id.length === 0) return false;
+  if (entry.value < 0n) return false;
+  if (entry.timestamp <= 0) return false;
+  return true;
+}
