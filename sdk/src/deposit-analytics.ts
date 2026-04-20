@@ -117,3 +117,17 @@ export function formatDepositAnalyticsEntry(
   const val = Number(entry.value) / Math.pow(10, TOKEN_DECIMALS);
   return `[${date}] ${entry.label}: ${val.toFixed(6)}`;
 }
+
+/** Serialize DepositAnalytics entries to JSON */
+export function serializeDepositAnalyticsEntries(
+  entries: DepositAnalyticsEntry[]
+): string {
+  return JSON.stringify(
+    entries.map(e => ({
+      ...e,
+      value: e.value.toString(),
+    })),
+    null,
+    2
+  );
+}
