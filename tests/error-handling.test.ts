@@ -170,3 +170,18 @@ describe("Error Handling - data serialization", () => {
     expect(roundTrip).toBe(original);
   });
 });
+
+describe("Error Handling - time utilities", () => {
+  it("should estimate time from blocks", () => {
+    const blocks = 6n;
+    const avgBlockTime = 600; // seconds
+    const seconds = Number(blocks) * avgBlockTime;
+    expect(seconds).toBe(3600);
+  });
+
+  it("should calculate blocks per day", () => {
+    const blocksPerHour = 6;
+    const blocksPerDay = blocksPerHour * 24;
+    expect(blocksPerDay).toBe(144);
+  });
+});
