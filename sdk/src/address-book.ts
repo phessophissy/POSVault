@@ -108,3 +108,12 @@ export function calculateAddressBookGrowthRate(
   if (previousValue === 0n) return currentValue > 0n ? 100 : 0;
   return Number(((currentValue - previousValue) * 10000n) / previousValue) / 100;
 }
+
+/** Format AddressBook entry for display */
+export function formatAddressBookEntry(
+  entry: AddressBookEntry
+): string {
+  const date = new Date(entry.timestamp).toISOString();
+  const val = Number(entry.value) / Math.pow(10, TOKEN_DECIMALS);
+  return `[${date}] ${entry.label}: ${val.toFixed(6)}`;
+}
