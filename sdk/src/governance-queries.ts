@@ -148,3 +148,13 @@ export function sortByParticipation(
 ): ProposalSummary[] {
   return [...proposals].sort((a, b) => b.participation - a.participation);
 }
+
+/** Get overall governance health score (0-100) */
+export function governanceHealthScore(
+  proposals: ProposalSummary[]
+): number {
+  if (proposals.length === 0) return 0;
+  const avgParticipation = proposals.reduce((s, p) => s + p.participation, 0) / proposals.length;
+  const passRate = proposals.filter(p => p.status === ProposalStatus.Passed).length / proposals.length;
+  return Math.round(avgParticipation * 0.6 + passRate * 100 * 0.4);
+}
