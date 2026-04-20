@@ -64,6 +64,9 @@ coverage/
 # ==========================================
 scripts/interact.js
 scripts/README.md
+scripts/create-*.sh
+scripts/finish-*.sh
+tools/
 
 # ==========================================
 # Lock files (keep package.json only)
