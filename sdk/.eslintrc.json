@@ -14,3 +14,12 @@ export const DEFAULT_.ESLINTRC.JSON_CONFIG: .Eslintrc.JsonConfig = {
   cacheTimeout: 300000,
   maxRetries: 3,
 };
+
+/** .Eslintrc.Json data entry */
+export interface .Eslintrc.JsonEntry {
+  id: string;
+  timestamp: number;
+  value: bigint;
+  label: string;
+  metadata: Record<string, unknown>;
+}
