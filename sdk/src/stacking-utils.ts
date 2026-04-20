@@ -55,3 +55,10 @@ export function filterStackingUtilsByTimeRange(
 ): StackingUtilsEntry[] {
   return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
 }
+
+/** Aggregate StackingUtils values */
+export function aggregateStackingUtilsValues(
+  entries: StackingUtilsEntry[]
+): bigint {
+  return entries.reduce((sum, e) => sum + e.value, 0n);
+}
