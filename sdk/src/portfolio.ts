@@ -46,3 +46,12 @@ export function validatePortfolioEntry(entry: PortfolioEntry): boolean {
   if (entry.timestamp <= 0) return false;
   return true;
 }
+
+/** Filter entries by time range */
+export function filterPortfolioByTimeRange(
+  entries: PortfolioEntry[],
+  startTime: number,
+  endTime: number
+): PortfolioEntry[] {
+  return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
+}
