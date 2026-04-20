@@ -23,3 +23,18 @@ export interface CsvExportEntry {
   label: string;
   metadata: Record<string, unknown>;
 }
+
+/** Create a new CsvExport entry */
+export function createCsvExportEntry(
+  id: string,
+  value: bigint,
+  label: string
+): CsvExportEntry {
+  return {
+    id,
+    timestamp: Date.now(),
+    value,
+    label,
+    metadata: {},
+  };
+}
