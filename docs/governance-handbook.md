@@ -167,3 +167,14 @@ A: Yes, v4 has no lock period. Withdrawals are instant.
 
 **Q: How do governance votes work?**
 A: POS-GOV token holders can vote on proposals during the 1008-block voting window.
+
+## References
+
+- [Stacks Documentation](https://docs.stacks.co)
+- [Clarity Language Reference](https://docs.stacks.co/clarity)
+- [POSVault SDK README](../sdk/README.md)
+- [Contract Source](../contracts/vault-core-v4.clar)
+
+---
+
+*Last updated: April 2026*
