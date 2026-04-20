@@ -46,3 +46,12 @@ export function validateAddressBookEntry(entry: AddressBookEntry): boolean {
   if (entry.timestamp <= 0) return false;
   return true;
 }
+
+/** Filter entries by time range */
+export function filterAddressBookByTimeRange(
+  entries: AddressBookEntry[],
+  startTime: number,
+  endTime: number
+): AddressBookEntry[] {
+  return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
+}
