@@ -119,3 +119,13 @@ This verifies:
 - Vault is not paused
 - Reward rate is within expected range
 - No suspicious large withdrawals
+
+## Metrics
+
+### Key Performance Indicators
+
+- **TVL (Total Value Locked)**: Total STX in vault
+- **Unique Depositors**: Number of active stakers
+- **Average Deposit Size**: TVL / Depositors
+- **Governance Participation**: Votes cast / Eligible voters
+- **Reward Distribution Rate**: Tokens minted per cycle
