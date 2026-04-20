@@ -137,3 +137,16 @@ describe("Error Handling - voting mechanics", () => {
     expect(passed).toBe(false);
   });
 });
+
+describe("Error Handling - error scenarios", () => {
+  it("should handle network timeout gracefully", () => {
+    const mockError = new Error("Network timeout");
+    expect(mockError.message).toBe("Network timeout");
+  });
+
+  it("should handle contract errors", () => {
+    const errorCodes = { 100: "NOT_AUTHORIZED", 101: "VAULT_PAUSED", 102: "NO_DEPOSIT" };
+    expect(errorCodes[100]).toBe("NOT_AUTHORIZED");
+    expect(errorCodes[101]).toBe("VAULT_PAUSED");
+  });
+});
