@@ -62,3 +62,12 @@ export function aggregateTransactionHistoryValues(
 ): bigint {
   return entries.reduce((sum, e) => sum + e.value, 0n);
 }
+
+/** Calculate TransactionHistory average */
+export function calculateTransactionHistoryAverage(
+  entries: TransactionHistoryEntry[]
+): number {
+  if (entries.length === 0) return 0;
+  const total = Number(aggregateTransactionHistoryValues(entries));
+  return total / entries.length;
+}
