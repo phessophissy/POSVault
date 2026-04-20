@@ -71,3 +71,16 @@ export function calculateTransactionHistoryAverage(
   const total = Number(aggregateTransactionHistoryValues(entries));
   return total / entries.length;
 }
+
+/** Group TransactionHistory entries by label */
+export function groupTransactionHistoryByLabel(
+  entries: TransactionHistoryEntry[]
+): Map<string, TransactionHistoryEntry[]> {
+  const groups = new Map<string, TransactionHistoryEntry[]>();
+  for (const entry of entries) {
+    const list = groups.get(entry.label) || [];
+    list.push(entry);
+    groups.set(entry.label, list);
+  }
+  return groups;
+}
