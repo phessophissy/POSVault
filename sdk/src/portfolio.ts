@@ -99,3 +99,12 @@ export function getTopPortfolioEntries(
 ): PortfolioEntry[] {
   return sortPortfolioByValue(entries).slice(0, n);
 }
+
+/** Calculate Portfolio growth rate */
+export function calculatePortfolioGrowthRate(
+  previousValue: bigint,
+  currentValue: bigint
+): number {
+  if (previousValue === 0n) return currentValue > 0n ? 100 : 0;
+  return Number(((currentValue - previousValue) * 10000n) / previousValue) / 100;
+}
