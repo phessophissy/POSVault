@@ -66,3 +66,7 @@ services:
     networks:
       - posvault
     restart: unless-stopped
+
+networks:
+  posvault:
+    driver: bridge
