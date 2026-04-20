@@ -46,3 +46,12 @@ export function validateRateLimiterEntry(entry: RateLimiterEntry): boolean {
   if (entry.timestamp <= 0) return false;
   return true;
 }
+
+/** Filter entries by time range */
+export function filterRateLimiterByTimeRange(
+  entries: RateLimiterEntry[],
+  startTime: number,
+  endTime: number
+): RateLimiterEntry[] {
+  return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
+}
