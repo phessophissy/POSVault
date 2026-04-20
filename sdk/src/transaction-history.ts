@@ -84,3 +84,10 @@ export function groupTransactionHistoryByLabel(
   }
   return groups;
 }
+
+/** Sort TransactionHistory entries by value descending */
+export function sortTransactionHistoryByValue(
+  entries: TransactionHistoryEntry[]
+): TransactionHistoryEntry[] {
+  return [...entries].sort((a, b) => Number(b.value - a.value));
+}
