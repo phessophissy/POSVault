@@ -62,3 +62,12 @@ export function aggregateStackingUtilsValues(
 ): bigint {
   return entries.reduce((sum, e) => sum + e.value, 0n);
 }
+
+/** Calculate StackingUtils average */
+export function calculateStackingUtilsAverage(
+  entries: StackingUtilsEntry[]
+): number {
+  if (entries.length === 0) return 0;
+  const total = Number(aggregateStackingUtilsValues(entries));
+  return total / entries.length;
+}
