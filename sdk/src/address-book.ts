@@ -71,3 +71,16 @@ export function calculateAddressBookAverage(
   const total = Number(aggregateAddressBookValues(entries));
   return total / entries.length;
 }
+
+/** Group AddressBook entries by label */
+export function groupAddressBookByLabel(
+  entries: AddressBookEntry[]
+): Map<string, AddressBookEntry[]> {
+  const groups = new Map<string, AddressBookEntry[]>();
+  for (const entry of entries) {
+    const list = groups.get(entry.label) || [];
+    list.push(entry);
+    groups.set(entry.label, list);
+  }
+  return groups;
+}
