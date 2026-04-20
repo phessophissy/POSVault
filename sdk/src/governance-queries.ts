@@ -44,3 +44,13 @@ export function voteParticipation(
   if (eligibleVoters === 0n) return 0;
   return Number((totalVoters * 10000n) / eligibleVoters) / 100;
 }
+
+/** Check if proposal has reached quorum */
+export function hasQuorum(
+  totalVoters: bigint,
+  eligibleVoters: bigint,
+  quorumPercent: number = 10
+): boolean {
+  const participation = voteParticipation(totalVoters, eligibleVoters);
+  return participation >= quorumPercent;
+}
