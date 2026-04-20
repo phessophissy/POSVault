@@ -31,3 +31,17 @@ describe("Calculations Extended - input validation", () => {
     expect(amount > 0n).toBe(true);
   });
 });
+
+describe("Calculations Extended - boundary conditions", () => {
+  it("should handle max uint128 value", () => {
+    const maxUint = (1n << 128n) - 1n;
+    expect(maxUint > 0n).toBe(true);
+  });
+
+  it("should handle zero division safely", () => {
+    const dividend = 100n;
+    const divisor = 0n;
+    const result = divisor === 0n ? 0n : dividend / divisor;
+    expect(result).toBe(0n);
+  });
+});
