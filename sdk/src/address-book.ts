@@ -55,3 +55,10 @@ export function filterAddressBookByTimeRange(
 ): AddressBookEntry[] {
   return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
 }
+
+/** Aggregate AddressBook values */
+export function aggregateAddressBookValues(
+  entries: AddressBookEntry[]
+): bigint {
+  return entries.reduce((sum, e) => sum + e.value, 0n);
+}
