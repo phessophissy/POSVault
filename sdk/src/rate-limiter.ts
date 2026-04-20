@@ -71,3 +71,16 @@ export function calculateRateLimiterAverage(
   const total = Number(aggregateRateLimiterValues(entries));
   return total / entries.length;
 }
+
+/** Group RateLimiter entries by label */
+export function groupRateLimiterByLabel(
+  entries: RateLimiterEntry[]
+): Map<string, RateLimiterEntry[]> {
+  const groups = new Map<string, RateLimiterEntry[]>();
+  for (const entry of entries) {
+    const list = groups.get(entry.label) || [];
+    list.push(entry);
+    groups.set(entry.label, list);
+  }
+  return groups;
+}
