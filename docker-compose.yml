@@ -52,3 +52,14 @@ services:
       - NODE_ENV=development
     networks:
       - posvault
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=posvault
+      - POSTGRES_PASSWORD=devpassword
+      - POSTGRES_DB=posvault_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
