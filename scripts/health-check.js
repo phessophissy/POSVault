@@ -165,3 +165,18 @@ function formatOutput(data, format = "console") {
       return typeof data === "object" ? JSON.stringify(data, null, 2) : String(data);
   }
 }
+
+/** Validate configuration */
+function validateConfig(options) {
+  const errors = [];
+  if (!["mainnet", "testnet"].includes(options.network)) {
+    errors.push(`Invalid network: ${options.network}`);
+  }
+  if (options.interval < 10000) {
+    errors.push("Interval must be at least 10 seconds");
+  }
+  if (errors.length > 0) {
+    errors.forEach(e => logError(e));
+    process.exit(1);
+  }
+}
