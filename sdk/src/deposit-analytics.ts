@@ -131,3 +131,14 @@ export function serializeDepositAnalyticsEntries(
     2
   );
 }
+
+/** Deserialize DepositAnalytics entries from JSON */
+export function deserializeDepositAnalyticsEntries(
+  json: string
+): DepositAnalyticsEntry[] {
+  const parsed = JSON.parse(json);
+  return parsed.map((e: Record<string, unknown>) => ({
+    ...e,
+    value: BigInt(e.value as string),
+  }));
+}
