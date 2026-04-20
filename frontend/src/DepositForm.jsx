@@ -57,3 +57,27 @@ function StatusBadge({ status }) {
     </span>
   );
 }
+
+/** Amount input sub-component */
+function AmountInput({ value, onChange, max, label = "Amount (STX)" }) {
+  return (
+    <div className="amount-input">
+      <label>{label}</label>
+      <div className="input-group">
+        <input
+          type="number"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          min="0"
+          step="0.000001"
+          placeholder="0.000000"
+        />
+        {max && (
+          <button className="max-btn" onClick={() => onChange(max)}>
+            MAX
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
