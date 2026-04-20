@@ -46,3 +46,12 @@ export function validateTransactionHistoryEntry(entry: TransactionHistoryEntry):
   if (entry.timestamp <= 0) return false;
   return true;
 }
+
+/** Filter entries by time range */
+export function filterTransactionHistoryByTimeRange(
+  entries: TransactionHistoryEntry[],
+  startTime: number,
+  endTime: number
+): TransactionHistoryEntry[] {
+  return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
+}
