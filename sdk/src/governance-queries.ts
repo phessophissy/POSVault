@@ -141,3 +141,10 @@ export function filterProposals(
 ): ProposalSummary[] {
   return proposals.filter(p => p.status === status);
 }
+
+/** Sort proposals by participation rate descending */
+export function sortByParticipation(
+  proposals: ProposalSummary[]
+): ProposalSummary[] {
+  return [...proposals].sort((a, b) => b.participation - a.participation);
+}
