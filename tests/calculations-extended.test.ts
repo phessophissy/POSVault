@@ -150,3 +150,23 @@ describe("Calculations Extended - error scenarios", () => {
     expect(errorCodes[101]).toBe("VAULT_PAUSED");
   });
 });
+
+describe("Calculations Extended - data serialization", () => {
+  it("should serialize bigint to string", () => {
+    const value = 1000000n;
+    const serialized = value.toString();
+    expect(serialized).toBe("1000000");
+  });
+
+  it("should deserialize string to bigint", () => {
+    const str = "1000000";
+    const value = BigInt(str);
+    expect(value).toBe(1000000n);
+  });
+
+  it("should round-trip serialize", () => {
+    const original = 999999999n;
+    const roundTrip = BigInt(original.toString());
+    expect(roundTrip).toBe(original);
+  });
+});
