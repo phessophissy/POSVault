@@ -54,3 +54,14 @@ export function hasQuorum(
   const participation = voteParticipation(totalVoters, eligibleVoters);
   return participation >= quorumPercent;
 }
+
+/** Format proposal end block as estimated date */
+export function estimateProposalEndDate(
+  currentBlock: bigint,
+  endBlock: bigint,
+  avgBlockTimeSeconds: number = 600
+): Date {
+  const blocksRemaining = Number(endBlock - currentBlock);
+  const secondsRemaining = blocksRemaining * avgBlockTimeSeconds;
+  return new Date(Date.now() + secondsRemaining * 1000);
+}
