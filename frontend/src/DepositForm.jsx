@@ -269,3 +269,21 @@ export const depositformStyles = {
     border: "1px solid #e9ecef",
   },
 };
+
+/** DepositForm prop types documentation */
+/**
+ * @typedef {DepositFormProps}
+ * @property {string} walletAddress - Connected wallet address
+ * @property {"mainnet"|"testnet"} network - Target network
+ * @property {boolean} autoRefresh - Enable auto-refresh
+ * @property {number} refreshInterval - Refresh interval in ms
+ * @property {(error: Error) => void} onError - Error callback
+ */
+
+/** Default props */
+export const defaultDepositFormProps = {
+  network: "mainnet",
+  autoRefresh: true,
+  refreshInterval: 30000,
+  onError: (err) => console.error(`DepositForm error:`, err),
+};
