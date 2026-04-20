@@ -23,3 +23,18 @@ export interface RateLimiterEntry {
   label: string;
   metadata: Record<string, unknown>;
 }
+
+/** Create a new RateLimiter entry */
+export function createRateLimiterEntry(
+  id: string,
+  value: bigint,
+  label: string
+): RateLimiterEntry {
+  return {
+    id,
+    timestamp: Date.now(),
+    value,
+    label,
+    metadata: {},
+  };
+}
