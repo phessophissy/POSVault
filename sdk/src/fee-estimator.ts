@@ -91,3 +91,11 @@ export function sortFeeEstimatorByValue(
 ): FeeEstimatorEntry[] {
   return [...entries].sort((a, b) => Number(b.value - a.value));
 }
+
+/** Get top N FeeEstimator entries */
+export function getTopFeeEstimatorEntries(
+  entries: FeeEstimatorEntry[],
+  n: number
+): FeeEstimatorEntry[] {
+  return sortFeeEstimatorByValue(entries).slice(0, n);
+}
