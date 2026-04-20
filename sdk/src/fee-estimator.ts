@@ -23,3 +23,18 @@ export interface FeeEstimatorEntry {
   label: string;
   metadata: Record<string, unknown>;
 }
+
+/** Create a new FeeEstimator entry */
+export function createFeeEstimatorEntry(
+  id: string,
+  value: bigint,
+  label: string
+): FeeEstimatorEntry {
+  return {
+    id,
+    timestamp: Date.now(),
+    value,
+    label,
+    metadata: {},
+  };
+}
