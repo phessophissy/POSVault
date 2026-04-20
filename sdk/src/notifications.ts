@@ -91,3 +91,11 @@ export function sortNotificationsByValue(
 ): NotificationsEntry[] {
   return [...entries].sort((a, b) => Number(b.value - a.value));
 }
+
+/** Get top N Notifications entries */
+export function getTopNotificationsEntries(
+  entries: NotificationsEntry[],
+  n: number
+): NotificationsEntry[] {
+  return sortNotificationsByValue(entries).slice(0, n);
+}
