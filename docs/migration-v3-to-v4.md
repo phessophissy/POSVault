@@ -66,3 +66,15 @@ if (info.isPaused) {
 }
 console.log(`Total locked: ${info.totalStxLocked}`);
 ```
+
+### Step 4: Execute Operations
+
+```typescript
+// Deposit
+const depositTx = await vault.deposit(1000000n); // 1 STX
+
+// Check status
+const deposit = await vault.getDeposit(address);
+console.log(`Amount: ${deposit.amount}`);
+console.log(`Since block: ${deposit.depositBlock}`);
+```
