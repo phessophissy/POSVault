@@ -37,3 +37,19 @@ Users deposit STX → Vault tracks deposits → Rewards accrue per cycle → Use
 | Reward Cycle | 144 blocks | 144 blocks |
 | Voting Period | 1008 blocks | 1008 blocks |
 | Token Decimals | 6 | 6 |
+
+## Step-by-Step Guide
+
+### Step 1: Environment Setup
+
+```bash
+npm install @posvault/sdk
+export STACKS_NETWORK=mainnet
+```
+
+### Step 2: Initialize SDK
+
+```typescript
+import { POSVault } from "@posvault/sdk";
+const vault = new POSVault({ network: "mainnet" });
+```
