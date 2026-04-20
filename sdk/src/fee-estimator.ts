@@ -131,3 +131,14 @@ export function serializeFeeEstimatorEntries(
     2
   );
 }
+
+/** Deserialize FeeEstimator entries from JSON */
+export function deserializeFeeEstimatorEntries(
+  json: string
+): FeeEstimatorEntry[] {
+  const parsed = JSON.parse(json);
+  return parsed.map((e: Record<string, unknown>) => ({
+    ...e,
+    value: BigInt(e.value as string),
+  }));
+}
