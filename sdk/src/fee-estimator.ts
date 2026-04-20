@@ -84,3 +84,10 @@ export function groupFeeEstimatorByLabel(
   }
   return groups;
 }
+
+/** Sort FeeEstimator entries by value descending */
+export function sortFeeEstimatorByValue(
+  entries: FeeEstimatorEntry[]
+): FeeEstimatorEntry[] {
+  return [...entries].sort((a, b) => Number(b.value - a.value));
+}
