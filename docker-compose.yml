@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  devnet:
+    image: hirosystems/clarinet:latest
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: clarinet devnet start
