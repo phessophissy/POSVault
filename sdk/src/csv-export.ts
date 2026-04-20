@@ -55,3 +55,10 @@ export function filterCsvExportByTimeRange(
 ): CsvExportEntry[] {
   return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
 }
+
+/** Aggregate CsvExport values */
+export function aggregateCsvExportValues(
+  entries: CsvExportEntry[]
+): bigint {
+  return entries.reduce((sum, e) => sum + e.value, 0n);
+}
