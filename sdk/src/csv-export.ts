@@ -46,3 +46,12 @@ export function validateCsvExportEntry(entry: CsvExportEntry): boolean {
   if (entry.timestamp <= 0) return false;
   return true;
 }
+
+/** Filter entries by time range */
+export function filterCsvExportByTimeRange(
+  entries: CsvExportEntry[],
+  startTime: number,
+  endTime: number
+): CsvExportEntry[] {
+  return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
+}
