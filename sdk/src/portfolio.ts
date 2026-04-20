@@ -131,3 +131,14 @@ export function serializePortfolioEntries(
     2
   );
 }
+
+/** Deserialize Portfolio entries from JSON */
+export function deserializePortfolioEntries(
+  json: string
+): PortfolioEntry[] {
+  const parsed = JSON.parse(json);
+  return parsed.map((e: Record<string, unknown>) => ({
+    ...e,
+    value: BigInt(e.value as string),
+  }));
+}
