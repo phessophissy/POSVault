@@ -84,3 +84,10 @@ export function groupPortfolioByLabel(
   }
   return groups;
 }
+
+/** Sort Portfolio entries by value descending */
+export function sortPortfolioByValue(
+  entries: PortfolioEntry[]
+): PortfolioEntry[] {
+  return [...entries].sort((a, b) => Number(b.value - a.value));
+}
