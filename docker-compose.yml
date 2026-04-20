@@ -74,3 +74,8 @@ networks:
 volumes:
   pgdata:
     driver: local
+
+# Docker Compose Notes:
+# - devnet: Runs local Stacks blockchain via Clarinet
+# - stacks-api: Provides REST API for blockchain queries
+# - frontend: Vite dev server with hot reload
