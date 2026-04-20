@@ -6,3 +6,10 @@ export interface GovernanceQueryConfig {
   contractName: string;
   network: "mainnet" | "testnet";
 }
+
+/** Default governance query config */
+export const DEFAULT_GOV_CONFIG: GovernanceQueryConfig = {
+  deployer: DEPLOYER,
+  contractName: CONTRACT_NAMES.proposalVoting,
+  network: "mainnet",
+};
