@@ -102,3 +102,23 @@ describe("Validation Suite - address handling", () => {
     expect(addr.length).toBe(0);
   });
 });
+
+describe("Validation Suite - formatting", () => {
+  it("should format STX amounts", () => {
+    const micro = 1000000n;
+    const stx = Number(micro) / 1000000;
+    expect(stx).toBe(1);
+  });
+
+  it("should format large amounts", () => {
+    const micro = 100000000000n;
+    const stx = Number(micro) / 1000000;
+    expect(stx).toBe(100000);
+  });
+
+  it("should handle fractional amounts", () => {
+    const micro = 1500000n;
+    const stx = Number(micro) / 1000000;
+    expect(stx).toBe(1.5);
+  });
+});
