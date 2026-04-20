@@ -7,3 +7,10 @@ export interface StackingUtilsConfig {
   cacheTimeout: number;
   maxRetries: number;
 }
+
+/** Default StackingUtils configuration */
+export const DEFAULT_STACKINGUTILS_CONFIG: StackingUtilsConfig = {
+  enabled: true,
+  cacheTimeout: 300000,
+  maxRetries: 3,
+};
