@@ -45,3 +45,25 @@ describe("Validation Suite - boundary conditions", () => {
     expect(result).toBe(0n);
   });
 });
+
+describe("Validation Suite - block calculations", () => {
+  const CYCLE_LENGTH = 144n;
+
+  it("should calculate cycles elapsed", () => {
+    const blocks = 288n;
+    const cycles = blocks / CYCLE_LENGTH;
+    expect(cycles).toBe(2n);
+  });
+
+  it("should handle partial cycles", () => {
+    const blocks = 200n;
+    const cycles = blocks / CYCLE_LENGTH;
+    expect(cycles).toBe(1n);
+  });
+
+  it("should return 0 for less than one cycle", () => {
+    const blocks = 100n;
+    const cycles = blocks / CYCLE_LENGTH;
+    expect(cycles).toBe(0n);
+  });
+});
