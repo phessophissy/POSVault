@@ -62,3 +62,12 @@ export function aggregatePortfolioValues(
 ): bigint {
   return entries.reduce((sum, e) => sum + e.value, 0n);
 }
+
+/** Calculate Portfolio average */
+export function calculatePortfolioAverage(
+  entries: PortfolioEntry[]
+): number {
+  if (entries.length === 0) return 0;
+  const total = Number(aggregatePortfolioValues(entries));
+  return total / entries.length;
+}
