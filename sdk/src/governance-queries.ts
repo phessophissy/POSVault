@@ -78,3 +78,16 @@ export function votePowerRatio(
     againstPercent: Number((votesAgainst * 10000n) / total) / 100,
   };
 }
+
+/** Determine if a vote would change the outcome */
+export function isDecisiveVote(
+  currentFor: bigint,
+  currentAgainst: bigint,
+  voteAmount: bigint,
+  voteDirection: "for" | "against"
+): boolean {
+  if (voteDirection === "for") {
+    return currentFor <= currentAgainst && currentFor + voteAmount > currentAgainst;
+  }
+  return currentAgainst <= currentFor && currentAgainst + voteAmount > currentFor;
+}
