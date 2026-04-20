@@ -81,3 +81,30 @@ function AmountInput({ value, onChange, max, label = "Amount (STX)" }) {
     </div>
   );
 }
+
+/** Data table sub-component */
+function DataTable({ columns, rows, emptyMessage = "No data available" }) {
+  if (rows.length === 0) {
+    return <p className="empty-state">{emptyMessage}</p>;
+  }
+  return (
+    <table className="data-table">
+      <thead>
+        <tr>
+          {columns.map((col) => (
+            <th key={col.key}>{col.label}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row, i) => (
+          <tr key={i}>
+            {columns.map((col) => (
+              <td key={col.key}>{row[col.key]}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
