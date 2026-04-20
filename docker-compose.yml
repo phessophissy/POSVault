@@ -70,3 +70,7 @@ services:
 networks:
   posvault:
     driver: bridge
+
+volumes:
+  pgdata:
+    driver: local
