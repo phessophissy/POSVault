@@ -92,3 +92,14 @@ console.log(`Since block: ${deposit.depositBlock}`);
 1. Smart contract risk: Audited but non-zero risk
 2. Network congestion: Transactions may be delayed
 3. Reward rate changes: Subject to governance votes
+
+## Troubleshooting
+
+### Common Issues
+
+| Error | Cause | Solution |
+|-------|-------|----------|
+| ERR-NOT-AUTHORIZED (u100) | Wrong sender | Use correct wallet |
+| ERR-VAULT-PAUSED (u101) | Vault is paused | Wait for admin unpause |
+| ERR-NO-DEPOSIT (u102) | No active deposit | Deposit first |
+| ERR-ALREADY-DEPOSITED (u103) | Existing deposit | Withdraw first |
