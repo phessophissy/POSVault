@@ -84,3 +84,10 @@ export function groupRateLimiterByLabel(
   }
   return groups;
 }
+
+/** Sort RateLimiter entries by value descending */
+export function sortRateLimiterByValue(
+  entries: RateLimiterEntry[]
+): RateLimiterEntry[] {
+  return [...entries].sort((a, b) => Number(b.value - a.value));
+}
