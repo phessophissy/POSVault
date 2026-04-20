@@ -91,3 +91,11 @@ export function sortAddressBookByValue(
 ): AddressBookEntry[] {
   return [...entries].sort((a, b) => Number(b.value - a.value));
 }
+
+/** Get top N AddressBook entries */
+export function getTopAddressBookEntries(
+  entries: AddressBookEntry[],
+  n: number
+): AddressBookEntry[] {
+  return sortAddressBookByValue(entries).slice(0, n);
+}
