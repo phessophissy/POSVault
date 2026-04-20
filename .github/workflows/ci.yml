@@ -44,3 +44,5 @@ jobs:
           sudo mv clarinet /usr/local/bin/
       - name: Check contracts
         run: clarinet check
+      - name: Run Clarity tests
+        run: clarinet test
