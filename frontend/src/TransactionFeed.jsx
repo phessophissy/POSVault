@@ -39,3 +39,21 @@ function ErrorBanner({ error, onDismiss }) {
     </div>
   );
 }
+
+/** Status badge sub-component */
+function StatusBadge({ status }) {
+  const colors = {
+    active: "#4CAF50",
+    pending: "#FFC107",
+    completed: "#2196F3",
+    failed: "#F44336",
+  };
+  return (
+    <span
+      className="status-badge"
+      style={ { backgroundColor: colors[status] || "#999" } }
+    >
+      {status}
+    </span>
+  );
+}
