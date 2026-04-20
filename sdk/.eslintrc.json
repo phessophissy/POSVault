@@ -91,3 +91,11 @@ export function sort.Eslintrc.JsonByValue(
 ): .Eslintrc.JsonEntry[] {
   return [...entries].sort((a, b) => Number(b.value - a.value));
 }
+
+/** Get top N .Eslintrc.Json entries */
+export function getTop.Eslintrc.JsonEntries(
+  entries: .Eslintrc.JsonEntry[],
+  n: number
+): .Eslintrc.JsonEntry[] {
+  return sort.Eslintrc.JsonByValue(entries).slice(0, n);
+}
