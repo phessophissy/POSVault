@@ -131,3 +131,14 @@ export function serializeStackingUtilsEntries(
     2
   );
 }
+
+/** Deserialize StackingUtils entries from JSON */
+export function deserializeStackingUtilsEntries(
+  json: string
+): StackingUtilsEntry[] {
+  const parsed = JSON.parse(json);
+  return parsed.map((e: Record<string, unknown>) => ({
+    ...e,
+    value: BigInt(e.value as string),
+  }));
+}
