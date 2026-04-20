@@ -65,3 +65,16 @@ export function estimateProposalEndDate(
   const secondsRemaining = blocksRemaining * avgBlockTimeSeconds;
   return new Date(Date.now() + secondsRemaining * 1000);
 }
+
+/** Get vote power ratio */
+export function votePowerRatio(
+  votesFor: bigint,
+  votesAgainst: bigint
+): { forPercent: number; againstPercent: number } {
+  const total = votesFor + votesAgainst;
+  if (total === 0n) return { forPercent: 0, againstPercent: 0 };
+  return {
+    forPercent: Number((votesFor * 10000n) / total) / 100,
+    againstPercent: Number((votesAgainst * 10000n) / total) / 100,
+  };
+}
