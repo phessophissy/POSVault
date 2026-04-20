@@ -26,3 +26,14 @@ The POSVault protocol requires clear documentation to ensure safe operations and
 ### Data Flow
 
 Users deposit STX → Vault tracks deposits → Rewards accrue per cycle → Users claim or withdraw
+
+## Configuration
+
+### Network Settings
+
+| Parameter | Mainnet | Testnet |
+|-----------|---------|--------|
+| Deployer | SP2KYZ... | ST1PQ... |
+| Reward Cycle | 144 blocks | 144 blocks |
+| Voting Period | 1008 blocks | 1008 blocks |
+| Token Decimals | 6 | 6 |
