@@ -131,3 +131,14 @@ export function serializeRateLimiterEntries(
     2
   );
 }
+
+/** Deserialize RateLimiter entries from JSON */
+export function deserializeRateLimiterEntries(
+  json: string
+): RateLimiterEntry[] {
+  const parsed = JSON.parse(json);
+  return parsed.map((e: Record<string, unknown>) => ({
+    ...e,
+    value: BigInt(e.value as string),
+  }));
+}
