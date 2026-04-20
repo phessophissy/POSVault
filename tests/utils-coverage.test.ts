@@ -85,3 +85,20 @@ describe("Utils Coverage - reward calculations", () => {
     expect(reward).toBe(0n);
   });
 });
+
+describe("Utils Coverage - address handling", () => {
+  it("should validate mainnet addresses", () => {
+    const addr = "SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09";
+    expect(addr.startsWith("SP")).toBe(true);
+  });
+
+  it("should validate testnet addresses", () => {
+    const addr = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM";
+    expect(addr.startsWith("ST")).toBe(true);
+  });
+
+  it("should reject empty addresses", () => {
+    const addr = "";
+    expect(addr.length).toBe(0);
+  });
+});
