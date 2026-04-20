@@ -209,3 +209,19 @@ describe("Validation Suite - config management", () => {
     expect(merged.timeout).toBe(10000);
   });
 });
+
+describe("Validation Suite - percentage calculations", () => {
+  it("should calculate percentage with precision", () => {
+    const part = 333n;
+    const whole = 1000n;
+    const pct = Number((part * 10000n) / whole) / 100;
+    expect(pct).toBe(33.3);
+  });
+
+  it("should handle 100%", () => {
+    const part = 1000n;
+    const whole = 1000n;
+    const pct = Number((part * 10000n) / whole) / 100;
+    expect(pct).toBe(100);
+  });
+});
