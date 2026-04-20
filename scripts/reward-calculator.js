@@ -69,3 +69,18 @@ function calculateStats(values) {
     count: values.length,
   };
 }
+
+/** Format STX amount */
+function formatSTX(microSTX) {
+  return (Number(microSTX) / 1000000).toFixed(6) + " STX";
+}
+
+/** Format number with commas */
+function formatNumber(num) {
+  return Number(num).toLocaleString();
+}
+
+/** Format percentage */
+function formatPercent(value) {
+  return (value * 100).toFixed(2) + "%";
+}
