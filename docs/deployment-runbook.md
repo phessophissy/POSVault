@@ -153,3 +153,17 @@ This verifies:
 - Added governance token integration
 - Introduced proposal voting mechanism
 - Added reward rate adjustment via governance
+
+## FAQ
+
+**Q: Is there a minimum deposit amount?**
+A: No minimum, but gas fees apply to all transactions.
+
+**Q: How are rewards calculated?**
+A: Rewards accrue per 144-block cycle based on the current reward rate.
+
+**Q: Can I withdraw at any time?**
+A: Yes, v4 has no lock period. Withdrawals are instant.
+
+**Q: How do governance votes work?**
+A: POS-GOV token holders can vote on proposals during the 1008-block voting window.
