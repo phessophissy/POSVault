@@ -84,3 +84,10 @@ export function groupCsvExportByLabel(
   }
   return groups;
 }
+
+/** Sort CsvExport entries by value descending */
+export function sortCsvExportByValue(
+  entries: CsvExportEntry[]
+): CsvExportEntry[] {
+  return [...entries].sort((a, b) => Number(b.value - a.value));
+}
