@@ -125,3 +125,20 @@ function ConfirmModal({ isOpen, title, message, onConfirm, onCancel }) {
     </div>
   );
 }
+
+/** Stats card sub-component */
+function StatsCard({ label, value, unit = "", trend }) {
+  return (
+    <div className="stats-card">
+      <div className="stats-label">{label}</div>
+      <div className="stats-value">
+        {value} {unit && <span className="stats-unit">{unit}</span>}
+      </div>
+      {trend !== undefined && (
+        <div className={`stats-trend ${trend >= 0 ? "positive" : "negative"}`}>
+          {trend >= 0 ? "+" : ""}{trend.toFixed(1)}%
+        </div>
+      )}
+    </div>
+  );
+}
