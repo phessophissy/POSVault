@@ -131,3 +131,14 @@ export function serializeTransactionHistoryEntries(
     2
   );
 }
+
+/** Deserialize TransactionHistory entries from JSON */
+export function deserializeTransactionHistoryEntries(
+  json: string
+): TransactionHistoryEntry[] {
+  const parsed = JSON.parse(json);
+  return parsed.map((e: Record<string, unknown>) => ({
+    ...e,
+    value: BigInt(e.value as string),
+  }));
+}
