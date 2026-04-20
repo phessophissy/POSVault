@@ -117,3 +117,17 @@ export function formatTransactionHistoryEntry(
   const val = Number(entry.value) / Math.pow(10, TOKEN_DECIMALS);
   return `[${date}] ${entry.label}: ${val.toFixed(6)}`;
 }
+
+/** Serialize TransactionHistory entries to JSON */
+export function serializeTransactionHistoryEntries(
+  entries: TransactionHistoryEntry[]
+): string {
+  return JSON.stringify(
+    entries.map(e => ({
+      ...e,
+      value: e.value.toString(),
+    })),
+    null,
+    2
+  );
+}
