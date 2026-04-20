@@ -85,3 +85,5 @@ volumes:
 # Usage:
 #   docker compose up -d          # Start all services
 #   docker compose up devnet -d   # Start only devnet
+#   docker compose logs -f frontend  # Follow frontend logs
+#   docker compose down -v          # Stop and remove volumes
