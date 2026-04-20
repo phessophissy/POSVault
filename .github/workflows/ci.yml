@@ -68,3 +68,9 @@ jobs:
     steps:
       - name: Notify on failure
         run: echo "Build failed on ${{ github.sha }}"
+
+# Workflow configuration notes
+# - Runs on push to main and all PRs
+# - Includes security audit step
+# - Clarity contract checks require Clarinet
+# - Frontend preview builds on PRs only
