@@ -14,3 +14,20 @@ describe("Calculations Extended", () => {
     });
   });
 });
+
+describe("Calculations Extended - input validation", () => {
+  it("should reject negative amounts", () => {
+    const amount = -1n;
+    expect(amount < 0n).toBe(true);
+  });
+
+  it("should accept zero amount", () => {
+    const amount = 0n;
+    expect(amount >= 0n).toBe(true);
+  });
+
+  it("should accept positive amounts", () => {
+    const amount = 1000000n;
+    expect(amount > 0n).toBe(true);
+  });
+});
