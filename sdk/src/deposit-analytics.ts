@@ -108,3 +108,12 @@ export function calculateDepositAnalyticsGrowthRate(
   if (previousValue === 0n) return currentValue > 0n ? 100 : 0;
   return Number(((currentValue - previousValue) * 10000n) / previousValue) / 100;
 }
+
+/** Format DepositAnalytics entry for display */
+export function formatDepositAnalyticsEntry(
+  entry: DepositAnalyticsEntry
+): string {
+  const date = new Date(entry.timestamp).toISOString();
+  const val = Number(entry.value) / Math.pow(10, TOKEN_DECIMALS);
+  return `[${date}] ${entry.label}: ${val.toFixed(6)}`;
+}
