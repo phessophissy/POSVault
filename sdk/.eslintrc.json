@@ -131,3 +131,14 @@ export function serialize.Eslintrc.JsonEntries(
     2
   );
 }
+
+/** Deserialize .Eslintrc.Json entries from JSON */
+export function deserialize.Eslintrc.JsonEntries(
+  json: string
+): .Eslintrc.JsonEntry[] {
+  const parsed = JSON.parse(json);
+  return parsed.map((e: Record<string, unknown>) => ({
+    ...e,
+    value: BigInt(e.value as string),
+  }));
+}
