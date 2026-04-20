@@ -37,3 +37,7 @@ services:
       - ./frontend/src:/app/src
     environment:
       - VITE_NETWORK=devnet
+    depends_on:
+      - stacks-api
+    networks:
+      - posvault
