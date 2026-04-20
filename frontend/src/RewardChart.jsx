@@ -27,3 +27,15 @@ function LoadingSpinner({ message = "Loading..." }) {
     </div>
   );
 }
+
+/** Error display sub-component */
+function ErrorBanner({ error, onDismiss }) {
+  if (!error) return null;
+  return (
+    <div className="error-banner">
+      <span className="error-icon">⚠</span>
+      <span>{error}</span>
+      <button onClick={onDismiss}>Dismiss</button>
+    </div>
+  );
+}
