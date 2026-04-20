@@ -62,3 +62,12 @@ export function aggregateDepositAnalyticsValues(
 ): bigint {
   return entries.reduce((sum, e) => sum + e.value, 0n);
 }
+
+/** Calculate DepositAnalytics average */
+export function calculateDepositAnalyticsAverage(
+  entries: DepositAnalyticsEntry[]
+): number {
+  if (entries.length === 0) return 0;
+  const total = Number(aggregateDepositAnalyticsValues(entries));
+  return total / entries.length;
+}
