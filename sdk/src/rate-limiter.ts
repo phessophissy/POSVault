@@ -7,3 +7,10 @@ export interface RateLimiterConfig {
   cacheTimeout: number;
   maxRetries: number;
 }
+
+/** Default RateLimiter configuration */
+export const DEFAULT_RATELIMITER_CONFIG: RateLimiterConfig = {
+  enabled: true,
+  cacheTimeout: 300000,
+  maxRetries: 3,
+};
