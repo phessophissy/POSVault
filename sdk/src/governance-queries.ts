@@ -22,3 +22,16 @@ export enum ProposalStatus {
   Rejected = "rejected",
   Executed = "executed",
 }
+
+/** Get proposal status from on-chain data */
+export function getProposalStatus(
+  startBlock: bigint,
+  endBlock: bigint,
+  currentBlock: bigint,
+  votesFor: bigint,
+  votesAgainst: bigint
+): ProposalStatus {
+  if (currentBlock < startBlock) return ProposalStatus.Pending;
+  if (currentBlock <= endBlock) return ProposalStatus.Active;
+  return votesFor > votesAgainst ? ProposalStatus.Passed : ProposalStatus.Rejected;
+}
