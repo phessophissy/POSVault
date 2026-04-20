@@ -113,3 +113,23 @@ export interface ProposalSummary {
   participation: number;
   deadline: string;
 }
+
+/** Build proposal summary from raw data */
+export function buildProposalSummary(
+  id: number,
+  title: string,
+  startBlock: bigint,
+  endBlock: bigint,
+  currentBlock: bigint,
+  votesFor: bigint,
+  votesAgainst: bigint,
+  totalVoters: bigint,
+  eligibleVoters: bigint
+): ProposalSummary {
+  const status = getProposalStatus(startBlock, endBlock, currentBlock, votesFor, votesAgainst);
+  const { forPercent, againstPercent } = votePowerRatio(votesFor, votesAgainst);
+  const participation = voteParticipation(totalVoters, eligibleVoters);
+  const blocksLeft = endBlock > currentBlock ? endBlock - currentBlock : 0n;
+  const deadline = formatVotingDeadline(blocksLeft);
+  return { id, title, status, forPercent, againstPercent, participation, deadline };
+}
