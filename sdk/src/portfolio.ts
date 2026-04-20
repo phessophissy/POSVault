@@ -23,3 +23,18 @@ export interface PortfolioEntry {
   label: string;
   metadata: Record<string, unknown>;
 }
+
+/** Create a new Portfolio entry */
+export function createPortfolioEntry(
+  id: string,
+  value: bigint,
+  label: string
+): PortfolioEntry {
+  return {
+    id,
+    timestamp: Date.now(),
+    value,
+    label,
+    metadata: {},
+  };
+}
