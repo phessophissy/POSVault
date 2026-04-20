@@ -23,3 +23,18 @@ export interface NotificationsEntry {
   label: string;
   metadata: Record<string, unknown>;
 }
+
+/** Create a new Notifications entry */
+export function createNotificationsEntry(
+  id: string,
+  value: bigint,
+  label: string
+): NotificationsEntry {
+  return {
+    id,
+    timestamp: Date.now(),
+    value,
+    label,
+    metadata: {},
+  };
+}
