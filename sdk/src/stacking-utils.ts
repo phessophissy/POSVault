@@ -71,3 +71,16 @@ export function calculateStackingUtilsAverage(
   const total = Number(aggregateStackingUtilsValues(entries));
   return total / entries.length;
 }
+
+/** Group StackingUtils entries by label */
+export function groupStackingUtilsByLabel(
+  entries: StackingUtilsEntry[]
+): Map<string, StackingUtilsEntry[]> {
+  const groups = new Map<string, StackingUtilsEntry[]>();
+  for (const entry of entries) {
+    const list = groups.get(entry.label) || [];
+    list.push(entry);
+    groups.set(entry.label, list);
+  }
+  return groups;
+}
