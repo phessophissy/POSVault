@@ -55,3 +55,10 @@ export function filterRateLimiterByTimeRange(
 ): RateLimiterEntry[] {
   return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
 }
+
+/** Aggregate RateLimiter values */
+export function aggregateRateLimiterValues(
+  entries: RateLimiterEntry[]
+): bigint {
+  return entries.reduce((sum, e) => sum + e.value, 0n);
+}
