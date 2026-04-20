@@ -1,0 +1,144 @@
+import { DEPLOYER, CONTRACT_NAMES } from "./constants.js";
+import { TOKEN_DECIMALS } from "./constants.js";
+
+/** TransactionHistory module configuration */
+export interface TransactionHistoryConfig {
+  enabled: boolean;
+  cacheTimeout: number;
+  maxRetries: number;
+}
+
+/** Default TransactionHistory configuration */
+export const DEFAULT_TRANSACTIONHISTORY_CONFIG: TransactionHistoryConfig = {
+  enabled: true,
+  cacheTimeout: 300000,
+  maxRetries: 3,
+};
+
+/** TransactionHistory data entry */
+export interface TransactionHistoryEntry {
+  id: string;
+  timestamp: number;
+  value: bigint;
+  label: string;
+  metadata: Record<string, unknown>;
+}
+
+/** Create a new TransactionHistory entry */
+export function createTransactionHistoryEntry(
+  id: string,
+  value: bigint,
+  label: string
+): TransactionHistoryEntry {
+  return {
+    id,
+    timestamp: Date.now(),
+    value,
+    label,
+    metadata: {},
+  };
+}
+
+/** Validate TransactionHistory entry */
+export function validateTransactionHistoryEntry(entry: TransactionHistoryEntry): boolean {
+  if (!entry.id || entry.id.length === 0) return false;
+  if (entry.value < 0n) return false;
+  if (entry.timestamp <= 0) return false;
+  return true;
+}
+
+/** Filter entries by time range */
+export function filterTransactionHistoryByTimeRange(
+  entries: TransactionHistoryEntry[],
+  startTime: number,
+  endTime: number
+): TransactionHistoryEntry[] {
+  return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
+}
+
+/** Aggregate TransactionHistory values */
+export function aggregateTransactionHistoryValues(
+  entries: TransactionHistoryEntry[]
+): bigint {
+  return entries.reduce((sum, e) => sum + e.value, 0n);
+}
+
+/** Calculate TransactionHistory average */
+export function calculateTransactionHistoryAverage(
+  entries: TransactionHistoryEntry[]
+): number {
+  if (entries.length === 0) return 0;
+  const total = Number(aggregateTransactionHistoryValues(entries));
+  return total / entries.length;
+}
+
+/** Group TransactionHistory entries by label */
+export function groupTransactionHistoryByLabel(
+  entries: TransactionHistoryEntry[]
+): Map<string, TransactionHistoryEntry[]> {
+  const groups = new Map<string, TransactionHistoryEntry[]>();
+  for (const entry of entries) {
+    const list = groups.get(entry.label) || [];
+    list.push(entry);
+    groups.set(entry.label, list);
+  }
+  return groups;
+}
+
+/** Sort TransactionHistory entries by value descending */
+export function sortTransactionHistoryByValue(
+  entries: TransactionHistoryEntry[]
+): TransactionHistoryEntry[] {
+  return [...entries].sort((a, b) => Number(b.value - a.value));
+}
+
+/** Get top N TransactionHistory entries */
+export function getTopTransactionHistoryEntries(
+  entries: TransactionHistoryEntry[],
+  n: number
+): TransactionHistoryEntry[] {
+  return sortTransactionHistoryByValue(entries).slice(0, n);
+}
+
+/** Calculate TransactionHistory growth rate */
+export function calculateTransactionHistoryGrowthRate(
+  previousValue: bigint,
+  currentValue: bigint
+): number {
+  if (previousValue === 0n) return currentValue > 0n ? 100 : 0;
+  return Number(((currentValue - previousValue) * 10000n) / previousValue) / 100;
+}
+
+/** Format TransactionHistory entry for display */
+export function formatTransactionHistoryEntry(
+  entry: TransactionHistoryEntry
+): string {
+  const date = new Date(entry.timestamp).toISOString();
+  const val = Number(entry.value) / Math.pow(10, TOKEN_DECIMALS);
+  return `[${date}] ${entry.label}: ${val.toFixed(6)}`;
+}
+
+/** Serialize TransactionHistory entries to JSON */
+export function serializeTransactionHistoryEntries(
+  entries: TransactionHistoryEntry[]
+): string {
+  return JSON.stringify(
+    entries.map(e => ({
+      ...e,
+      value: e.value.toString(),
+    })),
+    null,
+    2
+  );
+}
+
+/** Deserialize TransactionHistory entries from JSON */
+export function deserializeTransactionHistoryEntries(
+  json: string
+): TransactionHistoryEntry[] {
+  const parsed = JSON.parse(json);
+  return parsed.map((e: Record<string, unknown>) => ({
+    ...e,
+    value: BigInt(e.value as string),
+  }));
+}
