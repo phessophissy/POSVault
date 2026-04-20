@@ -24,3 +24,5 @@ jobs:
         run: npm test --if-present
       - name: Build SDK
         run: cd sdk && npm ci && npm run build --if-present
+      - name: Check types
+        run: npx tsc --noEmit --if-present
