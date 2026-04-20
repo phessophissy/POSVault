@@ -91,3 +91,11 @@ export function sortDepositAnalyticsByValue(
 ): DepositAnalyticsEntry[] {
   return [...entries].sort((a, b) => Number(b.value - a.value));
 }
+
+/** Get top N DepositAnalytics entries */
+export function getTopDepositAnalyticsEntries(
+  entries: DepositAnalyticsEntry[],
+  n: number
+): DepositAnalyticsEntry[] {
+  return sortDepositAnalyticsByValue(entries).slice(0, n);
+}
