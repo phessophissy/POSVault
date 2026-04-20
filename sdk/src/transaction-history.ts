@@ -99,3 +99,12 @@ export function getTopTransactionHistoryEntries(
 ): TransactionHistoryEntry[] {
   return sortTransactionHistoryByValue(entries).slice(0, n);
 }
+
+/** Calculate TransactionHistory growth rate */
+export function calculateTransactionHistoryGrowthRate(
+  previousValue: bigint,
+  currentValue: bigint
+): number {
+  if (previousValue === 0n) return currentValue > 0n ? 100 : 0;
+  return Number(((currentValue - previousValue) * 10000n) / previousValue) / 100;
+}
