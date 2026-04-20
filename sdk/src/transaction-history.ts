@@ -7,3 +7,10 @@ export interface TransactionHistoryConfig {
   cacheTimeout: number;
   maxRetries: number;
 }
+
+/** Default TransactionHistory configuration */
+export const DEFAULT_TRANSACTIONHISTORY_CONFIG: TransactionHistoryConfig = {
+  enabled: true,
+  cacheTimeout: 300000,
+  maxRetries: 3,
+};
