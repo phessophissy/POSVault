@@ -1,0 +1,144 @@
+import { DEPLOYER, CONTRACT_NAMES } from "./constants.js";
+import { TOKEN_DECIMALS } from "./constants.js";
+
+/** .Eslintrc.Json module configuration */
+export interface .Eslintrc.JsonConfig {
+  enabled: boolean;
+  cacheTimeout: number;
+  maxRetries: number;
+}
+
+/** Default .Eslintrc.Json configuration */
+export const DEFAULT_.ESLINTRC.JSON_CONFIG: .Eslintrc.JsonConfig = {
+  enabled: true,
+  cacheTimeout: 300000,
+  maxRetries: 3,
+};
+
+/** .Eslintrc.Json data entry */
+export interface .Eslintrc.JsonEntry {
+  id: string;
+  timestamp: number;
+  value: bigint;
+  label: string;
+  metadata: Record<string, unknown>;
+}
+
+/** Create a new .Eslintrc.Json entry */
+export function create.Eslintrc.JsonEntry(
+  id: string,
+  value: bigint,
+  label: string
+): .Eslintrc.JsonEntry {
+  return {
+    id,
+    timestamp: Date.now(),
+    value,
+    label,
+    metadata: {},
+  };
+}
+
+/** Validate .Eslintrc.Json entry */
+export function validate.Eslintrc.JsonEntry(entry: .Eslintrc.JsonEntry): boolean {
+  if (!entry.id || entry.id.length === 0) return false;
+  if (entry.value < 0n) return false;
+  if (entry.timestamp <= 0) return false;
+  return true;
+}
+
+/** Filter entries by time range */
+export function filter.Eslintrc.JsonByTimeRange(
+  entries: .Eslintrc.JsonEntry[],
+  startTime: number,
+  endTime: number
+): .Eslintrc.JsonEntry[] {
+  return entries.filter(e => e.timestamp >= startTime && e.timestamp <= endTime);
+}
+
+/** Aggregate .Eslintrc.Json values */
+export function aggregate.Eslintrc.JsonValues(
+  entries: .Eslintrc.JsonEntry[]
+): bigint {
+  return entries.reduce((sum, e) => sum + e.value, 0n);
+}
+
+/** Calculate .Eslintrc.Json average */
+export function calculate.Eslintrc.JsonAverage(
+  entries: .Eslintrc.JsonEntry[]
+): number {
+  if (entries.length === 0) return 0;
+  const total = Number(aggregate.Eslintrc.JsonValues(entries));
+  return total / entries.length;
+}
+
+/** Group .Eslintrc.Json entries by label */
+export function group.Eslintrc.JsonByLabel(
+  entries: .Eslintrc.JsonEntry[]
+): Map<string, .Eslintrc.JsonEntry[]> {
+  const groups = new Map<string, .Eslintrc.JsonEntry[]>();
+  for (const entry of entries) {
+    const list = groups.get(entry.label) || [];
+    list.push(entry);
+    groups.set(entry.label, list);
+  }
+  return groups;
+}
+
+/** Sort .Eslintrc.Json entries by value descending */
+export function sort.Eslintrc.JsonByValue(
+  entries: .Eslintrc.JsonEntry[]
+): .Eslintrc.JsonEntry[] {
+  return [...entries].sort((a, b) => Number(b.value - a.value));
+}
+
+/** Get top N .Eslintrc.Json entries */
+export function getTop.Eslintrc.JsonEntries(
+  entries: .Eslintrc.JsonEntry[],
+  n: number
+): .Eslintrc.JsonEntry[] {
+  return sort.Eslintrc.JsonByValue(entries).slice(0, n);
+}
+
+/** Calculate .Eslintrc.Json growth rate */
+export function calculate.Eslintrc.JsonGrowthRate(
+  previousValue: bigint,
+  currentValue: bigint
+): number {
+  if (previousValue === 0n) return currentValue > 0n ? 100 : 0;
+  return Number(((currentValue - previousValue) * 10000n) / previousValue) / 100;
+}
+
+/** Format .Eslintrc.Json entry for display */
+export function format.Eslintrc.JsonEntry(
+  entry: .Eslintrc.JsonEntry
+): string {
+  const date = new Date(entry.timestamp).toISOString();
+  const val = Number(entry.value) / Math.pow(10, TOKEN_DECIMALS);
+  return `[${date}] ${entry.label}: ${val.toFixed(6)}`;
+}
+
+/** Serialize .Eslintrc.Json entries to JSON */
+export function serialize.Eslintrc.JsonEntries(
+  entries: .Eslintrc.JsonEntry[]
+): string {
+  return JSON.stringify(
+    entries.map(e => ({
+      ...e,
+      value: e.value.toString(),
+    })),
+    null,
+    2
+  );
+}
+
+/** Deserialize .Eslintrc.Json entries from JSON */
+export function deserialize.Eslintrc.JsonEntries(
+  json: string
+): .Eslintrc.JsonEntry[] {
+  const parsed = JSON.parse(json);
+  return parsed.map((e: Record<string, unknown>) => ({
+    ...e,
+    value: BigInt(e.value as string),
+  }));
+}
