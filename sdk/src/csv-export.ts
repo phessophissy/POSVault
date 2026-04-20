@@ -62,3 +62,12 @@ export function aggregateCsvExportValues(
 ): bigint {
   return entries.reduce((sum, e) => sum + e.value, 0n);
 }
+
+/** Calculate CsvExport average */
+export function calculateCsvExportAverage(
+  entries: CsvExportEntry[]
+): number {
+  if (entries.length === 0) return 0;
+  const total = Number(aggregateCsvExportValues(entries));
+  return total / entries.length;
+}
