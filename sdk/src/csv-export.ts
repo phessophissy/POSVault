@@ -71,3 +71,16 @@ export function calculateCsvExportAverage(
   const total = Number(aggregateCsvExportValues(entries));
   return total / entries.length;
 }
+
+/** Group CsvExport entries by label */
+export function groupCsvExportByLabel(
+  entries: CsvExportEntry[]
+): Map<string, CsvExportEntry[]> {
+  const groups = new Map<string, CsvExportEntry[]>();
+  for (const entry of entries) {
+    const list = groups.get(entry.label) || [];
+    list.push(entry);
+    groups.set(entry.label, list);
+  }
+  return groups;
+}
