@@ -62,3 +62,12 @@ export function aggregateAddressBookValues(
 ): bigint {
   return entries.reduce((sum, e) => sum + e.value, 0n);
 }
+
+/** Calculate AddressBook average */
+export function calculateAddressBookAverage(
+  entries: AddressBookEntry[]
+): number {
+  if (entries.length === 0) return 0;
+  const total = Number(aggregateAddressBookValues(entries));
+  return total / entries.length;
+}
