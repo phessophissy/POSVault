@@ -102,3 +102,14 @@ export function formatVotingDeadline(
   if (days < 7) return `${Math.round(days)} days`;
   return `${Math.round(days / 7)} weeks`;
 }
+
+/** Summary of a proposal for display */
+export interface ProposalSummary {
+  id: number;
+  title: string;
+  status: ProposalStatus;
+  forPercent: number;
+  againstPercent: number;
+  participation: number;
+  deadline: string;
+}
