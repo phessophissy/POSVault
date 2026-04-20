@@ -53,3 +53,16 @@ export STACKS_NETWORK=mainnet
 import { POSVault } from "@posvault/sdk";
 const vault = new POSVault({ network: "mainnet" });
 ```
+
+### Step 3: Verify Contract State
+
+Before any operation, verify the vault is not paused:
+
+```typescript
+const info = await vault.getVaultInfo();
+if (info.isPaused) {
+  console.error("Vault is currently paused");
+  process.exit(1);
+}
+console.log(`Total locked: ${info.totalStxLocked}`);
+```
