@@ -13,3 +13,12 @@ export const DEFAULT_GOV_CONFIG: GovernanceQueryConfig = {
   contractName: CONTRACT_NAMES.proposalVoting,
   network: "mainnet",
 };
+
+/** Proposal status enum */
+export enum ProposalStatus {
+  Pending = "pending",
+  Active = "active",
+  Passed = "passed",
+  Rejected = "rejected",
+  Executed = "executed",
+}
