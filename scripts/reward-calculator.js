@@ -148,3 +148,20 @@ function createRateLimiter(maxRequests, windowMs) {
     return fn();
   };
 }
+
+/** Output formatter */
+function formatOutput(data, format = "console") {
+  switch (format) {
+    case "json":
+      return JSON.stringify(data, null, 2);
+    case "csv":
+      if (Array.isArray(data) && data.length > 0) {
+        const headers = Object.keys(data[0]).join(",");
+        const rows = data.map(r => Object.values(r).join(","));
+        return [headers, ...rows].join("\n");
+      }
+      return "";
+    default:
+      return typeof data === "object" ? JSON.stringify(data, null, 2) : String(data);
+  }
+}
