@@ -23,3 +23,18 @@ export interface StackingUtilsEntry {
   label: string;
   metadata: Record<string, unknown>;
 }
+
+/** Create a new StackingUtils entry */
+export function createStackingUtilsEntry(
+  id: string,
+  value: bigint,
+  label: string
+): StackingUtilsEntry {
+  return {
+    id,
+    timestamp: Date.now(),
+    value,
+    label,
+    metadata: {},
+  };
+}
