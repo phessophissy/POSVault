@@ -727,7 +727,7 @@ export default function App() {
                             </div>
                         </div>
 
-                        <TxLedgerPanel items={txLedger} />
+                        <TxLedgerPanel items={txLedger} onClear={() => setTxLedger([])} />
                     </div>
                 )}
             </main>
