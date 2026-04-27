@@ -26,6 +26,7 @@ import RefreshTicker from './components/RefreshTicker.jsx';
 import NetworkPulse from './components/NetworkPulse.jsx';
 import RewardsSimulator from './components/RewardsSimulator.jsx';
 import ProposalControls from './components/ProposalControls.jsx';
+import ProposalInsights from './components/ProposalInsights.jsx';
 import QuickActions from './components/QuickActions.jsx';
 import TxLedgerPanel from './components/TxLedgerPanel.jsx';
 import './styles/feature-panels.css';
@@ -654,6 +655,8 @@ export default function App() {
                                 onStatus={setProposalStatusFilter}
                                 onSort={setProposalSort}
                             />
+
+                            <ProposalInsights proposals={filteredProposals} />
 
                             {filteredProposals.length > 0 ? (
                                 filteredProposals.map((p) => (
