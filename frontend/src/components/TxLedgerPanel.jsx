@@ -42,6 +42,7 @@ export default function TxLedgerPanel({ items, onClear }) {
       <div className="card-title" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <div className="card-title-icon" style={{ background: 'rgba(85,70,255,0.15)' }}>🧾</div>
         <span>Local Transaction Ledger</span>
+        <span className="tx-ledger-count">{visibleItems.length} shown</span>
         <button className="btn btn-secondary" aria-label="Export transaction ledger as CSV" style={{ marginLeft: 'auto' }} onClick={exportCsv}>Export CSV</button>
         <button className="btn btn-secondary" aria-label="Clear local transaction ledger" onClick={onClear}>Clear</button>
       </div>

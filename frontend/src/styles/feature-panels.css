@@ -265,6 +265,11 @@
   font-family: var(--font-mono);
 }
 
+.tx-ledger-count {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
 .portfolio-health-wrap {
   display: flex;
   align-items: center;
