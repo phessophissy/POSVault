@@ -33,6 +33,7 @@ import ProposalInsights from './components/ProposalInsights.jsx';
 import QuickActions from './components/QuickActions.jsx';
 import TxLedgerPanel from './components/TxLedgerPanel.jsx';
 import WalletStatusChip from './components/WalletStatusChip.jsx';
+import MiniKpiStrip from './components/MiniKpiStrip.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
 import { copyText } from './utils/clipboard.js';
 import './styles/feature-panels.css';
@@ -432,6 +433,15 @@ export default function App() {
                         </div>
                     </div>
                 </div>
+
+                <MiniKpiStrip
+                    values={{
+                        locked: `${formatSTX(vaultInfo?.['total-stx-locked']?.value || 0)} STX`,
+                        rewardRate: `${(parseInt(vaultInfo?.['reward-rate']?.value || 100) / 100).toFixed(2)}%`,
+                        supply: formatSTX(totalSupply),
+                        pending: `${formatSTX(pendingRewards)} POS-GOV`,
+                    }}
+                />
 
                 {/* Stats */}
                 <div className="stats-grid">

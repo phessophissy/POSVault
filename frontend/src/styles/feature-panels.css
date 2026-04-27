@@ -5,6 +5,31 @@
   margin: 18px 0 6px;
 }
 
+.mini-kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0 18px;
+}
+
+.mini-kpi-item {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 8px 10px;
+  display: grid;
+  gap: 3px;
+}
+
+.mini-kpi-item span {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.mini-kpi-item strong {
+  font-size: 13px;
+}
+
 .quick-actions {
   display: flex;
   flex-wrap: wrap;
@@ -211,6 +236,10 @@
 @media (max-width: 920px) {
   .top-tools {
     grid-template-columns: 1fr;
+  }
+
+  .mini-kpi-strip {
+    grid-template-columns: 1fr 1fr;
   }
 
   .proposal-controls {
