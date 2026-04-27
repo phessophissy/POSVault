@@ -39,6 +39,7 @@ import PortfolioHealthCard from './components/PortfolioHealthCard.jsx';
 import FeatureTips from './components/FeatureTips.jsx';
 import HotkeyLegend from './components/HotkeyLegend.jsx';
 import ProposalSummaryCard from './components/ProposalSummaryCard.jsx';
+import EmptyStateCard from './components/EmptyStateCard.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
 import { copyText } from './utils/clipboard.js';
 import { formatPercent } from './utils/percent.js';
@@ -717,13 +718,11 @@ export default function App() {
                                     />
                                 ))
                             ) : (
-                                <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-muted)' }}>
-                                    <div style={{ fontSize: 48, marginBottom: 12 }}>🗳️</div>
-                                    <p>No proposals yet</p>
-                                    <p style={{ fontSize: 13, marginTop: 8 }}>
-                                        Be the first to create a governance proposal!
-                                    </p>
-                                </div>
+                                <EmptyStateCard
+                                    icon="🗳️"
+                                    title="No proposals yet"
+                                    body="Be the first to create a governance proposal!"
+                                />
                             )}
                         </div>
                     </div>
@@ -748,13 +747,16 @@ export default function App() {
                                         <InfoRow label="POS-GOV Balance" value={formatSTX(tokenBalance)} highlight />
                                     </div>
                                 ) : (
-                                    <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-muted)' }}>
-                                        <div style={{ fontSize: 48, marginBottom: 12 }}>👤</div>
-                                        <p>Connect wallet to view portfolio</p>
-                                        <button className="btn btn-primary" style={{ marginTop: 16 }} onClick={handleConnect}>
-                                            ⚡ Connect Wallet
-                                        </button>
-                                    </div>
+                                    <EmptyStateCard
+                                        icon="👤"
+                                        title="Connect wallet to view portfolio"
+                                        body="Portfolio insights appear once your wallet is connected."
+                                        action={(
+                                            <button className="btn btn-primary" style={{ marginTop: 16 }} onClick={handleConnect}>
+                                                ⚡ Connect Wallet
+                                            </button>
+                                        )}
+                                    />
                                 )}
                             </div>
 

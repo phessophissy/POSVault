@@ -316,6 +316,27 @@
   margin-right: 4px;
 }
 
+.empty-state-card {
+  text-align: center;
+  padding: 34px 0;
+  color: var(--text-muted);
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.empty-state-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.empty-state-body {
+  font-size: 13px;
+  margin-top: 6px;
+}
+
 @media (max-width: 920px) {
   .top-tools {
     grid-template-columns: 1fr;
