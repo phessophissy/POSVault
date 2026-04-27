@@ -152,6 +152,7 @@ export default function App() {
             } catch (e) { /* skip */ }
 
             setLastUpdatedAt(Date.now());
+            setRefreshErrors(0);
         } catch (error) {
             console.error('Error refreshing data:', error);
             setRefreshErrors(count => count + 1);

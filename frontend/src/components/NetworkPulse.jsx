@@ -14,13 +14,15 @@ function formatAgo(timestampMs) {
 
 export default function NetworkPulse({ loading, lastUpdatedAt, errorCount = 0 }) {
   const status = loading ? 'syncing' : errorCount > 0 ? 'degraded' : 'healthy';
+  const statusTitle = status === 'healthy' ? 'Network healthy' : status === 'syncing' ? 'Syncing data' : 'Network degraded';
+  const detail = status === 'degraded' ? `${errorCount} recent refresh errors` : `Updated ${formatAgo(lastUpdatedAt)}`;
 
   return (
     <div className={`network-pulse network-pulse-${status}`}>
       <span className="network-pulse-indicator" />
       <div className="network-pulse-copy">
-        <strong>{status === 'healthy' ? 'Network healthy' : status === 'syncing' ? 'Syncing data' : 'Network degraded'}</strong>
-        <span>Updated {formatAgo(lastUpdatedAt)}</span>
+        <strong>{statusTitle}</strong>
+        <span>{detail}</span>
       </div>
     </div>
   );
