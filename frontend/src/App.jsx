@@ -28,6 +28,7 @@ import useDebouncedValue from './hooks/useDebouncedValue.js';
 import useRefreshGuard from './hooks/useRefreshGuard.js';
 import useDocumentTitle from './hooks/useDocumentTitle.js';
 import useMountedRef from './hooks/useMountedRef.js';
+import useInterval from './hooks/useInterval.js';
 import RefreshTicker from './components/RefreshTicker.jsx';
 import NetworkPulse from './components/NetworkPulse.jsx';
 import RewardsSimulator from './components/RewardsSimulator.jsx';
@@ -189,11 +190,10 @@ export default function App() {
     }, [wallet?.address, guardRefresh, mountedRef]);
 
     useEffect(() => {
-        if (!autoRefresh) return;
-        refreshData();
-        const interval = setInterval(refreshData, 30000);
-        return () => clearInterval(interval);
+        if (autoRefresh) refreshData();
     }, [refreshData, autoRefresh]);
+
+    useInterval(refreshData, autoRefresh ? 30000 : null);
 
     // ==========================================
     // Transaction Handlers
