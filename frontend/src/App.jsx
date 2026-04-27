@@ -27,6 +27,7 @@ import useKeyboardShortcuts from './hooks/useKeyboardShortcuts.js';
 import useDebouncedValue from './hooks/useDebouncedValue.js';
 import useRefreshGuard from './hooks/useRefreshGuard.js';
 import useDocumentTitle from './hooks/useDocumentTitle.js';
+import useMountedRef from './hooks/useMountedRef.js';
 import RefreshTicker from './components/RefreshTicker.jsx';
 import NetworkPulse from './components/NetworkPulse.jsx';
 import RewardsSimulator from './components/RewardsSimulator.jsx';
@@ -86,6 +87,7 @@ export default function App() {
     const [autoRefresh, setAutoRefresh] = useLocalStorageState('pv.autoRefresh', true);
     const debouncedProposalQuery = useDebouncedValue(proposalQuery, 180);
     const guardRefresh = useRefreshGuard();
+    const mountedRef = useMountedRef();
 
     // ==========================================
     // Wallet Methods
@@ -140,22 +142,22 @@ export default function App() {
                 if (addr) {
                     try {
                         const deposit = await getUserDeposit(addr);
-                        setUserDeposit(deposit?.value || null);
+                        if (mountedRef.current) setUserDeposit(deposit?.value || null);
                     } catch (e) { /* skip */ }
 
                     try {
                         const stats = await getUserStats(addr);
-                        if (stats?.value) setUserStats(stats.value);
+                        if (stats?.value && mountedRef.current) setUserStats(stats.value);
                     } catch (e) { /* skip */ }
 
                     try {
                         const rewards = await getPendingRewards(addr);
-                        if (rewards?.value?.value) setPendingRewards(rewards.value.value);
+                        if (rewards?.value?.value && mountedRef.current) setPendingRewards(rewards.value.value);
                     } catch (e) { /* skip */ }
 
                     try {
                         const balance = await getTokenBalance(addr);
-                        if (balance?.value?.value) setTokenBalance(balance.value.value);
+                        if (balance?.value?.value && mountedRef.current) setTokenBalance(balance.value.value);
                     } catch (e) { /* skip */ }
                 }
 
@@ -170,19 +172,21 @@ export default function App() {
                             if (p?.value) propList.push({ id: i, ...p.value });
                         } catch (e) { /* skip */ }
                     }
-                    setProposals(propList);
+                    if (mountedRef.current) setProposals(propList);
                 } catch (e) { /* skip */ }
 
-                setLastUpdatedAt(Date.now());
-                setRefreshErrors(0);
+                if (mountedRef.current) {
+                    setLastUpdatedAt(Date.now());
+                    setRefreshErrors(0);
+                }
             } catch (error) {
                 console.error('Error refreshing data:', error);
-                setRefreshErrors(count => count + 1);
+                if (mountedRef.current) setRefreshErrors(count => count + 1);
             } finally {
-                setIsRefreshing(false);
+                if (mountedRef.current) setIsRefreshing(false);
             }
         });
-    }, [wallet?.address, guardRefresh]);
+    }, [wallet?.address, guardRefresh, mountedRef]);
 
     useEffect(() => {
         if (!autoRefresh) return;
