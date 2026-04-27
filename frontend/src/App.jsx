@@ -101,14 +101,8 @@ export default function App() {
         setIsRefreshing(true);
         try {
             const addr = wallet?.address;
-
-
-            setLastUpdatedAt(Date.now());
             // Vault info (public, no wallet needed)
             try {
-            setRefreshErrors(count => count + 1);
-        } finally {
-            setIsRefreshing(false);
                 const vault = await getVaultInfo(addr);
                 if (vault?.value) setVaultInfo(vault.value);
             } catch (e) { console.log('Vault info fetch skipped (not deployed yet)'); }
@@ -154,8 +148,13 @@ export default function App() {
                 }
                 setProposals(propList);
             } catch (e) { /* skip */ }
+
+            setLastUpdatedAt(Date.now());
         } catch (error) {
             console.error('Error refreshing data:', error);
+            setRefreshErrors(count => count + 1);
+        } finally {
+            setIsRefreshing(false);
         }
     }, [wallet?.address]);
 
