@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
     connectWallet,
     disconnectWallet,
@@ -20,15 +20,31 @@ import {
     formatAddress,
     formatNumber,
 } from './stacks.js';
+import useLocalStorageState from './hooks/useLocalStorageState.js';
+import useKeyboardShortcuts from './hooks/useKeyboardShortcuts.js';
+import useDebouncedValue from './hooks/useDebouncedValue.js';
+import RefreshTicker from './components/RefreshTicker.jsx';
+import NetworkPulse from './components/NetworkPulse.jsx';
+import RewardsSimulator from './components/RewardsSimulator.jsx';
+import ProposalControls from './components/ProposalControls.jsx';
+import ProposalInsights from './components/ProposalInsights.jsx';
+import QuickActions from './components/QuickActions.jsx';
+import TxLedgerPanel from './components/TxLedgerPanel.jsx';
+import WalletStatusChip from './components/WalletStatusChip.jsx';
+import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
+import './styles/feature-panels.css';
 
 // ==========================================
 // App Component
 // ==========================================
 
 export default function App() {
-    const [activeTab, setActiveTab] = useState('vault');
+    const [activeTab, setActiveTab] = useLocalStorageState('pv.activeTab', 'vault');
     const [wallet, setWallet] = useState(null);
     const [txStatus, setTxStatus] = useState(null);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [lastUpdatedAt, setLastUpdatedAt] = useState(0);
+    const [refreshErrors, setRefreshErrors] = useState(0);
 
     // Vault state
     const [vaultInfo, setVaultInfo] = useState(null);
@@ -44,6 +60,15 @@ export default function App() {
     const [proposalForm, setProposalForm] = useState({
         title: '', description: '', type: 'general', value: 0,
     });
+    const [proposalQuery, setProposalQuery] = useState('');
+    const [proposalStatusFilter, setProposalStatusFilter] = useState('all');
+    const [proposalSort, setProposalSort] = useState('latest');
+    const [txLedger, setTxLedger] = useLocalStorageState('pv.txLedger', []);
+
+    // Simulator state
+    const [simAmount, setSimAmount] = useLocalStorageState('pv.simAmount', 1);
+    const [simCycles, setSimCycles] = useLocalStorageState('pv.simCycles', 8);
+    const debouncedProposalQuery = useDebouncedValue(proposalQuery, 180);
 
     // ==========================================
     // Wallet Methods
@@ -79,9 +104,9 @@ export default function App() {
     // ==========================================
 
     const refreshData = useCallback(async () => {
+        setIsRefreshing(true);
         try {
             const addr = wallet?.address;
-
             // Vault info (public, no wallet needed)
             try {
                 const vault = await getVaultInfo(addr);
@@ -129,8 +154,14 @@ export default function App() {
                 }
                 setProposals(propList);
             } catch (e) { /* skip */ }
+
+            setLastUpdatedAt(Date.now());
+            setRefreshErrors(0);
         } catch (error) {
             console.error('Error refreshing data:', error);
+            setRefreshErrors(count => count + 1);
+        } finally {
+            setIsRefreshing(false);
         }
     }, [wallet?.address]);
 
@@ -149,6 +180,17 @@ export default function App() {
         if (type !== 'pending') setTimeout(() => setTxStatus(null), 5000);
     };
 
+    const recordTx = useCallback((action, txId) => {
+        if (!txId) return;
+        const item = {
+            id: `${action}-${txId}-${Date.now()}`,
+            action,
+            txid: txId,
+            explorer: `https://explorer.hiro.so/txid/${txId}?chain=mainnet`,
+        };
+        setTxLedger(prev => [item, ...prev].slice(0, 30));
+    }, []);
+
     const handleDeposit = () => {
         if (!wallet) return handleConnect();
         const amount = parseFloat(depositAmount);
@@ -160,6 +202,7 @@ export default function App() {
             wallet.address,
             (data) => {
                 showTx('success', `Deposit submitted! TX: ${data.txId?.slice(0, 12)}...`);
+                recordTx('deposit', data.txId);
                 setDepositAmount('');
                 setTimeout(refreshData, 5000);
             },
@@ -173,6 +216,7 @@ export default function App() {
         withdrawSTX(
             (data) => {
                 showTx('success', `Withdrawal submitted! TX: ${data.txId?.slice(0, 12)}...`);
+                recordTx('withdraw', data.txId);
                 setTimeout(refreshData, 5000);
             },
             () => showTx('error', 'Withdrawal cancelled')
@@ -185,6 +229,7 @@ export default function App() {
         claimRewards(
             (data) => {
                 showTx('success', `Rewards claimed! TX: ${data.txId?.slice(0, 12)}...`);
+                recordTx('claim-rewards', data.txId);
                 setTimeout(refreshData, 5000);
             },
             () => showTx('error', 'Claim cancelled')
@@ -203,6 +248,7 @@ export default function App() {
             parseInt(proposalForm.value) || 0,
             (data) => {
                 showTx('success', `Proposal created! TX: ${data.txId?.slice(0, 12)}...`);
+                recordTx('create-proposal', data.txId);
                 setProposalForm({ title: '', description: '', type: 'general', value: 0 });
                 setTimeout(refreshData, 5000);
             },
@@ -218,6 +264,7 @@ export default function App() {
             support,
             (data) => {
                 showTx('success', `Vote cast! TX: ${data.txId?.slice(0, 12)}...`);
+                recordTx('vote', data.txId);
                 setTimeout(refreshData, 5000);
             },
             () => showTx('error', 'Vote cancelled')
@@ -231,11 +278,48 @@ export default function App() {
             proposalId,
             (data) => {
                 showTx('success', `Proposal executed! TX: ${data.txId?.slice(0, 12)}...`);
+                recordTx('execute-proposal', data.txId);
                 setTimeout(refreshData, 5000);
             },
             () => showTx('error', 'Execution cancelled')
         );
     };
+
+    const filteredProposals = useMemo(() => {
+        let list = [...proposals];
+
+        if (debouncedProposalQuery.trim()) {
+            const query = debouncedProposalQuery.toLowerCase();
+            list = list.filter((proposal) => {
+                const title = String(proposal?.title?.value || '').toLowerCase();
+                const description = String(proposal?.description?.value || '').toLowerCase();
+                return title.includes(query) || description.includes(query);
+            });
+        }
+
+        if (proposalStatusFilter !== 'all') {
+            list = list.filter((proposal) => {
+                return proposalStatus(proposal) === proposalStatusFilter;
+            });
+        }
+
+        if (proposalSort === 'oldest') {
+            list.sort((a, b) => a.id - b.id);
+        } else if (proposalSort === 'most-votes') {
+            list.sort((a, b) => {
+                return proposalVotesTotal(b) - proposalVotesTotal(a);
+            });
+        } else {
+            list.sort((a, b) => b.id - a.id);
+        }
+
+        return list;
+    }, [proposals, debouncedProposalQuery, proposalStatusFilter, proposalSort]);
+
+    useKeyboardShortcuts({
+        onRefresh: refreshData,
+        onTab: setActiveTab,
+    });
 
     // ==========================================
     // Render
@@ -304,6 +388,37 @@ export default function App() {
                     </p>
                 </section>
 
+                <div className="top-tools">
+                    <div className="card">
+                        <div className="card-title">
+                            <div className="card-title-icon" style={{ background: 'rgba(85,70,255,0.15)' }}>⚡</div>
+                            Quick Actions
+                        </div>
+                        <QuickActions
+                            onRefresh={refreshData}
+                            onTab={setActiveTab}
+                            onPrefillDeposit={(amount) => {
+                                setActiveTab('vault');
+                                setDepositAmount(String(amount));
+                            }}
+                        />
+                        <div style={{ marginTop: 10 }}>
+                            <WalletStatusChip wallet={wallet} />
+                        </div>
+                    </div>
+
+                    <div className="card">
+                        <div className="card-title">
+                            <div className="card-title-icon" style={{ background: 'rgba(46,204,113,0.15)' }}>📡</div>
+                            Network Monitor
+                        </div>
+                        <NetworkPulse loading={isRefreshing} lastUpdatedAt={lastUpdatedAt} errorCount={refreshErrors} />
+                        <div style={{ marginTop: 10 }}>
+                            <RefreshTicker intervalMs={30000} onRefresh={refreshData} />
+                        </div>
+                    </div>
+                </div>
+
                 {/* Stats */}
                 <div className="stats-grid">
                     <div className="stat-card fade-in stagger-1">
@@ -330,6 +445,7 @@ export default function App() {
 
                 {/* ==================== VAULT TAB ==================== */}
                 {activeTab === 'vault' && (
+                    <>
                     <div className="section-grid fade-in">
                         {/* Deposit Card */}
                         <div className="card">
@@ -410,6 +526,19 @@ export default function App() {
                             )}
                         </div>
                     </div>
+
+                    <div className="card" style={{ marginTop: 24 }}>
+                        <RewardsSimulator
+                            amountStx={simAmount}
+                            rewardRateBps={vaultInfo?.['reward-rate']?.value || 100}
+                            cycles={simCycles}
+                            onAmountChange={setSimAmount}
+                            onCyclesChange={setSimCycles}
+                            blocksPerCycle={144}
+                            averageBlockMinutes={10}
+                        />
+                    </div>
+                    </>
                 )}
 
                 {/* ==================== GOVERNANCE TAB ==================== */}
@@ -523,8 +652,25 @@ export default function App() {
                                 </span>
                             </div>
 
-                            {proposals.length > 0 ? (
-                                proposals.map((p) => (
+                            <ProposalControls
+                                query={proposalQuery}
+                                status={proposalStatusFilter}
+                                sort={proposalSort}
+                                resultCount={filteredProposals.length}
+                                onQuery={setProposalQuery}
+                                onStatus={setProposalStatusFilter}
+                                onSort={setProposalSort}
+                                onClear={() => {
+                                    setProposalQuery('');
+                                    setProposalStatusFilter('all');
+                                    setProposalSort('latest');
+                                }}
+                            />
+
+                            <ProposalInsights proposals={filteredProposals} />
+
+                            {filteredProposals.length > 0 ? (
+                                filteredProposals.map((p) => (
                                     <ProposalItem
                                         key={p.id}
                                         proposal={p}
@@ -591,6 +737,8 @@ export default function App() {
                                 </div>
                             </div>
                         </div>
+
+                        <TxLedgerPanel items={txLedger} onClear={() => setTxLedger([])} />
                     </div>
                 )}
             </main>
@@ -609,7 +757,9 @@ export default function App() {
         </>
     );
 }
-
+                                <p style={{ color: 'var(--text-muted)' }}>
+                                    No proposals match the current filters.
+                                </p>
 // ==========================================
 // Sub-Components
 // ==========================================
