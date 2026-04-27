@@ -203,6 +203,31 @@
   font-size: 14px;
 }
 
+.proposal-summary-card {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.proposal-summary-card div {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 8px 10px;
+  display: grid;
+  gap: 3px;
+}
+
+.proposal-summary-card span {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.proposal-summary-card strong {
+  font-size: 13px;
+}
+
 .tx-ledger {
   margin-top: 24px;
 }
@@ -310,5 +335,9 @@
 
   .proposal-insights {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .proposal-summary-card {
+    grid-template-columns: 1fr;
   }
 }

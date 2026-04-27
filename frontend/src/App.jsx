@@ -38,6 +38,7 @@ import MiniKpiStrip from './components/MiniKpiStrip.jsx';
 import PortfolioHealthCard from './components/PortfolioHealthCard.jsx';
 import FeatureTips from './components/FeatureTips.jsx';
 import HotkeyLegend from './components/HotkeyLegend.jsx';
+import ProposalSummaryCard from './components/ProposalSummaryCard.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
 import { copyText } from './utils/clipboard.js';
 import { formatPercent } from './utils/percent.js';
@@ -703,6 +704,7 @@ export default function App() {
                             />
 
                             <ProposalInsights proposals={filteredProposals} />
+                            <ProposalSummaryCard proposals={filteredProposals} />
 
                             {filteredProposals.length > 0 ? (
                                 filteredProposals.map((p) => (
