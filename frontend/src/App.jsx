@@ -528,6 +528,8 @@ export default function App() {
                             cycles={simCycles}
                             onAmountChange={setSimAmount}
                             onCyclesChange={setSimCycles}
+                            blocksPerCycle={144}
+                            averageBlockMinutes={10}
                         />
                     </div>
                     </>

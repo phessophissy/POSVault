@@ -7,6 +7,8 @@ export default function RewardsSimulator({
   cycles,
   onAmountChange,
   onCyclesChange,
+  blocksPerCycle = 144,
+  averageBlockMinutes = 10,
 }) {
   const projected = useMemo(
     () => projectRewards(amountStx, rewardRateBps, cycles),
@@ -14,6 +16,11 @@ export default function RewardsSimulator({
   );
 
   const roi = useMemo(() => percentage(projected, amountStx), [projected, amountStx]);
+  const projectedTotal = useMemo(() => Number(amountStx || 0) + projected, [amountStx, projected]);
+  const estimatedDays = useMemo(
+    () => ((blocksPerCycle * cycles * averageBlockMinutes) / 60 / 24),
+    [blocksPerCycle, cycles, averageBlockMinutes]
+  );
 
   return (
     <div className="sim-card">
@@ -49,6 +56,14 @@ export default function RewardsSimulator({
         <div>
           <span>Estimated ROI</span>
           <strong>{roi.toFixed(2)}%</strong>
+        </div>
+        <div>
+          <span>Projected Total</span>
+          <strong>{projectedTotal.toFixed(4)} STX</strong>
+        </div>
+        <div>
+          <span>Estimated Time</span>
+          <strong>{estimatedDays.toFixed(1)} days</strong>
         </div>
       </div>
     </div>
