@@ -218,6 +218,13 @@
   gap: 8px;
 }
 
+.ledger-filter-bar {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
 .tx-ledger-row {
   display: flex;
   justify-content: space-between;
@@ -294,6 +301,10 @@
   }
 
   .proposal-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .ledger-filter-bar {
     grid-template-columns: 1fr;
   }
 
