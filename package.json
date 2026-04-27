@@ -8,6 +8,7 @@
   "scripts": {
     "interact": "node scripts/interact.js",
     "fund:gov": "node scripts/fund-governance.js",
+    "security:check-tracked": "node scripts/security-check-tracked.js",
     "test": "vitest run",
     "test:report": "vitest run -- --coverage --costs",
     "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\"",
