@@ -29,6 +29,7 @@ import ProposalControls from './components/ProposalControls.jsx';
 import ProposalInsights from './components/ProposalInsights.jsx';
 import QuickActions from './components/QuickActions.jsx';
 import TxLedgerPanel from './components/TxLedgerPanel.jsx';
+import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
 import './styles/feature-panels.css';
 
 // ==========================================
@@ -295,10 +296,7 @@ export default function App() {
 
         if (proposalStatusFilter !== 'all') {
             list = list.filter((proposal) => {
-                const isExecuted = proposal?.executed?.value === true || proposal?.executed?.value === 'true';
-                const isPassed = proposal?.passed?.value === true || proposal?.passed?.value === 'true';
-                const status = isExecuted ? (isPassed ? 'passed' : 'failed') : 'active';
-                return status === proposalStatusFilter;
+                return proposalStatus(proposal) === proposalStatusFilter;
             });
         }
 
@@ -306,9 +304,7 @@ export default function App() {
             list.sort((a, b) => a.id - b.id);
         } else if (proposalSort === 'most-votes') {
             list.sort((a, b) => {
-                const totalA = Number(a?.['votes-for']?.value || 0) + Number(a?.['votes-against']?.value || 0);
-                const totalB = Number(b?.['votes-for']?.value || 0) + Number(b?.['votes-against']?.value || 0);
-                return totalB - totalA;
+                return proposalVotesTotal(b) - proposalVotesTotal(a);
             });
         } else {
             list.sort((a, b) => b.id - a.id);

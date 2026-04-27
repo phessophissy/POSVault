@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { proposalStatus, proposalVotesTotal } from '../utils/proposals.js';
 
 export default function ProposalInsights({ proposals = [] }) {
   const stats = useMemo(() => {
@@ -9,15 +10,11 @@ export default function ProposalInsights({ proposals = [] }) {
     let totalVotes = 0;
 
     for (const proposal of proposals) {
-      const votesFor = Number(proposal?.['votes-for']?.value || 0);
-      const votesAgainst = Number(proposal?.['votes-against']?.value || 0);
-      totalVotes += votesFor + votesAgainst;
+      totalVotes += proposalVotesTotal(proposal);
 
-      const isExecuted = proposal?.executed?.value === true || proposal?.executed?.value === 'true';
-      const isPassed = proposal?.passed?.value === true || proposal?.passed?.value === 'true';
-
-      if (!isExecuted) active += 1;
-      else if (isPassed) passed += 1;
+      const status = proposalStatus(proposal);
+      if (status === 'active') active += 1;
+      else if (status === 'passed') passed += 1;
       else failed += 1;
     }
 
