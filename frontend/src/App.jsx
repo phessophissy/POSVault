@@ -21,6 +21,7 @@ import {
     formatNumber,
 } from './stacks.js';
 import useLocalStorageState from './hooks/useLocalStorageState.js';
+import useKeyboardShortcuts from './hooks/useKeyboardShortcuts.js';
 import RefreshTicker from './components/RefreshTicker.jsx';
 import NetworkPulse from './components/NetworkPulse.jsx';
 import RewardsSimulator from './components/RewardsSimulator.jsx';
@@ -313,6 +314,11 @@ export default function App() {
 
         return list;
     }, [proposals, proposalQuery, proposalStatusFilter, proposalSort]);
+
+    useKeyboardShortcuts({
+        onRefresh: refreshData,
+        onTab: setActiveTab,
+    });
 
     // ==========================================
     // Render
