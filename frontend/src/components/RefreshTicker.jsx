@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-export default function RefreshTicker({ intervalMs = 30000, onRefresh, className = '' }) {
+export default function RefreshTicker({ intervalMs = 30000, onRefresh, className = '', paused = false }) {
   const [remainingMs, setRemainingMs] = useState(intervalMs);
   const [isVisible, setIsVisible] = useState(!document.hidden);
 
@@ -15,6 +15,7 @@ export default function RefreshTicker({ intervalMs = 30000, onRefresh, className
   }, []);
 
   useEffect(() => {
+    if (paused) return;
     if (!isVisible) return;
     const timer = window.setInterval(() => {
       setRemainingMs(prev => {
@@ -27,14 +28,14 @@ export default function RefreshTicker({ intervalMs = 30000, onRefresh, className
       });
     }, 1000);
     return () => window.clearInterval(timer);
-  }, [intervalMs, onRefresh, isVisible]);
+  }, [intervalMs, onRefresh, isVisible, paused]);
 
   const seconds = useMemo(() => Math.max(0, Math.floor(remainingMs / 1000)), [remainingMs]);
 
   return (
     <div className={`refresh-ticker ${className}`.trim()}>
       <span className="refresh-ticker-dot" />
-      <span>{isVisible ? `Next sync in ${seconds}s` : 'Sync paused in background tab'}</span>
+      <span>{paused ? 'Auto sync paused' : `Next sync in ${seconds}s`}</span>
     </div>
   );
 }

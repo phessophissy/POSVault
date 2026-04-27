@@ -19,10 +19,16 @@ import {
     formatSTX,
     formatAddress,
     formatNumber,
+    CONTRACT_DEPLOYER,
+    CONTRACTS,
 } from './stacks.js';
 import useLocalStorageState from './hooks/useLocalStorageState.js';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts.js';
 import useDebouncedValue from './hooks/useDebouncedValue.js';
+import useRefreshGuard from './hooks/useRefreshGuard.js';
+import useDocumentTitle from './hooks/useDocumentTitle.js';
+import useMountedRef from './hooks/useMountedRef.js';
+import useInterval from './hooks/useInterval.js';
 import RefreshTicker from './components/RefreshTicker.jsx';
 import NetworkPulse from './components/NetworkPulse.jsx';
 import RewardsSimulator from './components/RewardsSimulator.jsx';
@@ -31,7 +37,19 @@ import ProposalInsights from './components/ProposalInsights.jsx';
 import QuickActions from './components/QuickActions.jsx';
 import TxLedgerPanel from './components/TxLedgerPanel.jsx';
 import WalletStatusChip from './components/WalletStatusChip.jsx';
+import MiniKpiStrip from './components/MiniKpiStrip.jsx';
+import PortfolioHealthCard from './components/PortfolioHealthCard.jsx';
+import FeatureTips from './components/FeatureTips.jsx';
+import HotkeyLegend from './components/HotkeyLegend.jsx';
+import ProposalSummaryCard from './components/ProposalSummaryCard.jsx';
+import EmptyStateCard from './components/EmptyStateCard.jsx';
+import ExplorerLinks from './components/ExplorerLinks.jsx';
+import AutoRefreshToggle from './components/AutoRefreshToggle.jsx';
+import SectionDivider from './components/SectionDivider.jsx';
+import WalletAddressPill from './components/WalletAddressPill.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
+import { copyText } from './utils/clipboard.js';
+import { formatPercent } from './utils/percent.js';
 import './styles/feature-panels.css';
 
 // ==========================================
@@ -68,7 +86,10 @@ export default function App() {
     // Simulator state
     const [simAmount, setSimAmount] = useLocalStorageState('pv.simAmount', 1);
     const [simCycles, setSimCycles] = useLocalStorageState('pv.simCycles', 8);
+    const [autoRefresh, setAutoRefresh] = useLocalStorageState('pv.autoRefresh', true);
     const debouncedProposalQuery = useDebouncedValue(proposalQuery, 180);
+    const guardRefresh = useRefreshGuard();
+    const mountedRef = useMountedRef();
 
     // ==========================================
     // Wallet Methods
@@ -104,72 +125,76 @@ export default function App() {
     // ==========================================
 
     const refreshData = useCallback(async () => {
-        setIsRefreshing(true);
-        try {
-            const addr = wallet?.address;
-            // Vault info (public, no wallet needed)
+        await guardRefresh(async () => {
+            setIsRefreshing(true);
             try {
-                const vault = await getVaultInfo(addr);
-                if (vault?.value) setVaultInfo(vault.value);
-            } catch (e) { console.log('Vault info fetch skipped (not deployed yet)'); }
-
-            // Token supply
-            try {
-                const supply = await getTotalSupply(addr);
-                if (supply?.value?.value) setTotalSupply(supply.value.value);
-            } catch (e) { /* skip */ }
-
-            if (addr) {
+                const addr = wallet?.address;
+                // Vault info (public, no wallet needed)
                 try {
-                    const deposit = await getUserDeposit(addr);
-                    setUserDeposit(deposit?.value || null);
+                    const vault = await getVaultInfo(addr);
+                    if (vault?.value) setVaultInfo(vault.value);
+                } catch (e) { console.log('Vault info fetch skipped (not deployed yet)'); }
+
+                // Token supply
+                try {
+                    const supply = await getTotalSupply(addr);
+                    if (supply?.value?.value) setTotalSupply(supply.value.value);
                 } catch (e) { /* skip */ }
 
-                try {
-                    const stats = await getUserStats(addr);
-                    if (stats?.value) setUserStats(stats.value);
-                } catch (e) { /* skip */ }
-
-                try {
-                    const rewards = await getPendingRewards(addr);
-                    if (rewards?.value?.value) setPendingRewards(rewards.value.value);
-                } catch (e) { /* skip */ }
-
-                try {
-                    const balance = await getTokenBalance(addr);
-                    if (balance?.value?.value) setTokenBalance(balance.value.value);
-                } catch (e) { /* skip */ }
-            }
-
-            // Proposals
-            try {
-                const countResult = await getProposalCount(addr);
-                const count = parseInt(countResult?.value?.value || '0');
-                const propList = [];
-                for (let i = 1; i <= Math.min(count, 20); i++) {
+                if (addr) {
                     try {
-                        const p = await getProposal(i, addr);
-                        if (p?.value) propList.push({ id: i, ...p.value });
+                        const deposit = await getUserDeposit(addr);
+                        if (mountedRef.current) setUserDeposit(deposit?.value || null);
+                    } catch (e) { /* skip */ }
+
+                    try {
+                        const stats = await getUserStats(addr);
+                        if (stats?.value && mountedRef.current) setUserStats(stats.value);
+                    } catch (e) { /* skip */ }
+
+                    try {
+                        const rewards = await getPendingRewards(addr);
+                        if (rewards?.value?.value && mountedRef.current) setPendingRewards(rewards.value.value);
+                    } catch (e) { /* skip */ }
+
+                    try {
+                        const balance = await getTokenBalance(addr);
+                        if (balance?.value?.value && mountedRef.current) setTokenBalance(balance.value.value);
                     } catch (e) { /* skip */ }
                 }
-                setProposals(propList);
-            } catch (e) { /* skip */ }
 
-            setLastUpdatedAt(Date.now());
-            setRefreshErrors(0);
-        } catch (error) {
-            console.error('Error refreshing data:', error);
-            setRefreshErrors(count => count + 1);
-        } finally {
-            setIsRefreshing(false);
-        }
-    }, [wallet?.address]);
+                // Proposals
+                try {
+                    const countResult = await getProposalCount(addr);
+                    const count = parseInt(countResult?.value?.value || '0');
+                    const propList = [];
+                    for (let i = 1; i <= Math.min(count, 20); i++) {
+                        try {
+                            const p = await getProposal(i, addr);
+                            if (p?.value) propList.push({ id: i, ...p.value });
+                        } catch (e) { /* skip */ }
+                    }
+                    if (mountedRef.current) setProposals(propList);
+                } catch (e) { /* skip */ }
+
+                if (mountedRef.current) {
+                    setLastUpdatedAt(Date.now());
+                    setRefreshErrors(0);
+                }
+            } catch (error) {
+                console.error('Error refreshing data:', error);
+                if (mountedRef.current) setRefreshErrors(count => count + 1);
+            } finally {
+                if (mountedRef.current) setIsRefreshing(false);
+            }
+        });
+    }, [wallet?.address, guardRefresh, mountedRef]);
 
     useEffect(() => {
-        refreshData();
-        const interval = setInterval(refreshData, 30000);
-        return () => clearInterval(interval);
-    }, [refreshData]);
+        if (autoRefresh) refreshData();
+    }, [refreshData, autoRefresh]);
+
+    useInterval(refreshData, autoRefresh ? 30000 : null);
 
     // ==========================================
     // Transaction Handlers
@@ -189,6 +214,16 @@ export default function App() {
             explorer: `https://explorer.hiro.so/txid/${txId}?chain=mainnet`,
         };
         setTxLedger(prev => [item, ...prev].slice(0, 30));
+    }, []);
+
+    const handleCopyContractPrincipal = useCallback(async () => {
+        const principal = `${CONTRACT_DEPLOYER}.${CONTRACTS.VAULT_CORE}`;
+        try {
+            await copyText(principal);
+            showTx('success', 'Vault contract principal copied');
+        } catch {
+            showTx('error', 'Unable to copy contract principal');
+        }
     }, []);
 
     const handleDeposit = () => {
@@ -321,6 +356,8 @@ export default function App() {
         onTab: setActiveTab,
     });
 
+    useDocumentTitle(`POSVault · ${activeTab}${wallet ? ' · Connected' : ''}`);
+
     // ==========================================
     // Render
     // ==========================================
@@ -401,6 +438,7 @@ export default function App() {
                                 setActiveTab('vault');
                                 setDepositAmount(String(amount));
                             }}
+                            onCopyContract={handleCopyContractPrincipal}
                         />
                         <div style={{ marginTop: 10 }}>
                             <WalletStatusChip wallet={wallet} />
@@ -414,10 +452,26 @@ export default function App() {
                         </div>
                         <NetworkPulse loading={isRefreshing} lastUpdatedAt={lastUpdatedAt} errorCount={refreshErrors} />
                         <div style={{ marginTop: 10 }}>
-                            <RefreshTicker intervalMs={30000} onRefresh={refreshData} />
+                            <RefreshTicker intervalMs={30000} onRefresh={refreshData} paused={!autoRefresh} />
+                        </div>
+                        <div style={{ marginTop: 10 }}>
+                            <AutoRefreshToggle enabled={autoRefresh} onToggle={setAutoRefresh} />
                         </div>
                     </div>
                 </div>
+
+                <MiniKpiStrip
+                    values={{
+                        locked: `${formatSTX(vaultInfo?.['total-stx-locked']?.value || 0)} STX`,
+                        rewardRate: `${(parseInt(vaultInfo?.['reward-rate']?.value || 100) / 100).toFixed(2)}%`,
+                        supply: formatSTX(totalSupply),
+                        pending: `${formatSTX(pendingRewards)} POS-GOV`,
+                    }}
+                />
+
+                <FeatureTips />
+                <HotkeyLegend />
+                <SectionDivider label="Protocol Snapshot" />
 
                 {/* Stats */}
                 <div className="stats-grid">
@@ -433,7 +487,7 @@ export default function App() {
                     </div>
                     <div className="stat-card fade-in stagger-3">
                         <div className="stat-label">Reward Rate</div>
-                        <div className="stat-value">{(parseInt(vaultInfo?.['reward-rate']?.value || 100) / 100).toFixed(2)}%</div>
+                        <div className="stat-value">{formatPercent(parseInt(vaultInfo?.['reward-rate']?.value || 100) / 100)}</div>
                         <div className="stat-sub">per cycle</div>
                     </div>
                     <div className="stat-card fade-in stagger-4">
@@ -635,7 +689,7 @@ export default function App() {
                                     <div style={{ padding: 16, borderRadius: 'var(--radius-md)', background: 'var(--bg-glass)' }}>
                                         <div className="stat-label">Your Voting Power</div>
                                         <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--accent-blue-light)' }}>
-                                            {totalSupply > 0 ? ((tokenBalance / totalSupply) * 100).toFixed(2) : '0.00'}%
+                                            {formatPercent(totalSupply > 0 ? ((tokenBalance / totalSupply) * 100) : 0)}
                                         </div>
                                     </div>
                                 </div>
@@ -668,6 +722,7 @@ export default function App() {
                             />
 
                             <ProposalInsights proposals={filteredProposals} />
+                            <ProposalSummaryCard proposals={filteredProposals} />
 
                             {filteredProposals.length > 0 ? (
                                 filteredProposals.map((p) => (
@@ -680,13 +735,11 @@ export default function App() {
                                     />
                                 ))
                             ) : (
-                                <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-muted)' }}>
-                                    <div style={{ fontSize: 48, marginBottom: 12 }}>🗳️</div>
-                                    <p>No proposals yet</p>
-                                    <p style={{ fontSize: 13, marginTop: 8 }}>
-                                        Be the first to create a governance proposal!
-                                    </p>
-                                </div>
+                                <EmptyStateCard
+                                    icon="🗳️"
+                                    title="No proposals yet"
+                                    body="Be the first to create a governance proposal!"
+                                />
                             )}
                         </div>
                     </div>
@@ -703,6 +756,7 @@ export default function App() {
                                 </div>
                                 {wallet ? (
                                     <div style={{ display: 'grid', gap: 16 }}>
+                                        <WalletAddressPill address={wallet.address} />
                                         <InfoRow label="Wallet Address" value={wallet.address} mono />
                                         <InfoRow label="Total Deposited" value={`${formatSTX(userStats?.['total-deposited']?.value)} STX`} />
                                         <InfoRow label="Total Withdrawn" value={`${formatSTX(userStats?.['total-withdrawn']?.value)} STX`} />
@@ -711,13 +765,16 @@ export default function App() {
                                         <InfoRow label="POS-GOV Balance" value={formatSTX(tokenBalance)} highlight />
                                     </div>
                                 ) : (
-                                    <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-muted)' }}>
-                                        <div style={{ fontSize: 48, marginBottom: 12 }}>👤</div>
-                                        <p>Connect wallet to view portfolio</p>
-                                        <button className="btn btn-primary" style={{ marginTop: 16 }} onClick={handleConnect}>
-                                            ⚡ Connect Wallet
-                                        </button>
-                                    </div>
+                                    <EmptyStateCard
+                                        icon="👤"
+                                        title="Connect wallet to view portfolio"
+                                        body="Portfolio insights appear once your wallet is connected."
+                                        action={(
+                                            <button className="btn btn-primary" style={{ marginTop: 16 }} onClick={handleConnect}>
+                                                ⚡ Connect Wallet
+                                            </button>
+                                        )}
+                                    />
                                 )}
                             </div>
 
@@ -735,10 +792,12 @@ export default function App() {
                                     <InfoRow label="Quorum Required" value="10% of total supply" />
                                     <InfoRow label="Voting Period" value="~1,008 blocks (~7 days)" />
                                 </div>
+                                <ExplorerLinks contractPrincipal={`${CONTRACT_DEPLOYER}.${CONTRACTS.VAULT_CORE}`} />
                             </div>
                         </div>
 
                         <TxLedgerPanel items={txLedger} onClear={() => setTxLedger([])} />
+                        <PortfolioHealthCard userStats={userStats} pendingRewards={pendingRewards} tokenBalance={tokenBalance} />
                     </div>
                 )}
             </main>

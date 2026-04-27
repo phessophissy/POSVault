@@ -5,6 +5,31 @@
   margin: 18px 0 6px;
 }
 
+.mini-kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0 18px;
+}
+
+.mini-kpi-item {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 8px 10px;
+  display: grid;
+  gap: 3px;
+}
+
+.mini-kpi-item span {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.mini-kpi-item strong {
+  font-size: 13px;
+}
+
 .quick-actions {
   display: flex;
   flex-wrap: wrap;
@@ -178,6 +203,31 @@
   font-size: 14px;
 }
 
+.proposal-summary-card {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.proposal-summary-card div {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 8px 10px;
+  display: grid;
+  gap: 3px;
+}
+
+.proposal-summary-card span {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.proposal-summary-card strong {
+  font-size: 13px;
+}
+
 .tx-ledger {
   margin-top: 24px;
 }
@@ -191,6 +241,13 @@
   list-style: none;
   display: grid;
   gap: 8px;
+}
+
+.ledger-filter-bar {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 .tx-ledger-row {
@@ -208,16 +265,165 @@
   font-family: var(--font-mono);
 }
 
+.tx-ledger-count {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.portfolio-health-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.portfolio-health-bar {
+  height: 10px;
+  border-radius: 999px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.portfolio-health-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-orange-light), var(--accent-green));
+}
+
+.portfolio-health-copy {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 10px;
+}
+
+.feature-tips-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-secondary);
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.hotkey-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0 18px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.hotkey-legend kbd {
+  border: 1px solid var(--border-subtle);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  padding: 1px 5px;
+  margin-right: 4px;
+}
+
+.empty-state-card {
+  text-align: center;
+  padding: 34px 0;
+  color: var(--text-muted);
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.empty-state-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.empty-state-body {
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.explorer-links {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.explorer-links a {
+  color: var(--accent-blue-light);
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.auto-refresh-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  margin: 8px 0 14px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  height: 1px;
+  background: var(--border-subtle);
+  flex: 1;
+}
+
+.section-divider span {
+  margin: 0 10px;
+}
+
+.wallet-address-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: 6px 10px;
+  width: fit-content;
+}
+
+.wallet-address-pill span {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.wallet-address-pill strong {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
 @media (max-width: 920px) {
   .top-tools {
     grid-template-columns: 1fr;
+  }
+
+  .mini-kpi-strip {
+    grid-template-columns: 1fr 1fr;
   }
 
   .proposal-controls {
     grid-template-columns: 1fr;
   }
 
+  .ledger-filter-bar {
+    grid-template-columns: 1fr;
+  }
+
   .proposal-insights {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .proposal-summary-card {
+    grid-template-columns: 1fr;
   }
 }
