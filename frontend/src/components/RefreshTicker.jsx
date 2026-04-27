@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-export default function RefreshTicker({ intervalMs = 30000, onRefresh, className = '' }) {
 export default function RefreshTicker({ intervalMs = 30000, onRefresh, className = '', paused = false }) {
   const [remainingMs, setRemainingMs] = useState(intervalMs);
   const [isVisible, setIsVisible] = useState(!document.hidden);
