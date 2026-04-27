@@ -22,6 +22,7 @@ import {
 } from './stacks.js';
 import useLocalStorageState from './hooks/useLocalStorageState.js';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts.js';
+import useDebouncedValue from './hooks/useDebouncedValue.js';
 import RefreshTicker from './components/RefreshTicker.jsx';
 import NetworkPulse from './components/NetworkPulse.jsx';
 import RewardsSimulator from './components/RewardsSimulator.jsx';
@@ -66,6 +67,7 @@ export default function App() {
     // Simulator state
     const [simAmount, setSimAmount] = useLocalStorageState('pv.simAmount', 1);
     const [simCycles, setSimCycles] = useLocalStorageState('pv.simCycles', 8);
+    const debouncedProposalQuery = useDebouncedValue(proposalQuery, 180);
 
     // ==========================================
     // Wallet Methods
@@ -285,8 +287,8 @@ export default function App() {
     const filteredProposals = useMemo(() => {
         let list = [...proposals];
 
-        if (proposalQuery.trim()) {
-            const query = proposalQuery.toLowerCase();
+        if (debouncedProposalQuery.trim()) {
+            const query = debouncedProposalQuery.toLowerCase();
             list = list.filter((proposal) => {
                 const title = String(proposal?.title?.value || '').toLowerCase();
                 const description = String(proposal?.description?.value || '').toLowerCase();
@@ -311,7 +313,7 @@ export default function App() {
         }
 
         return list;
-    }, [proposals, proposalQuery, proposalStatusFilter, proposalSort]);
+    }, [proposals, debouncedProposalQuery, proposalStatusFilter, proposalSort]);
 
     useKeyboardShortcuts({
         onRefresh: refreshData,
