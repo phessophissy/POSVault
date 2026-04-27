@@ -28,6 +28,12 @@ build/
 *.pem
 *.key
 *.secret
+*.p12
+*.pfx
+*.kdbx
+*.keystore
+*.seed
+*.mnemonic
 
 # ==========================================
 # Clarinet sensitive settings
@@ -87,3 +93,7 @@ ehthumbs.db
 
 # Wallet keys
 scripts/wallets*.json
+wallets*.json
+**/wallet-export*.json
+**/private-key*.txt
+**/*-credentials.json
