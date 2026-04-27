@@ -41,6 +41,7 @@ import FeatureTips from './components/FeatureTips.jsx';
 import HotkeyLegend from './components/HotkeyLegend.jsx';
 import ProposalSummaryCard from './components/ProposalSummaryCard.jsx';
 import EmptyStateCard from './components/EmptyStateCard.jsx';
+import ExplorerLinks from './components/ExplorerLinks.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
 import { copyText } from './utils/clipboard.js';
 import { formatPercent } from './utils/percent.js';
@@ -777,6 +778,7 @@ export default function App() {
                                     <InfoRow label="Quorum Required" value="10% of total supply" />
                                     <InfoRow label="Voting Period" value="~1,008 blocks (~7 days)" />
                                 </div>
+                                <ExplorerLinks contractPrincipal={`${CONTRACT_DEPLOYER}.${CONTRACTS.VAULT_CORE}`} />
                             </div>
                         </div>
 
