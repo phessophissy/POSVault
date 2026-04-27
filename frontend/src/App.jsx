@@ -30,6 +30,7 @@ import ProposalControls from './components/ProposalControls.jsx';
 import ProposalInsights from './components/ProposalInsights.jsx';
 import QuickActions from './components/QuickActions.jsx';
 import TxLedgerPanel from './components/TxLedgerPanel.jsx';
+import WalletStatusChip from './components/WalletStatusChip.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
 import './styles/feature-panels.css';
 
@@ -401,6 +402,9 @@ export default function App() {
                                 setDepositAmount(String(amount));
                             }}
                         />
+                        <div style={{ marginTop: 10 }}>
+                            <WalletStatusChip wallet={wallet} />
+                        </div>
                     </div>
 
                     <div className="card">
