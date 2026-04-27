@@ -16,6 +16,10 @@ const SENSITIVE_PATH_PATTERNS = [
   /(^|\/)private[-_]?key/i,
 ];
 
+const SAFE_PATH_ALLOWLIST = new Set([
+  '.env.example',
+]);
+
 function getTrackedFiles() {
   const output = execFileSync('git', ['ls-files'], { encoding: 'utf8' });
   return output
@@ -27,6 +31,7 @@ function getTrackedFiles() {
 function main() {
   const trackedFiles = getTrackedFiles();
   const matches = trackedFiles.filter(filePath =>
+    !SAFE_PATH_ALLOWLIST.has(filePath) &&
     SENSITIVE_PATH_PATTERNS.some(pattern => pattern.test(filePath))
   );
 
