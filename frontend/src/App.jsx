@@ -43,6 +43,7 @@ import ProposalSummaryCard from './components/ProposalSummaryCard.jsx';
 import EmptyStateCard from './components/EmptyStateCard.jsx';
 import ExplorerLinks from './components/ExplorerLinks.jsx';
 import AutoRefreshToggle from './components/AutoRefreshToggle.jsx';
+import SectionDivider from './components/SectionDivider.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
 import { copyText } from './utils/clipboard.js';
 import { formatPercent } from './utils/percent.js';
@@ -465,6 +466,7 @@ export default function App() {
 
                 <FeatureTips />
                 <HotkeyLegend />
+                <SectionDivider label="Protocol Snapshot" />
 
                 {/* Stats */}
                 <div className="stats-grid">

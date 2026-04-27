@@ -362,6 +362,26 @@
   font-size: 12px;
 }
 
+.section-divider {
+  display: flex;
+  align-items: center;
+  margin: 8px 0 14px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  height: 1px;
+  background: var(--border-subtle);
+  flex: 1;
+}
+
+.section-divider span {
+  margin: 0 10px;
+}
+
 @media (max-width: 920px) {
   .top-tools {
     grid-template-columns: 1fr;
