@@ -382,6 +382,26 @@
   margin: 0 10px;
 }
 
+.wallet-address-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: 6px 10px;
+  width: fit-content;
+}
+
+.wallet-address-pill span {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.wallet-address-pill strong {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
 @media (max-width: 920px) {
   .top-tools {
     grid-template-columns: 1fr;

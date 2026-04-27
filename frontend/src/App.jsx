@@ -46,6 +46,7 @@ import EmptyStateCard from './components/EmptyStateCard.jsx';
 import ExplorerLinks from './components/ExplorerLinks.jsx';
 import AutoRefreshToggle from './components/AutoRefreshToggle.jsx';
 import SectionDivider from './components/SectionDivider.jsx';
+import WalletAddressPill from './components/WalletAddressPill.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
 import { copyText } from './utils/clipboard.js';
 import { formatPercent } from './utils/percent.js';
@@ -755,6 +756,7 @@ export default function App() {
                                 </div>
                                 {wallet ? (
                                     <div style={{ display: 'grid', gap: 16 }}>
+                                        <WalletAddressPill address={wallet.address} />
                                         <InfoRow label="Wallet Address" value={wallet.address} mono />
                                         <InfoRow label="Total Deposited" value={`${formatSTX(userStats?.['total-deposited']?.value)} STX`} />
                                         <InfoRow label="Total Withdrawn" value={`${formatSTX(userStats?.['total-withdrawn']?.value)} STX`} />
