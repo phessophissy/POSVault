@@ -61,7 +61,7 @@ export default function App() {
     const [proposalQuery, setProposalQuery] = useState('');
     const [proposalStatusFilter, setProposalStatusFilter] = useState('all');
     const [proposalSort, setProposalSort] = useState('latest');
-    const [txLedger, setTxLedger] = useState([]);
+    const [txLedger, setTxLedger] = useLocalStorageState('pv.txLedger', []);
 
     // Simulator state
     const [simAmount, setSimAmount] = useLocalStorageState('pv.simAmount', 1);
