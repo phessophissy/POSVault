@@ -25,6 +25,7 @@ import {
 import useLocalStorageState from './hooks/useLocalStorageState.js';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts.js';
 import useDebouncedValue from './hooks/useDebouncedValue.js';
+import useRefreshGuard from './hooks/useRefreshGuard.js';
 import RefreshTicker from './components/RefreshTicker.jsx';
 import NetworkPulse from './components/NetworkPulse.jsx';
 import RewardsSimulator from './components/RewardsSimulator.jsx';
@@ -73,6 +74,7 @@ export default function App() {
     const [simAmount, setSimAmount] = useLocalStorageState('pv.simAmount', 1);
     const [simCycles, setSimCycles] = useLocalStorageState('pv.simCycles', 8);
     const debouncedProposalQuery = useDebouncedValue(proposalQuery, 180);
+    const guardRefresh = useRefreshGuard();
 
     // ==========================================
     // Wallet Methods
@@ -108,66 +110,68 @@ export default function App() {
     // ==========================================
 
     const refreshData = useCallback(async () => {
-        setIsRefreshing(true);
-        try {
-            const addr = wallet?.address;
-            // Vault info (public, no wallet needed)
+        await guardRefresh(async () => {
+            setIsRefreshing(true);
             try {
-                const vault = await getVaultInfo(addr);
-                if (vault?.value) setVaultInfo(vault.value);
-            } catch (e) { console.log('Vault info fetch skipped (not deployed yet)'); }
-
-            // Token supply
-            try {
-                const supply = await getTotalSupply(addr);
-                if (supply?.value?.value) setTotalSupply(supply.value.value);
-            } catch (e) { /* skip */ }
-
-            if (addr) {
+                const addr = wallet?.address;
+                // Vault info (public, no wallet needed)
                 try {
-                    const deposit = await getUserDeposit(addr);
-                    setUserDeposit(deposit?.value || null);
+                    const vault = await getVaultInfo(addr);
+                    if (vault?.value) setVaultInfo(vault.value);
+                } catch (e) { console.log('Vault info fetch skipped (not deployed yet)'); }
+
+                // Token supply
+                try {
+                    const supply = await getTotalSupply(addr);
+                    if (supply?.value?.value) setTotalSupply(supply.value.value);
                 } catch (e) { /* skip */ }
 
-                try {
-                    const stats = await getUserStats(addr);
-                    if (stats?.value) setUserStats(stats.value);
-                } catch (e) { /* skip */ }
-
-                try {
-                    const rewards = await getPendingRewards(addr);
-                    if (rewards?.value?.value) setPendingRewards(rewards.value.value);
-                } catch (e) { /* skip */ }
-
-                try {
-                    const balance = await getTokenBalance(addr);
-                    if (balance?.value?.value) setTokenBalance(balance.value.value);
-                } catch (e) { /* skip */ }
-            }
-
-            // Proposals
-            try {
-                const countResult = await getProposalCount(addr);
-                const count = parseInt(countResult?.value?.value || '0');
-                const propList = [];
-                for (let i = 1; i <= Math.min(count, 20); i++) {
+                if (addr) {
                     try {
-                        const p = await getProposal(i, addr);
-                        if (p?.value) propList.push({ id: i, ...p.value });
+                        const deposit = await getUserDeposit(addr);
+                        setUserDeposit(deposit?.value || null);
+                    } catch (e) { /* skip */ }
+
+                    try {
+                        const stats = await getUserStats(addr);
+                        if (stats?.value) setUserStats(stats.value);
+                    } catch (e) { /* skip */ }
+
+                    try {
+                        const rewards = await getPendingRewards(addr);
+                        if (rewards?.value?.value) setPendingRewards(rewards.value.value);
+                    } catch (e) { /* skip */ }
+
+                    try {
+                        const balance = await getTokenBalance(addr);
+                        if (balance?.value?.value) setTokenBalance(balance.value.value);
                     } catch (e) { /* skip */ }
                 }
-                setProposals(propList);
-            } catch (e) { /* skip */ }
 
-            setLastUpdatedAt(Date.now());
-            setRefreshErrors(0);
-        } catch (error) {
-            console.error('Error refreshing data:', error);
-            setRefreshErrors(count => count + 1);
-        } finally {
-            setIsRefreshing(false);
-        }
-    }, [wallet?.address]);
+                // Proposals
+                try {
+                    const countResult = await getProposalCount(addr);
+                    const count = parseInt(countResult?.value?.value || '0');
+                    const propList = [];
+                    for (let i = 1; i <= Math.min(count, 20); i++) {
+                        try {
+                            const p = await getProposal(i, addr);
+                            if (p?.value) propList.push({ id: i, ...p.value });
+                        } catch (e) { /* skip */ }
+                    }
+                    setProposals(propList);
+                } catch (e) { /* skip */ }
+
+                setLastUpdatedAt(Date.now());
+                setRefreshErrors(0);
+            } catch (error) {
+                console.error('Error refreshing data:', error);
+                setRefreshErrors(count => count + 1);
+            } finally {
+                setIsRefreshing(false);
+            }
+        });
+    }, [wallet?.address, guardRefresh]);
 
     useEffect(() => {
         refreshData();
