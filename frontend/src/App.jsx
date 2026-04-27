@@ -35,6 +35,7 @@ import QuickActions from './components/QuickActions.jsx';
 import TxLedgerPanel from './components/TxLedgerPanel.jsx';
 import WalletStatusChip from './components/WalletStatusChip.jsx';
 import MiniKpiStrip from './components/MiniKpiStrip.jsx';
+import PortfolioHealthCard from './components/PortfolioHealthCard.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
 import { copyText } from './utils/clipboard.js';
 import './styles/feature-panels.css';
@@ -767,6 +768,7 @@ export default function App() {
                         </div>
 
                         <TxLedgerPanel items={txLedger} onClear={() => setTxLedger([])} />
+                        <PortfolioHealthCard userStats={userStats} pendingRewards={pendingRewards} tokenBalance={tokenBalance} />
                     </div>
                 )}
             </main>

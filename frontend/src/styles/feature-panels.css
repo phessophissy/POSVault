@@ -233,6 +233,31 @@
   font-family: var(--font-mono);
 }
 
+.portfolio-health-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.portfolio-health-bar {
+  height: 10px;
+  border-radius: 999px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.portfolio-health-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-orange-light), var(--accent-green));
+}
+
+.portfolio-health-copy {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 10px;
+}
+
 @media (max-width: 920px) {
   .top-tools {
     grid-template-columns: 1fr;
