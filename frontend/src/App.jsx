@@ -40,6 +40,7 @@ import FeatureTips from './components/FeatureTips.jsx';
 import HotkeyLegend from './components/HotkeyLegend.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
 import { copyText } from './utils/clipboard.js';
+import { formatPercent } from './utils/percent.js';
 import './styles/feature-panels.css';
 
 // ==========================================
@@ -467,7 +468,7 @@ export default function App() {
                     </div>
                     <div className="stat-card fade-in stagger-3">
                         <div className="stat-label">Reward Rate</div>
-                        <div className="stat-value">{(parseInt(vaultInfo?.['reward-rate']?.value || 100) / 100).toFixed(2)}%</div>
+                        <div className="stat-value">{formatPercent(parseInt(vaultInfo?.['reward-rate']?.value || 100) / 100)}</div>
                         <div className="stat-sub">per cycle</div>
                     </div>
                     <div className="stat-card fade-in stagger-4">
@@ -669,7 +670,7 @@ export default function App() {
                                     <div style={{ padding: 16, borderRadius: 'var(--radius-md)', background: 'var(--bg-glass)' }}>
                                         <div className="stat-label">Your Voting Power</div>
                                         <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--accent-blue-light)' }}>
-                                            {totalSupply > 0 ? ((tokenBalance / totalSupply) * 100).toFixed(2) : '0.00'}%
+                                            {formatPercent(totalSupply > 0 ? ((tokenBalance / totalSupply) * 100) : 0)}
                                         </div>
                                     </div>
                                 </div>
