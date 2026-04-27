@@ -26,6 +26,7 @@ import useLocalStorageState from './hooks/useLocalStorageState.js';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts.js';
 import useDebouncedValue from './hooks/useDebouncedValue.js';
 import useRefreshGuard from './hooks/useRefreshGuard.js';
+import useDocumentTitle from './hooks/useDocumentTitle.js';
 import RefreshTicker from './components/RefreshTicker.jsx';
 import NetworkPulse from './components/NetworkPulse.jsx';
 import RewardsSimulator from './components/RewardsSimulator.jsx';
@@ -344,6 +345,8 @@ export default function App() {
         onRefresh: refreshData,
         onTab: setActiveTab,
     });
+
+    useDocumentTitle(`POSVault · ${activeTab}${wallet ? ' · Connected' : ''}`);
 
     // ==========================================
     // Render
