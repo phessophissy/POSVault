@@ -36,6 +36,7 @@ import TxLedgerPanel from './components/TxLedgerPanel.jsx';
 import WalletStatusChip from './components/WalletStatusChip.jsx';
 import MiniKpiStrip from './components/MiniKpiStrip.jsx';
 import PortfolioHealthCard from './components/PortfolioHealthCard.jsx';
+import FeatureTips from './components/FeatureTips.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
 import { copyText } from './utils/clipboard.js';
 import './styles/feature-panels.css';
@@ -447,6 +448,8 @@ export default function App() {
                         pending: `${formatSTX(pendingRewards)} POS-GOV`,
                     }}
                 />
+
+                <FeatureTips />
 
                 {/* Stats */}
                 <div className="stats-grid">
