@@ -1,6 +1,7 @@
 import React from 'react';
 import LedgerFilterBar from './LedgerFilterBar.jsx';
 import { shortHash } from '../utils/hash.js';
+import { txActionLabel } from '../utils/txActionLabels.js';
 
 export default function TxLedgerPanel({ items, onClear }) {
   const [query, setQuery] = React.useState('');
@@ -59,7 +60,7 @@ export default function TxLedgerPanel({ items, onClear }) {
         <ul className="tx-ledger-list">
           {visibleItems.slice(0, 10).map((item) => (
             <li key={item.id} className="tx-ledger-row">
-              <span>{item.action}</span>
+              <span>{txActionLabel(item.action)}</span>
               <a href={item.explorer} target="_blank" rel="noreferrer">{shortHash(item.txid, 10, 4)}</a>
             </li>
           ))}

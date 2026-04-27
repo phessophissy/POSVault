@@ -1,4 +1,5 @@
 import React from 'react';
+import { txActionLabel } from '../utils/txActionLabels.js';
 
 export default function LedgerFilterBar({ query, action, onQuery, onAction, actions = [] }) {
   return (
@@ -13,7 +14,7 @@ export default function LedgerFilterBar({ query, action, onQuery, onAction, acti
       <select className="form-input form-select" value={action} onChange={(event) => onAction(event.target.value)}>
         <option value="all">All Actions</option>
         {actions.map((item) => (
-          <option key={item} value={item}>{item}</option>
+          <option key={item} value={item}>{txActionLabel(item)}</option>
         ))}
       </select>
     </div>
