@@ -42,6 +42,7 @@ import HotkeyLegend from './components/HotkeyLegend.jsx';
 import ProposalSummaryCard from './components/ProposalSummaryCard.jsx';
 import EmptyStateCard from './components/EmptyStateCard.jsx';
 import ExplorerLinks from './components/ExplorerLinks.jsx';
+import AutoRefreshToggle from './components/AutoRefreshToggle.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
 import { copyText } from './utils/clipboard.js';
 import { formatPercent } from './utils/percent.js';
@@ -81,6 +82,7 @@ export default function App() {
     // Simulator state
     const [simAmount, setSimAmount] = useLocalStorageState('pv.simAmount', 1);
     const [simCycles, setSimCycles] = useLocalStorageState('pv.simCycles', 8);
+    const [autoRefresh, setAutoRefresh] = useLocalStorageState('pv.autoRefresh', true);
     const debouncedProposalQuery = useDebouncedValue(proposalQuery, 180);
     const guardRefresh = useRefreshGuard();
 
@@ -182,10 +184,11 @@ export default function App() {
     }, [wallet?.address, guardRefresh]);
 
     useEffect(() => {
+        if (!autoRefresh) return;
         refreshData();
         const interval = setInterval(refreshData, 30000);
         return () => clearInterval(interval);
-    }, [refreshData]);
+    }, [refreshData, autoRefresh]);
 
     // ==========================================
     // Transaction Handlers
@@ -443,7 +446,10 @@ export default function App() {
                         </div>
                         <NetworkPulse loading={isRefreshing} lastUpdatedAt={lastUpdatedAt} errorCount={refreshErrors} />
                         <div style={{ marginTop: 10 }}>
-                            <RefreshTicker intervalMs={30000} onRefresh={refreshData} />
+                            <RefreshTicker intervalMs={30000} onRefresh={refreshData} paused={!autoRefresh} />
+                        </div>
+                        <div style={{ marginTop: 10 }}>
+                            <AutoRefreshToggle enabled={autoRefresh} onToggle={setAutoRefresh} />
                         </div>
                     </div>
                 </div>
