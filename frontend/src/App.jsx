@@ -648,9 +648,15 @@ export default function App() {
                                 query={proposalQuery}
                                 status={proposalStatusFilter}
                                 sort={proposalSort}
+                                resultCount={filteredProposals.length}
                                 onQuery={setProposalQuery}
                                 onStatus={setProposalStatusFilter}
                                 onSort={setProposalSort}
+                                onClear={() => {
+                                    setProposalQuery('');
+                                    setProposalStatusFilter('all');
+                                    setProposalSort('latest');
+                                }}
                             />
 
                             <ProposalInsights proposals={filteredProposals} />
@@ -743,7 +749,9 @@ export default function App() {
         </>
     );
 }
-
+                                <p style={{ color: 'var(--text-muted)' }}>
+                                    No proposals match the current filters.
+                                </p>
 // ==========================================
 // Sub-Components
 // ==========================================

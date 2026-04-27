@@ -120,9 +120,15 @@
 
 .proposal-controls {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr 1fr auto;
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
+}
+
+.proposal-controls-meta {
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin-bottom: 12px;
 }
 
 .proposal-insights {

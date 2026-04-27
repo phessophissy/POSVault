@@ -1,8 +1,9 @@
 import React from 'react';
 
-export default function ProposalControls({ query, status, sort, onQuery, onStatus, onSort }) {
+export default function ProposalControls({ query, status, sort, resultCount, onQuery, onStatus, onSort, onClear }) {
   return (
-    <div className="proposal-controls">
+    <div>
+      <div className="proposal-controls">
       <input
         className="form-input"
         type="search"
@@ -21,6 +22,11 @@ export default function ProposalControls({ query, status, sort, onQuery, onStatu
         <option value="oldest">Oldest</option>
         <option value="most-votes">Most Votes</option>
       </select>
+
+      <button className="btn btn-secondary" onClick={onClear}>Clear</button>
+      </div>
+
+      <div className="proposal-controls-meta">Showing {resultCount} proposals</div>
     </div>
   );
 }
