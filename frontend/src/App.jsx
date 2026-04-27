@@ -19,6 +19,8 @@ import {
     formatSTX,
     formatAddress,
     formatNumber,
+    CONTRACT_DEPLOYER,
+    CONTRACTS,
 } from './stacks.js';
 import useLocalStorageState from './hooks/useLocalStorageState.js';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts.js';
@@ -32,6 +34,7 @@ import QuickActions from './components/QuickActions.jsx';
 import TxLedgerPanel from './components/TxLedgerPanel.jsx';
 import WalletStatusChip from './components/WalletStatusChip.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
+import { copyText } from './utils/clipboard.js';
 import './styles/feature-panels.css';
 
 // ==========================================
@@ -189,6 +192,16 @@ export default function App() {
             explorer: `https://explorer.hiro.so/txid/${txId}?chain=mainnet`,
         };
         setTxLedger(prev => [item, ...prev].slice(0, 30));
+    }, []);
+
+    const handleCopyContractPrincipal = useCallback(async () => {
+        const principal = `${CONTRACT_DEPLOYER}.${CONTRACTS.VAULT_CORE}`;
+        try {
+            await copyText(principal);
+            showTx('success', 'Vault contract principal copied');
+        } catch {
+            showTx('error', 'Unable to copy contract principal');
+        }
     }, []);
 
     const handleDeposit = () => {
@@ -401,6 +414,7 @@ export default function App() {
                                 setActiveTab('vault');
                                 setDepositAmount(String(amount));
                             }}
+                            onCopyContract={handleCopyContractPrincipal}
                         />
                         <div style={{ marginTop: 10 }}>
                             <WalletStatusChip wallet={wallet} />
