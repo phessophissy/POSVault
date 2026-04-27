@@ -190,6 +190,20 @@ The deployer address is set to:
 export const CONTRACT_DEPLOYER = 'SP2KYZRNME33Y39GP3RKC90DQJ45EF1N0NZNVRE09';
 ```
 
+## Security Hygiene
+
+- Do not commit real wallet secrets, private keys, mnemonics, or `.env` files.
+- Keep operational wallet exports in local files that remain ignored by git.
+- Use `.env.example` placeholders only.
+
+Run the tracked-file secret guard before opening PRs:
+
+```bash
+npm run security:check-tracked
+```
+
+CI also enforces secret-path checks and gitleaks scanning.
+
 ---
 
 ## 📄 License
