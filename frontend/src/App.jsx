@@ -37,6 +37,7 @@ import WalletStatusChip from './components/WalletStatusChip.jsx';
 import MiniKpiStrip from './components/MiniKpiStrip.jsx';
 import PortfolioHealthCard from './components/PortfolioHealthCard.jsx';
 import FeatureTips from './components/FeatureTips.jsx';
+import HotkeyLegend from './components/HotkeyLegend.jsx';
 import { proposalStatus, proposalVotesTotal } from './utils/proposals.js';
 import { copyText } from './utils/clipboard.js';
 import './styles/feature-panels.css';
@@ -450,6 +451,7 @@ export default function App() {
                 />
 
                 <FeatureTips />
+                <HotkeyLegend />
 
                 {/* Stats */}
                 <div className="stats-grid">
