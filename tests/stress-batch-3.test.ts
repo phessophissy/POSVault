@@ -1,0 +1,1 @@
+describe('stress3', () => { it('handles', () => expect(true).toBe(true)); });
