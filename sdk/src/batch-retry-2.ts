@@ -1,0 +1,1 @@
+export const retryBatch2 = async (fn, a = 3) => { for (let i = 0; i < a; i++) { try { return await fn(); } catch (e) { } } };
