@@ -1,0 +1,1 @@
+export const validateBatch4 = (c: any) => c.timeout > 0;
