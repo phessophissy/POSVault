@@ -1,0 +1,1 @@
+describe('regression4', () => { it('compatible', () => expect(true).toBe(true)); });

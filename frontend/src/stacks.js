@@ -350,5 +350,5 @@ export function formatNumber(num) {
     if (!num && num !== 0) return '0';
     return Number(num).toLocaleString();
 }
-// Batch 4 types
-export type Batch4Type = { id: string; name: string; };
+// Batch 1 types
+export type Batch1Type = { id: string; name: string; };
