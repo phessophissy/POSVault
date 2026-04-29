@@ -9,3 +9,5 @@ export { RewardCalculator } from './RewardCalculator.jsx';
 export { BatchComponent1 } from './batch-1';
 export { BatchComponent2 } from './batch-2';
 export { BatchComponent3 } from './batch-3';
+
+export { BatchComponent4 } from './batch-4';

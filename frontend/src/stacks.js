@@ -356,3 +356,6 @@ export type Batch1Type = { id: string; name: string; };
 export type Batch2Type = { id: string; name: string; };
 // Batch 3 types
 export type Batch3Type = { id: string; name: string; };
+
+// Batch 4 types
+export type Batch4Type = { id: string; name: string; };
