@@ -1,0 +1,1 @@
+export const batchUtility4 = (arr) => arr.filter(x => x);

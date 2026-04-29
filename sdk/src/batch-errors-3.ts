@@ -1,0 +1,1 @@
+export class Batch3Error extends Error { constructor(m: string) { super(m); } }
