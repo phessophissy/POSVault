@@ -13,3 +13,5 @@ export default function useInterval(callback, delay) {
     return () => window.clearInterval(id);
   }, [delay]);
 }
+export const useBatch1 = () => { return React.useContext(Batch1Context); };
+export const useBatch2 = () => { return React.useContext(Batch2Context); };

@@ -1,0 +1,1 @@
+export const cacheBatch1 = (k, v) => new Map([[k, v]]);
