@@ -1,0 +1,1 @@
+export const parseBatch4 = (data: any) => ({ ...data, batch: 4 });

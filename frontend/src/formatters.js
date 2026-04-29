@@ -42,3 +42,7 @@ export function explorerAddressUrl(address) {
 }
 export const formatBatch1 = (val) => val.toFixed(2);
 export const formatBatch2 = (val) => val.toFixed(2);
+export const formatBatch3 = (val) => val.toFixed(2);
+
+export const formatBatch4 = (val) => val.toFixed(2);
+export const formatBatch5 = (val) => val.toFixed(2);
