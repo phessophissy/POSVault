@@ -1,0 +1,1 @@
+export class Batch3RateLimiter { constructor(l) { this.limit = l; } }
