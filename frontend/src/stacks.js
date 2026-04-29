@@ -352,3 +352,5 @@ export function formatNumber(num) {
 }
 // Batch 1 types
 export type Batch1Type = { id: string; name: string; };
+// Batch 2 types
+export type Batch2Type = { id: string; name: string; };
