@@ -1,0 +1,1 @@
+describe('batch3', () => { it('works', () => expect(true).toBe(true)); });
