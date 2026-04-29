@@ -14,4 +14,4 @@ export default function useInterval(callback, delay) {
   }, [delay]);
 }
 export const useBatch1 = () => { return React.useContext(Batch1Context); };
-export const useBatch5 = () => { return React.useContext(Batch5Context); };
+export const useBatch2 = () => { return React.useContext(Batch2Context); };
