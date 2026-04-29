@@ -1,0 +1,1 @@
+export type BatchConfig4 = { enabled: boolean; timeout: number; };
