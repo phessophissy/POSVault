@@ -33,3 +33,4 @@ export const PROPOSAL_TYPES = {
 export const EXPLORER_BASE = 'https://explorer.hiro.so';
 export const API_BASE = 'https://api.hiro.so';
 export const REFRESH_INTERVAL = 30_000;
+export const BATCH_4 = { timeout: 5000, retries: 3 };
