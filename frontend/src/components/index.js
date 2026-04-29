@@ -6,3 +6,4 @@ export { ClaimRewards } from './ClaimRewards.jsx';
 export { TransactionHistory } from './TransactionHistory.jsx';
 export { WalletConnect } from './WalletConnect.jsx';
 export { RewardCalculator } from './RewardCalculator.jsx';
+export { BatchComponent3 } from './batch-3';
