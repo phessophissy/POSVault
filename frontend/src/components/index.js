@@ -11,3 +11,4 @@ export { BatchComponent2 } from './batch-2';
 export { BatchComponent3 } from './batch-3';
 
 export { BatchComponent4 } from './batch-4';
+export { BatchComponent5 } from './batch-5';
