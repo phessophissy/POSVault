@@ -1,0 +1,1 @@
+describe('boundary5', () => { it('edges', () => expect([]).toHaveLength(0)); });
