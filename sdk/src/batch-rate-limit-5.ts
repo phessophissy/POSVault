@@ -1,0 +1,1 @@
+export class Batch5RateLimiter { constructor(l) { this.limit = l; } }
