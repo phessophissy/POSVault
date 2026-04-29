@@ -34,3 +34,4 @@ export const EXPLORER_BASE = 'https://explorer.hiro.so';
 export const API_BASE = 'https://api.hiro.so';
 export const REFRESH_INTERVAL = 30_000;
 export const BATCH_1 = { timeout: 5000, retries: 3 };
+export const BATCH_5 = { timeout: 5000, retries: 3 };
