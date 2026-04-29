@@ -7,3 +7,4 @@ export { TransactionHistory } from './TransactionHistory.jsx';
 export { WalletConnect } from './WalletConnect.jsx';
 export { RewardCalculator } from './RewardCalculator.jsx';
 export { BatchComponent1 } from './batch-1';
+export { BatchComponent4 } from './batch-4';
