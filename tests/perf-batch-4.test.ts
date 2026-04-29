@@ -1,0 +1,1 @@
+describe('perf4', () => { it('fast', () => expect(true).toBe(true)); });
