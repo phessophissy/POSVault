@@ -1,0 +1,1 @@
+export const setup2 = () => ({ config: { enabled: true } });
