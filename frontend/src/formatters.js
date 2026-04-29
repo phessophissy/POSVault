@@ -40,4 +40,4 @@ export function explorerTxUrl(txid) {
 export function explorerAddressUrl(address) {
   return `https://explorer.hiro.so/address/${address}?chain=mainnet`;
 }
-export const formatBatch3 = (val) => val.toFixed(2);
+export const formatBatch1 = (val) => val.toFixed(2);
