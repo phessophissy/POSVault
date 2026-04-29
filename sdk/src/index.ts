@@ -111,5 +111,5 @@ export { parseVaultInfo, parseDeposit, parseUserStats, parseProposal, parsePropo
 // Version
 export { SDK_VERSION, SDK_NAME } from './version.js';
 
-export * from './batch-util-2';
-export * from './batch-types-2';
+export * from './batch-util-1';
+export * from './batch-types-1';
