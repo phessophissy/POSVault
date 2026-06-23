@@ -351,13 +351,13 @@ export function formatNumber(num) {
     return Number(num).toLocaleString();
 }
 // Batch 1 types
-export type Batch1Type = { id: string; name: string; };
+/** @typedef {id: string; name: string;} Batch1Type */
 // Batch 2 types
-export type Batch2Type = { id: string; name: string; };
+/** @typedef {id: string; name: string;} Batch2Type */
 // Batch 3 types
-export type Batch3Type = { id: string; name: string; };
+/** @typedef {id: string; name: string;} Batch3Type */
 
 // Batch 4 types
-export type Batch4Type = { id: string; name: string; };
+/** @typedef {id: string; name: string;} Batch4Type */
 // Batch 5 types
-export type Batch5Type = { id: string; name: string; };
+/** @typedef {id: string; name: string;} Batch5Type */
