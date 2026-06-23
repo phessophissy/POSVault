@@ -213,3 +213,5 @@ MIT
 ---
 
 Built with ❤️ on [Stacks](https://www.stacks.co) — secured by Bitcoin.
+
+- [pr/docs-improvements-03] Improve documentation and add usage notes (commit 2, 2026-06-23 16:18:55Z)
