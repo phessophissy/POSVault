@@ -16,7 +16,7 @@
     "build": "npm run build:sdk && npm run build:frontend",
     "typecheck": "cd sdk && npm run typecheck",
     "clean": "rm -rf sdk/dist frontend/dist",
-    "vercel-build": "cd frontend && npm ci && npm run build && mkdir -p public && cp -a dist/. public/"
+    "vercel-build": "cd frontend && npm install && npm run build && mkdir -p public && cp -a dist/. public/"
   },
   "author": "",
   "license": "ISC",
